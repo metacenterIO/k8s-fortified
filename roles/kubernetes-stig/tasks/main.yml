@@ -355,7 +355,7 @@
       grep -i insecure-port * 
 
       If the setting insecure-port is not set to '0' or is not configured in the Kubernetes API server manifest file, this is a finding.
-    stig_check_command: grep -i insecure-port=0 {{ manifest_path }}/kube-apiserver.manifest
+    stig_check_command: grep -i insecure-port=0 {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --insecure-port to '0'.
   tags:
@@ -430,7 +430,7 @@
       grep -i insecure-bind-address * 
 
       If the setting insecure-bind-address is found and set to 'localhost' in the Kubernetes API manifest file, this is a finding.
-    stig_check_command: grep -i insecure-bind-address {{ manifest_path }}/kube-apiserver.manifest | if [ $(wc -l) -gt 0 ]; then exit 1; fi
+    stig_check_command: grep -i insecure-bind-address {{ manifest_path }}/{{ apiserver_manifest }} | if [ $(wc -l) -gt 0 ]; then exit 1; fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove the value for the --insecure-bind-address setting.
   tags:
@@ -458,7 +458,7 @@
       grep -i secure-port * 
 
       If the setting secure-port is set to '0' or is not configured in the Kubernetes API manifest file, this is a finding.
-    stig_check_command: grep -i "\-\-secure-port" {{ manifest_path }}/kube-apiserver.manifest | if [ $(cut -d "=" -f2) -gt 0 ]; then exit 0; fi
+    stig_check_command: grep -i "\-\-secure-port" {{ manifest_path }}/{{ apiserver_manifest }} | if [ $(cut -d "=" -f2) -gt 0 ]; then exit 0; fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --secure-port to a value greater than '0'.
   tags:
@@ -488,7 +488,7 @@
       grep -i anonymous-auth * 
 
       If the setting anonymous-auth is set to 'true' in the Kubernetes API Server manifest file, this is a finding.
-    stig_check_command: grep -i anonymous-auth=false {{ manifest_path }}/kube-apiserver.manifest
+    stig_check_command: grep -i anonymous-auth=false {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --anonymous-auth to 'false'.
   tags:
@@ -840,7 +840,7 @@
       grep -i audit-policy-file * 
 
       If the audit-policy-file is not set, this is a finding.
-    stig_check_commands: grep -i audit-policy-file {{ manifest_path }}/kube-apiserver.manifest && exit 0 || exit 1
+    stig_check_commands: grep -i audit-policy-file {{ manifest_path }}/{{ apiserver_manifest }} && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-policy-file' to the audit policy file.
 
@@ -917,8 +917,8 @@
 
       If the audit policy file does not look like above, this is a finding.
     stig_check_commands: 
-      - grep -i audit-policy-file {{ manifest_path }}/kube-apiserver.manifest && exit 0 || exit 1
-      - grep -i RequestResponse $(grep -i audit-policy-file {{ manifest_path }}/kube-apiserver.manifest | cut -d "=" -f2) && exit 0 || exit 1
+      - grep -i audit-policy-file {{ manifest_path }}/{{ apiserver_manifest }} && exit 0 || exit 1
+      - grep -i RequestResponse $(grep -i audit-policy-file {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2) && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server audit policy and set it to look like the following:
 
@@ -1195,9 +1195,9 @@
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands: |-
       echo "--- Manual Verification Required - CNTR-K8-000920 ---"
-      grep -i insecure-port {{ manifest_path }}/kube-apiserver.manifest
-      grep -i secure-port {{ manifest_path }}/kube-apiserver.manifest
-      grep -i etcd-servers {{ manifest_path }}/kube-apiserver.manifest
+      grep -i insecure-port {{ manifest_path }}/{{ apiserver_manifest }}
+      grep -i secure-port {{ manifest_path }}/{{ apiserver_manifest }}
+      grep -i etcd-servers {{ manifest_path }}/{{ apiserver_manifest }}
       kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
@@ -1518,7 +1518,7 @@
 
       If the setting feature tls-cipher-suites is not set in the Kubernetes API server manifest file or contains no value or does not contain TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM _SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM _SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM _SHA384, this is a finding.
     stig_check_commands:
-      - grep -i tls-cipher-suites {{ manifest_path }}/kube-apiserver.manifest && exit 2
+      - grep -i tls-cipher-suites {{ manifest_path }}/{{ apiserver_manifest }} && exit 2
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of tls-cipher-suites to:
       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM _SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM _SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM _SHA384
@@ -1550,7 +1550,7 @@
 
       If the setting feature client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ manifest_path }}/kube-apiserver.manifest && exit 0 || exit 1
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ manifest_path }}/{{ apiserver_manifest }} && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate.
   tags:
@@ -1647,8 +1647,8 @@
 
       If the setting tls-cert-file and private-key-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i tls-cert-file=/srv/kubernetes/server.crt {{ manifest_path }}/kube-apiserver.manifest
-      - grep -i tls-private-key-file=/srv/kubernetes/server.key {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i tls-cert-file=/srv/kubernetes/server.crt {{ manifest_path }}/{{ apiserver_manifest }}
+      - grep -i tls-private-key-file=/srv/kubernetes/server.key {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of tls-cert-file and tls-private-key-file to path containing Approved Organizational Certificate.
   tags:
@@ -1869,7 +1869,7 @@
 
       If the setting 'etcd-cafile' is not configured in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-cafile {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i etcd-cafile {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-cafile' to the Certificate Authority for etcd.
   tags:
@@ -1900,7 +1900,7 @@
 
       If the setting 'etcd-certfile' is not set in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-certfile {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i etcd-certfile {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the certificate to be used for communication with etcd.
   tags:
@@ -1931,7 +1931,7 @@
 
       If the setting 'etcd-keyfile' is not configured in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-keyfile {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i etcd-keyfile {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the certificate to be used for communication with etcd.
   tags:
@@ -2066,7 +2066,7 @@
 
       If the setting authorization-mode is set to 'AlwaysAllow' in the Kubernetes API Server manifest file or is not configured, this is a finding.
     stig_check_commands:
-      - grep -i authorization-mode=Node,RBAC {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i authorization-mode=Node,RBAC {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--authorization-mode' to any valid authorization mode other than AlwaysAllow.
   tags:
@@ -2093,8 +2093,8 @@
 
       If a line is not returned that includes enable-admission-plugins and ValidatingAdmissionWebhook, this is a finding.
     stig_check_commands:
-      - grep -i enable-admission-plugins {{ manifest_path }}/kube-apiserver.manifest
-      - grep -i ValidatingAdmissionWebhook {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i enable-admission-plugins {{ manifest_path }}/{{ apiserver_manifest }}
+      - grep -i ValidatingAdmissionWebhook {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--enable-admission-plugins' to include 'ValidatingAdmissionWebhook'.  Each enabled plugin is separated by commas.
 
@@ -2220,7 +2220,7 @@
 
       If the setting request-timeout is set to '0' in the Kubernetes API Server manifest file, or is not configured this is a finding.
     stig_check_commands:
-      - grep -i request-timeout=3m0s {{ manifest_path }}/kube-apiserver.manifest
+      - grep -i request-timeout=3m0s {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of request-timeout greater than '0'.
   tags:
@@ -2247,7 +2247,7 @@
 
       If 'basic-auth-file' is set in the Kubernetes API server manifest file, or is not configured this is a finding.
     stig_check_commands:
-      - grep -i basic-auth-file {{ manifest_path }}/kube-apiserver.manifest && exit 1 || exit 0
+      - grep -i basic-auth-file {{ manifest_path }}/{{ apiserver_manifest }} && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove the setting '--basic-auth-file'.
   tags:
@@ -2274,7 +2274,7 @@
 
       If 'token-auth-file' is set in the Kubernetes API server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i token-auth-file {{ manifest_path }}/kube-apiserver.manifest && exit 1 || exit 0
+      - grep -i token-auth-file {{ manifest_path }}/{{ apiserver_manifest }} && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove parameter '--token-auth-file'.
   tags:
