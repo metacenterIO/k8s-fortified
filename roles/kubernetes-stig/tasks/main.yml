@@ -1245,7 +1245,7 @@
       https://cyber.mil/ppsm/cal/
 
       Verify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
-    stig_check_commands:
+    stig_check_commands: |-
       echo "--- Manual Verification Required - CNTR-K8-000930 ---"
       echo ""
       echo "grep insecure-port"
@@ -1359,9 +1359,9 @@
       echo "--- Manual Verification Required - CNTR-K8-000950 ---"
       echo ""
       echo "grep insecure-port"
-      grep -i insecure-port {{ manifest_path }}/etcd-main.manifest
+      grep -i insecure-port {{ manifest_path }}/{{ etcd_manifest }}
       echo "grep secure-port"
-      grep -i secure-port {{ manifest_path }}/etcd-main.manifest
+      grep -i secure-port {{ manifest_path }}/{{ etcd_manifest }}
       echo "grep all services"
       kubectl describe services --all-namespaces
     stig_fixtext: |
@@ -1679,7 +1679,7 @@
 
       If the setting client-cert-auth is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
     stig_check_commands:
-      - grep -i client-cert-auth=/etc/kubernetes/etcd.crt {{ manifest_path }}/etcd-main.manifest
+      - grep -i client-cert-auth=/etc/kubernetes/etcd.crt {{ manifest_path }}/{{ etcd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
   tags:
@@ -1776,7 +1776,7 @@
 
       If the setting 'client-cert-auth' is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
     stig_check_commands:
-      - grep -i client-cert-auth=true {{ manifest_path }}/etcd-main.manifest
+      - grep -i client-cert-auth=true {{ manifest_path }}/{{ etcd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
   tags:
@@ -1807,7 +1807,7 @@
 
       If the setting 'etcd-keyfile' is not configured in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-keyfile {{ manifest_path }}/etcd-main.manifest
+      - grep -i etcd-keyfile {{ manifest_path }}/{{ etcd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the Approved Organizational Certificate.
   tags:
@@ -1838,7 +1838,7 @@
 
       If the setting 'etcd-certfile' is not configured in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-certfile {{ manifest_path }}/etcd-main.manifest
+      - grep -i etcd-certfile {{ manifest_path }}/{{ etcd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the Approved Organizational Certificate.
   tags:
@@ -1962,7 +1962,7 @@
 
       If the setting 'peer-cert-file' is not configured in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i peer-cert-file {{ manifest_path }}/etcd-main.manifest
+      - grep -i peer-cert-file {{ manifest_path }}/{{ etcd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--peer-cert-file' to the certificate to be used for communication with etcd.
   tags:
@@ -1993,7 +1993,7 @@
 
       If the setting 'peer-key-file' is not set in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i peer-key-file {{ manifest_path }}/etcd-main.manifest
+      - grep -i peer-key-file {{ manifest_path }}/{{ etcd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--peer-key-file' to the certificate to be used for communication with etcd.
   tags:
