@@ -396,7 +396,7 @@
       If the --read-only-port argument exists and is not set to '0' this is a finding. 
 
       If '--read-only-port=0' argument does not exist on the worker node and the master node, this is a finding.
-    stig_check_command: grep -i read-only-port=0 /etc/sysconfig/kubelet
+    stig_check_command: grep -i read-only-port=0 {{ manifest_path_kubelet }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the --config directory on the Kubernetes Master Node. Set the argument --read-only-port to 0.  
 
@@ -518,7 +518,7 @@
       grep -i anonymous-auth kubelet 
 
       If the setting 'anonymous-auth' is set to 'true' or the parameter not set in the Kubernetes Kubelet configuration file, this is a finding.
-    stig_check_command: grep -i anonymous-auth=false /etc/sysconfig/kubelet
+    stig_check_command: grep -i anonymous-auth=false {{ manifest_path_kubelet }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the/etc/sysconfig/ directory on the Kubernetes Master Node. 
 
@@ -553,7 +553,7 @@
       grep -i authorization-mode kubelet
 
       If authorization-mode is missing or is set to 'AllowAlways' on the Master node or any of the Worker nodes, this is a finding.
-    stig_check_command: grep -i authorization-mode=Webhook /etc/sysconfig/kubelet
+    stig_check_command: grep -i authorization-mode=Webhook {{ manifest_path_kubelet }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the/etc/sysconfig/ directory on the Kubernetes Master and Worker nodes. 
 
@@ -706,7 +706,7 @@
       grep -i staticPodPath kubelet
 
       If any of the nodes return a value for staticPodPath, this is a finding.
-    stig_check_commands: grep -i staticPodPath /etc/sysconfig/kubelet && exit 1 || exit 0
+    stig_check_commands: grep -i staticPodPath {{ manifest_path_kubelet }}/kubelet && exit 1 || exit 0
       - 
     stig_fixtext: |
       Edit the kubelet file on each node under the /etc/sysconfig directory to remove the staticPodPath setting and restart the kubelet service by executing the command:
@@ -783,7 +783,7 @@
       Review every feature-gates setting if one is returned.
 
       If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the DynamicKubletConfig flag is set to 'true', this is a finding.
-    stig_check_commands: grep -i feature-gates /etc/sysconfig/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
+    stig_check_commands: grep -i feature-gates {{ manifest_path_kubelet }}/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest file or kubelet config file that does not contain a feature-gates setting or has DynamicKubeletConfig set to 'true'.
 
@@ -952,7 +952,7 @@
 
       If any of the nodes have the setting 'hostname-override' present, this is a finding.
     stig_check_commands:
-      - grep -i hostname-override /etc/sysconfig/kubelet && exit 1 || exit 0
+      - grep -i hostname-override {{ manifest_path_kubelet }}/kubelet && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Master and Worker nodes and remove the '--hostname-override' setting. Restart the service after the change is made by running:
 
@@ -1020,7 +1020,7 @@
 
       If any manifest file is not owned by root:root, this is a finding.
     stig_check_commands:
-      - if [ $(find /etc/sysconfig/kubelet -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+      - if [ $(find {{ manifest_path_kubelet }}/kubelet -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       On the Master and Worker nodes, change to the /etc/sysconfig directory. Run the command:
 
@@ -1460,7 +1460,7 @@
 
       If the setting streaming-connection-idle-timeout is set to '0' or the parameter is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i streaming-connection-idle-timeout=0 /etc/sysconfig/kubelet && exit 1 || exit 0
+      - grep -i streaming-connection-idle-timeout=0 {{ manifest_path_kubelet }}/kubelet && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--streaming-connection-idle-timeout' to a value other than '0'. Reset Kubelet service using the following command:
 
@@ -1581,7 +1581,7 @@
 
       If the setting client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i client-ca-file=/srv/kubernetes/ca.crt /etc/sysconfig/kubelet && exit 0 || exit 1
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ manifest_path_kubelet }}/kubelet && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the /etc/sysconfig/ directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate. 
 
@@ -1710,7 +1710,7 @@
 
       If the setting 'tls-private-key-file' is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i tls-private-key-file /etc/sysconfig/kubelet
+      - grep -i tls-private-key-file {{ manifest_path_kubelet }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument tls-private-key-file to an Approved Organization Certificate. Reset Kubelet service using the following command:
 
@@ -1743,7 +1743,7 @@
 
       If the setting 'tls-cert-file' is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i tls-cert-file /etc/sysconfig/kubelet
+      - grep -i tls-cert-file {{ manifest_path_kubelet }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument 'tls-cert-file' to an Approved Organization Certificate. Reset Kubelet service using the following command:
 
@@ -2020,7 +2020,7 @@
 
       If the setting 'protect-kernel-defaults' is set to false or not set in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i protect-kernel-defaults=true /etc/sysconfig/kubelet
+      - grep -i protect-kernel-defaults=true {{ manifest_path_kubelet }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--protect-kernel-defaults' to 'true'. 
 
