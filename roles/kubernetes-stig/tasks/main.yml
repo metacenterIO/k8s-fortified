@@ -56,7 +56,7 @@
 
       If the setting 'tls-min-version' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
     stig_check_commands:
-      - 
+      - grep -i tls-min-version=VersionTLS12 {{ manifest_path }}/{{ controllermanager_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
@@ -85,7 +85,7 @@
 
       If the setting 'tls-min-version' is not configured in the Kubernetes Scheduler manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
     stig_check_commands:
-      - 
+      - grep -i tls-min-version=VersionTLS12 {{ manifest_path }}/{{ scheduler_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Scheduler manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
@@ -113,7 +113,7 @@
       grep -i tls-min-version * 
 
       If the setting 'tls-min-version' is not configured in the Kubernetes API Server manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
-    stig_check_command: grep -ri tls-min-version /etc/kubernetes/manifests/ | grep "VersionTLS12" | grep apiserver
+    stig_check_command: grep -i tls-min-version=VersionTLS12 {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
@@ -141,7 +141,7 @@
       grep -i  auto-tls * 
 
       If the setting 'auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to true, this is a finding.
-    stig_check_command: grep -ri auto-tls /etc/kubernetes/manifests/ | grep etcd | grep "auto-tls=true"
+    stig_check_command: grep -ri auto-tls=true {{ manifest_path }}/{{ ectd_manifest }}
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '-auto-tls' to 'false'.
   tags:

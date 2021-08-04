@@ -1,1 +1,17 @@
 kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
+
+# kubernetes config files
+manifest_path: /etc/kubernetes/manifests
+controllermanager_manifest: kube-controller-manager.manifest
+apiserver_manifest: kube-apiserver.manifest
+scheduler_manifest: kube-scheduler.manifest
+etcd_manifest: etcd-main.manifest
+
+
+
+
+
+
+
+
+# etcd-events.manifest  etcd-main.manifest  kube-apiserver.manifest  kube-controller-manager.manifest  kube-proxy.manifest  kube-scheduler.manifest
