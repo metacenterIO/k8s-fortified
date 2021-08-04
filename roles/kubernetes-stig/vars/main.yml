@@ -7,6 +7,8 @@ controllermanager_manifest: kube-controller-manager.manifest
 apiserver_manifest: kube-apiserver.manifest
 scheduler_manifest: kube-scheduler.manifest
 etcd_manifest: etcd-main.manifest
+kubelet_manifest: kubelet
+proxy_manifest: kube-proxy.manifest
 
 
 

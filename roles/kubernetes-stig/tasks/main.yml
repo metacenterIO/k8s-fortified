@@ -706,7 +706,7 @@
       grep -i staticPodPath kubelet
 
       If any of the nodes return a value for staticPodPath, this is a finding.
-    stig_check_commands: grep -i staticPodPath {{ manifest_path_kubelet }}/kubelet && exit 1 || exit 0
+    stig_check_commands: grep -i staticPodPath {{ manifest_path_kubelet }}/{{ kubelet_manifest }} && exit 1 || exit 0
       - 
     stig_fixtext: |
       Edit the kubelet file on each node under the /etc/sysconfig directory to remove the staticPodPath setting and restart the kubelet service by executing the command:
@@ -747,7 +747,7 @@
       Review every feature-gates setting that is returned.
 
       If any feature-gates setting is available and contains the 'DynamicAuditing' flag set to 'true', this is a finding.
-    stig_check_commands: grep -i feature-gates {{ manifest_path }}/* | grep DynamicAuditing=true && exit 1 || exit 0
+    stig_check_commands: grep -i feature-gates {{ manifest_path_kubelet }}/{{ kubelet_manifest }} | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files or kubelet config files that contain the feature-gates setting with DynamicAuditing set to 'true'. Set the flag to 'false' or remove the 'DynamicAuditing' setting completely. Restart the kubelet service if the kubelet config file if the kubelet config file is changed.
   tags:
@@ -783,7 +783,7 @@
       Review every feature-gates setting if one is returned.
 
       If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the DynamicKubletConfig flag is set to 'true', this is a finding.
-    stig_check_commands: grep -i feature-gates {{ manifest_path_kubelet }}/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
+    stig_check_commands: grep -i feature-gates {{ manifest_path_kubelet }}/{{ kubelet_manifest }} | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest file or kubelet config file that does not contain a feature-gates setting or has DynamicKubeletConfig set to 'true'.
 
@@ -813,7 +813,7 @@
       Review the feature-gates setting, if one is returned.
 
       If the feature-gates setting is available and contains the AllAlpha flag set to 'true', this is a finding.
-    stig_check_commands: grep -i feature-gates {{ manifest_path }}/* | grep AllAlpha=true && exit 1 || exit 0
+    stig_check_commands: grep -i feature-gates {{ manifest_path }}/{{ apiserver_manifest }} | grep AllAlpha=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files that contain the feature-gates setting with AllAlpha set to 'true'. Set the flag to 'false' or remove the AllAlpha setting completely.
       (AllAlpha- default=false)
@@ -868,7 +868,7 @@
       grep -i audit-log-path * 
 
       If the audit-log-path is not set, this is a finding.
-    stig_check_commands: grep -i audit-log-path {{ manifest_path }}/* && exit 0 || exit 1
+    stig_check_commands: grep -i audit-log-path {{ manifest_path }}/{{ apiserver_manifest }} && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-log-path' to a secure location for the audit logs to be written.
 
@@ -952,7 +952,7 @@
 
       If any of the nodes have the setting 'hostname-override' present, this is a finding.
     stig_check_commands:
-      - grep -i hostname-override {{ manifest_path_kubelet }}/kubelet && exit 1 || exit 0
+      - grep -i hostname-override {{ manifest_path_kubelet }}/{{ kubelet_manifest }} && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Master and Worker nodes and remove the '--hostname-override' setting. Restart the service after the change is made by running:
 
@@ -1020,7 +1020,7 @@
 
       If any manifest file is not owned by root:root, this is a finding.
     stig_check_commands:
-      - if [ $(find {{ manifest_path_kubelet }}/kubelet -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+      - if [ $(find {{ manifest_path_kubelet }}/{{ kubelet_manifest }} -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       On the Master and Worker nodes, change to the /etc/sysconfig directory. Run the command:
 
@@ -1057,7 +1057,7 @@
 
       If any kubelet configuration file is less restrictive than '644', this is a finding.
     stig_check_commands: |-
-      FILES=$(stat -c '%n:%a' {{ manifest_path }}/kubelet)
+      FILES=$(stat -c '%n:%a' {{ manifest_path }}/{{ kubelet_manifest }})
       if [ "$FILES" ]
       then
         FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
@@ -1145,7 +1145,7 @@
 
       If the setting 'profiling' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'True', this is a finding.
     stig_check_commands:
-      - grep -i profiling=false {{ manifest_path }}/*
+      - grep -i profiling=false {{ manifest_path }}/{{ controllermanager_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--profiling value' to 'false'.
   tags:
@@ -1199,6 +1199,7 @@
       grep -i secure-port {{ manifest_path }}/{{ apiserver_manifest }}
       grep -i etcd-servers {{ manifest_path }}/{{ apiserver_manifest }}
       kubectl describe services --all-namespaces
+      exit 2
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1254,6 +1255,7 @@
       grep -i secure-port {{ manifest_path }}/{{ scheduler_manifest }}
       echo "grep all services"
       kubectl describe services --all-namespaces
+      exit 2
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
   tags:
@@ -1309,6 +1311,7 @@
       grep -i secure-port {{ manifest_path }}/kube-controller-manager.manifest
       echo "grep all services"
       kubectl describe services --all-namespaces
+      exit 2
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Controller manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1355,7 +1358,6 @@
 
       Verify etcd network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands: |-
-
       echo "--- Manual Verification Required - CNTR-K8-000950 ---"
       echo ""
       echo "grep insecure-port"
@@ -1364,6 +1366,7 @@
       grep -i secure-port {{ manifest_path }}/{{ etcd_manifest }}
       echo "grep all services"
       kubectl describe services --all-namespaces
+      exit 2
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes etcd manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1460,7 +1463,7 @@
 
       If the setting streaming-connection-idle-timeout is set to '0' or the parameter is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i streaming-connection-idle-timeout=0 {{ manifest_path_kubelet }}/kubelet && exit 1 || exit 0
+      - grep -i streaming-connection-idle-timeout=0 {{ manifest_path_kubelet }}/{{ kubelet_manifest }} && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--streaming-connection-idle-timeout' to a value other than '0'. Reset Kubelet service using the following command:
 
@@ -1581,7 +1584,7 @@
 
       If the setting client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ manifest_path_kubelet }}/kubelet && exit 0 || exit 1
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ manifest_path_kubelet }}/{{ kubelet_manifest }} && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the /etc/sysconfig/ directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate. 
 
@@ -1615,7 +1618,7 @@
 
       If the setting client-ca-file is not set in the Kubernetes Controller Manager manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i root-ca-file=/srv/kubernetes/ca.crt {{ manifest_path }}/kube-controller-manager.manifest
+      - grep -i root-ca-file=/srv/kubernetes/ca.crt {{ manifest_path }}/{{ controllermanager_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of root-ca-file to path containing Approved Organizational Certificate.
   tags:
@@ -1710,7 +1713,7 @@
 
       If the setting 'tls-private-key-file' is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i tls-private-key-file {{ manifest_path_kubelet }}/kubelet
+      - grep -i tls-private-key-file {{ manifest_path_kubelet }}/{{ kubelet_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument tls-private-key-file to an Approved Organization Certificate. Reset Kubelet service using the following command:
 
@@ -1743,7 +1746,7 @@
 
       If the setting 'tls-cert-file' is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i tls-cert-file {{ manifest_path_kubelet }}/kubelet
+      - grep -i tls-cert-file {{ manifest_path_kubelet }}/{{ kubelet_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument 'tls-cert-file' to an Approved Organization Certificate. Reset Kubelet service using the following command:
 
@@ -2020,7 +2023,7 @@
 
       If the setting 'protect-kernel-defaults' is set to false or not set in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i protect-kernel-defaults=true {{ manifest_path_kubelet }}/kubelet
+      - grep -i protect-kernel-defaults=true {{ manifest_path_kubelet }}/{{ kubelet_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--protect-kernel-defaults' to 'true'. 
 
