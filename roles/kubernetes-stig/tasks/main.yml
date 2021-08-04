@@ -301,7 +301,7 @@
       grep -i bind-address * 
 
       If the setting 'bind-address' is not set to '127.0.0.1' or is not found in the Kubernetes Scheduler manifest file, this is a finding.
-    stig_check_command: grep -i bind-address=127.0.0.1 {{ manifest_path }}/kube-scheduler.manifest
+    stig_check_command: grep -i bind-address=127.0.0.1 {{ manifest_path }}/{{ scheduler_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Scheduler manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
   tags:
@@ -1249,9 +1249,9 @@
       echo "--- Manual Verification Required - CNTR-K8-000930 ---"
       echo ""
       echo "grep insecure-port"
-      grep -i insecure-port {{ manifest_path }}/kube-scheduler.manifest
+      grep -i insecure-port {{ manifest_path }}/{{ scheduler_manifest }}
       echo "grep secure-port"
-      grep -i secure-port {{ manifest_path }}/kube-scheduler.manifest
+      grep -i secure-port {{ manifest_path }}/{{ scheduler_manifest }}
       echo "grep all services"
       kubectl describe services --all-namespaces
     stig_fixtext: |
