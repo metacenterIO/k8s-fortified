@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ stig_id | lower }}
+  namespace: compliance
+data:
+  entrypoint.sh: |
+{% if stig_check_commands != '' %}
+    #!/bin/bash
+    ls /tmp
+    echo ""
+    echo "### Output ###"
+    echo "Title: {{ stig_title }}"
+    echo "Severity: {{ stig_severity }}"
+    echo "Description: {{ stig_description | replace('\n', '\\n') }}"
+    echo "Ident: {{ stig_ident }}"
+    echo "Check: {{ stig_check_content | replace('\n', '\\n') }}"
+
+{% for stig_check_command in stig_check_commands %}
+    echo "Check Command: {{ stig_check_command }}"
+    {{ stig_check_command }}
+    TEST_RESULT=$?
+    echo ""
+
+    if [ $TEST_RESULT > 0 ]
+    then
+      echo "Check Command: {{ stig_check_command }} - ${red}FAILED${reset}"
+      OVERALL_RESULT=1
+    else
+      echo "Check Command: {{ stig_check_command }} - ${green}PASSED${reset}"
+    fi
+{% endfor %}
+    if [ $OVERALL_RESULT > 0 ]
+    then
+      echo "${red}{{ stig_id }} FAILED ${reset}"
+      echo "Fix: {{ stig_fixtext | replace('\n', '\\n') }}"
+      exit 1
+    else
+      echo "${green}{{ stig_id }} PASSED${reset}"
+      exit 0
+    fi
+
+{% else %}
+    {{ stig_test | indent(4) }}
+{% endif %}

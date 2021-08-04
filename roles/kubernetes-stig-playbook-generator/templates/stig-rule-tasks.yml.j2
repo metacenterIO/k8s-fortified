@@ -1,0 +1,36 @@
+- name: Ensure compliance namespace exists
+  community.kubernetes.k8s:
+    kubeconfig: "{% raw %}{{ kubeconfig }}{% endraw %}"
+    state: present
+    definition: |
+      kind: namespace
+      metadata:
+        name: compliance
+
+{% for rule in rules %}
+- name: {{ rule.Rule.title }}
+  community.kubernetes.k8s:
+    kubeconfig: "{% raw %}{{ kubeconfig }}{% endraw %}"
+    state: present
+    definition:
+      - "{% raw %}{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}{% endraw %}"
+      - "{% raw %}{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}{% endraw %}"
+  vars:
+    stig_id: {{ rule.Rule.version }}
+    stig_title: {{ rule.Rule.title }}
+    stig_description: |
+      {{ rule.Rule.description | regex_replace('"','\'') | regex_replace('<VulnDiscussion>','') | regex_replace('</VulnDiscussion>.*$','') | indent(6) }}
+    stig_severity: {{ rule.Rule['@attributes'].severity }}
+    stig_ident: {{ rule.Rule.ident }}
+{% if 'check' in rule.Rule and 'check-content' in rule.Rule.check %}
+    stig_check_content: |
+      {{ rule.Rule.check['check-content']  | regex_replace('"','\'') | indent(6) }}
+{% endif %}
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      {{ rule.Rule.fixtext | regex_replace('"','\'') | indent(6) }}
+  tags:
+    - {{ rule.Rule.version }}
+
+{% endfor %}

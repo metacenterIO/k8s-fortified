@@ -1,0 +1,37 @@
+{
+    "@attributes": {
+        "id": "V-242452"
+    },
+    "title": "SRG-APP-000516-CTR-001325",
+    "description": "<GroupDescription></GroupDescription>",
+    "Rule": {
+        "@attributes": {
+            "id": "SV-242452r712712_rule",
+            "weight": "10.0",
+            "severity": "medium"
+        },
+        "version": "CNTR-K8-003190",
+        "title": "The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.",
+        "description": "<VulnDiscussion>The Kubernetes kubelet agent registers nodes with the API Server, mounts volume storage for pods, and performs health checks to containers within pods. If these files can be modified, the information system would be unaware of pod or container degradation. Many of the security settings within the document are implemented through this file.</VulnDiscussion><FalsePositives></FalsePositives><FalseNegatives></FalseNegatives><Documentable>false</Documentable><Mitigations></Mitigations><SeverityOverrideGuidance></SeverityOverrideGuidance><PotentialImpacts></PotentialImpacts><ThirdPartyTools></ThirdPartyTools><MitigationControl></MitigationControl><Responsibility></Responsibility><IAControls></IAControls>",
+        "reference": {},
+        "ident": "CCI-000366",
+        "fixtext": "Change the permissions of the Kubelet to '644' by executing the command:\n\nchown 644 /etc/kubernetes/kubelet.conf",
+        "fix": {
+            "@attributes": {
+                "id": "F-45685r712711_fix"
+            }
+        },
+        "check": {
+            "@attributes": {
+                "system": "C-45727r712710_chk"
+            },
+            "check-content-ref": {
+                "@attributes": {
+                    "href": "Kubernetes_STIG.xml",
+                    "name": "M"
+                }
+            },
+            "check-content": "Review the permissions of the Kubernetes Kubelet conf by using the command:\n\nstat -c %a  /etc/kubernetes/kubelet.conf\n\nIf any of the files are have permissions more permissive than "644", this is a finding."
+        }
+    }
+}

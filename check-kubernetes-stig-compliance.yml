@@ -1,0 +1,27 @@
+---
+# Synopsis: Checks Kubernetes cluster for STIG compliance
+# Prerequisites:
+#   - Ansible v2.9+
+# Dependencies:
+#   - python3
+#   - virtualenv
+# Variables:
+#   - NA
+# Example:
+#    pip3 install virtualenv
+#    virtualenv -p python3 ~/python3
+#    source ~/python3/bin/activate
+#    pip3 install -r requirements.txt
+#    ansible-playbook check-kubernetes-stig-compliance.yml
+# Authors: Michael Ward, Andrew Bond
+# Created: 20210728
+
+- name: Checks Kubernetes cluster for STIG compliance
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  roles:
+    - role: roles/kubernetes-stig
+      tags:
+        - kubernetes-stig

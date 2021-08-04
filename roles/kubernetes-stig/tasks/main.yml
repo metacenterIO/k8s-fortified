@@ -1,0 +1,3124 @@
+- template:
+    src: 'templates/cm.yml.j2'
+    dest: /tmp/cm.yml
+  vars:
+    stig_id: CNTR-K8-000150
+    stig_title: The Kubernetes Controller Manager must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+    stig_description: |
+      The Kubernetes Controller Manager will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and key store. To enable the minimum version of TLS to be used by the Kubernetes Controller Manager, the setting 'tls-min-version' must be set.
+    stig_severity: medium
+    stig_ident: CCI-000068
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-min-version * 
+
+      If the setting 'tls-min-version' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+  tags:
+    - template
+    - never
+
+- name: Ensure compliance namespace exists
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: |
+      kind: namespace
+      metadata:
+        name: compliance
+
+- name: The Kubernetes Controller Manager must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000150
+    stig_title: The Kubernetes Controller Manager must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+    stig_description: |
+      The Kubernetes Controller Manager will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and key store. To enable the minimum version of TLS to be used by the Kubernetes Controller Manager, the setting 'tls-min-version' must be set.
+    stig_severity: medium
+    stig_ident: CCI-000068
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-min-version * 
+
+      If the setting 'tls-min-version' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+  tags:
+    - CNTR-K8-000150
+
+- name: The Kubernetes Scheduler must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000160
+    stig_title: The Kubernetes Scheduler must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+    stig_description: |
+      The Kubernetes Scheduler will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and keystore. To enable the minimum version of TLS to be used by the Kubernetes API Server, the setting 'tls-min-version' must be set.
+    stig_severity: medium
+    stig_ident: CCI-000068
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-min-version * 
+
+      If the setting 'tls-min-version' is not configured in the Kubernetes Scheduler manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes Scheduler manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+  tags:
+    - CNTR-K8-000160
+
+- name: The Kubernetes API Server must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000170
+    stig_title: The Kubernetes API Server must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
+    stig_description: |
+      The Kubernetes API Server will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and keystore. To enable the minimum version of TLS to be used by the Kubernetes API Server, the setting 'tls-min-version' must be set.
+    stig_severity: medium
+    stig_ident: CCI-000068
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-min-version * 
+
+      If the setting 'tls-min-version' is not configured in the Kubernetes API Server manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
+    stig_check_command: grep -ri tls-min-version /etc/kubernetes/manifests/ | grep "VersionTLS12" | grep apiserver
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+  tags:
+    - CNTR-K8-000170
+
+- name: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000180
+    stig_title: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
+    stig_description: |
+      Kubernetes etcd will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and keystore. To enable the minimum version of TLS to be used by the Kubernetes API Server, the setting 'tls-min-version' must be set.
+    stig_severity: medium
+    stig_ident: CCI-000068
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i  auto-tls * 
+
+      If the setting 'auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to true, this is a finding.
+    stig_check_command: grep -ri auto-tls /etc/kubernetes/manifests/ | grep etcd | grep "auto-tls=true"
+    stig_fixtext: |
+      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '-auto-tls' to 'false'.
+  tags:
+    - CNTR-K8-000180
+
+- name: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000190
+    stig_title: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
+    stig_description: |
+      The Kubernetes API Server will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and keystore. To enable the minimum version of TLS to be used by the Kubernetes API Server, the setting 'tls-min-version' must be set.
+    stig_severity: medium
+    stig_ident: CCI-000068
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -I  peer-auto-tls * 
+
+      If the setting 'peer-auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to 'true', this is a finding.
+    stig_check_command: grep -ri peer-auto-tls /etc/kubernetes/manifests/ | grep etcd | grep "peer-auto-tls=false"
+    stig_fixtext: |
+      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of 'peer-auto-tls' to 'false'.
+  tags:
+    - CNTR-K8-000190
+
+- name: The Kubernetes Controller Manager must create unique service accounts for each work payload.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000220
+    stig_title: The Kubernetes Controller Manager must create unique service accounts for each work payload.
+    stig_description: |
+      The Kubernetes Controller Manager is a background process that embeds core control loops regulating cluster system state through the API Server. Every process executed in a pod has an associated service account. By default, service accounts use the same credentials for authentication. Implementing the default settings poses a High risk to the Kubernetes Controller Manager. Setting the use-service-account-credential value lowers the attack surface by generating unique service accounts settings for each controller instance.
+    stig_severity: high
+    stig_ident: CCI-000015
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i use-service-account-credential * 
+
+      If the setting use-service-account-credential is not configured in the Kubernetes Controller Manager manifest file or it is set to 'false', this is a finding.
+    stig_check_command: grep -ri use-service-account-credential /etc/kubernetes/manifests/ | grep kube-controller-manager.manifest | grep "use-service-account-credential=true"
+    stig_fixtext: |
+      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of 'use-service-account-credential' to 'true'.
+  tags:
+    - CNTR-K8-000220
+
+- name: The Kubernetes API Server must enable Node,RBAC as the authorization mode.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000270
+    stig_title: The Kubernetes API Server must enable Node,RBAC as the authorization mode.
+    stig_description: |
+      To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., networks, web servers, and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset.
+
+      Node,RBAC is the method within Kubernetes to control access of users and applications. Kubernetes uses roles to grant authorization API requests made by kubelets.
+
+      Satisfies: SRG-APP-000033-CTR-000090, SRG-APP-000033-CTR-000095
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      'grep -i authorization-mode *'
+
+      If the setting 'authorization-mode' is not configured in the Kubernetes API Server manifest file or is not set to 'Node,RBAC', this is a finding.
+    stig_check_command: grep -ri use-service-account-credential /etc/kubernetes/manifests/ | grep apiserver | grep "use-service-account-credential=Node,RBAC"
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--authorization-mode' to 'Node,RBAC'.
+  tags:
+    - CNTR-K8-000270
+
+- name: User-managed resources must be created in dedicated namespaces.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000290
+    stig_title: User-managed resources must be created in dedicated namespaces.
+    stig_description: |
+      Creating namespaces for user-managed resources is important when implementing Role-Based Access Controls (RBAC). RBAC allows for the authorization of users and helps support proper API server permissions separation and network micro segmentation. If user-managed resources are placed within the default namespaces, it becomes impossible to implement policies for RBAC permission, service account usage, network policies, and more.
+    stig_severity: high
+    stig_ident: CCI-000366
+    stig_check_content: |
+      To view the available namespaces, run the command:
+
+      kubectl get namespaces
+
+      The default namespaces to be validated are default, kube-public and kube-node-lease if it is created.
+
+      For the default namespace, execute the commands:
+
+      kubectl config set-context --current --namespace=default
+      kubectl get all
+
+      For the kube-public namespace, execute the commands:
+
+      kubectl config set-context --current --namespace=kube-public
+      kubectl get all
+
+      For the kube-node-lease namespace, execute the commands:
+
+      kubectl config set-context --current --namespace=kube-node-lease
+      kubectl get all
+
+      The only valid return values are the kubernetes service (i.e., service/kubernetes) and nothing at all.
+
+      If a return value is returned from the 'kubectl get all' command and it is not the kubernetes service (i.e., service/kubernetes), this is a finding.
+    stig_check_command: |-
+      kubectl get all \
+      --all-namespaces \
+      --no-headers \
+      --field-selector metadata.name!=kubernetes,metadata.namespace=kube-public,metadata.namespace=default,metadata.namespace=kube-node-lease \
+      | if [ $(wc -l) -gt 0 ]; then exit 1; fi
+    stig_fixtext: |
+      Move any user-managed resources from the default, kube-public and kube-node-lease namespaces, to user namespaces.
+  tags:
+    - CNTR-K8-000290
+
+- name: The Kubernetes Scheduler must have secure binding.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000300
+    stig_title: The Kubernetes Scheduler must have secure binding.
+    stig_description: |
+      Limiting the number of attack vectors and implementing authentication and encryption on the endpoints available to external sources is paramount when securing the overall Kubernetes cluster. The Scheduler API service exposes port 10251/TCP by default for health and metrics information use. This port does not encrypt or authenticate connections. If this port is exposed externally, an attacker can use this port to attack the entire Kubernetes cluster. By setting the bind address to localhost (i.e., 127.0.0.1), only those internal services that require health and metrics information can access the Scheduler API.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i bind-address * 
+
+      If the setting 'bind-address' is not set to '127.0.0.1' or is not found in the Kubernetes Scheduler manifest file, this is a finding.
+    stig_check_command: grep -i bind-address=127.0.0.1 /etc/kubernetes/manifests/kube-scheduler.manifest
+    stig_fixtext: |
+      Edit the Kubernetes Scheduler manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
+  tags:
+    - CNTR-K8-000300
+
+- name: The Kubernetes Controller Manager must have secure binding.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000310
+    stig_title: The Kubernetes Controller Manager must have secure binding.
+    stig_description: |
+      Limiting the number of attack vectors and implementing authentication and encryption on the endpoints available to external sources is paramount when securing the overall Kubernetes cluster. The Controller Manager API service exposes port 10252/TCP by default for health and metrics information use. This port does not encrypt or authenticate connections. If this port is exposed externally, an attacker can use this port to attack the entire Kubernetes cluster. By setting the bind address to only localhost (i.e., 127.0.0.1), only those internal services that require health and metrics information can access the Control Manager API.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i bind-address * 
+
+      If the setting bind-address is not set to '127.0.0.1' or is not found in the Kubernetes Controller Manager manifest file, this is a finding.
+    stig_check_command: grep -i bind-address=127.0.0.1 /etc/kubernetes/manifests/kube-controller-manager.manifest
+    stig_fixtext: |
+      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
+  tags:
+    - CNTR-K8-000310
+
+- name: The Kubernetes API server must have the insecure port flag disabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000320
+    stig_title: The Kubernetes API server must have the insecure port flag disabled.
+    stig_description: |
+      By default, the API server will listen on two ports. One port is the secure port and the other port is called the 'localhost port'. This port is also called the 'insecure port', port 8080. Any requests to this port bypass authentication and authorization checks. If this port is left open, anyone who gains access to the host on which the master is running can bypass all authorization and authentication mechanisms put in place, and have full control over the entire cluster.
+
+      Close the insecure port by setting the API server's --insecure-port flag to '0', ensuring that the --insecure-bind-address is not set.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i insecure-port * 
+
+      If the setting insecure-port is not set to '0' or is not configured in the Kubernetes API server manifest file, this is a finding.
+    stig_check_command: grep -i insecure-port=0 /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --insecure-port to '0'.
+  tags:
+    - CNTR-K8-000320
+
+- name: The Kubernetes Kubelet must have the read-only port flag disabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000330
+    stig_title: The Kubernetes Kubelet must have the read-only port flag disabled.
+    stig_description: |
+      Kubelet serves a small REST API with read access to port 10255. The read-only port for Kubernetes provides no authentication or authorization security control. Providing unrestricted access on port 10255 exposes Kubernetes pods and containers to malicious attacks or compromise. Port 10255 is deprecated and should be disabled. 
+
+      Close the read-only-port by setting the API server's read-only port flag to '0'.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Run the following command on each Worker Node:
+      ps -ef | grep kubelet 
+
+      Verify that the --read-only-port argument exists and is set to '0'. 
+
+      If the --read-only-port argument exists and is not set to '0', this is a finding. 
+
+      If the --read-only-port argument does not exist, check the Master Node Kubelet config file.
+
+      On the Kubernetes Master Node, run the command:
+      ps -ef | grep kubelet
+      (path identified by: --config)
+
+      Verify there is a readOnlyPort entry in the config file and it is set to '0'. 
+
+      If the --read-only-port argument exists and is not set to '0' this is a finding. 
+
+      If '--read-only-port=0' argument does not exist on the worker node and the master node, this is a finding.
+    stig_check_command: grep -i read-only-port=0 /etc/sysconfig/kubelet
+    stig_fixtext: |
+      Edit the Kubernetes Kubelet file in the --config directory on the Kubernetes Master Node. Set the argument --read-only-port to 0.  
+
+      Reset Kubelet service using the following command:
+      service kubelet restart
+
+      If using worker node arguments, edit the kubelet service file /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf on each Worker Node: set the parameter in KUBELET_SYSTEM_PODS_ARGS variable to
+      '--read-only-port=0'.
+  tags:
+    - CNTR-K8-000330
+
+- name: The Kubernetes API server must have the insecure bind address not set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000340
+    stig_title: The Kubernetes API server must have the insecure bind address not set.
+    stig_description: |
+      By default, the API server will listen on two ports and addresses. One address is the secure address and the other address is called the 'insecure bind' address and is set by default to localhost. Any requests to this address bypass authentication and authorization checks. If this insecure bind address is set to localhost, anyone who gains access to the host on which the master is running can bypass all authorization and authentication mechanisms put in place and have full control over the entire cluster.
+
+      Close or set the insecure bind address by setting the API server's --insecure-bind-address flag to an IP or leave it unset and ensure that the --insecure-bind-port is not set.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i insecure-bind-address * 
+
+      If the setting insecure-bind-address is found and set to 'localhost' in the Kubernetes API manifest file, this is a finding.
+    stig_check_command: grep -i insecure-bind-address /etc/kubernetes/manifests/kube-apiserver.manifest | if [ $(wc -l) -gt 0 ]; then exit 1; fi
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove the value for the --insecure-bind-address setting.
+  tags:
+    - CNTR-K8-000340
+
+- name: The Kubernetes API server must have the secure port set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000350
+    stig_title: The Kubernetes API server must have the secure port set.
+    stig_description: |
+      By default, the API server will listen on what is rightfully called the secure port, port 6443. Any requests to this port will perform authentication and authorization checks. If this port is disabled, anyone who gains access to the host on which the master is running has full control of the entire cluster over encrypted traffic.
+
+      Open the secure port by setting the API server's --secure-port flag to a value other than '0'.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i secure-port * 
+
+      If the setting secure-port is set to '0' or is not configured in the Kubernetes API manifest file, this is a finding.
+    stig_check_command: grep -i "\-\-secure-port" /etc/kubernetes/manifests/kube-apiserver.manifest | if [ $(cut -d "=" -f2) -gt 0 ]; then exit 0; fi
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --secure-port to a value greater than '0'.
+  tags:
+    - CNTR-K8-000350
+
+- name: The Kubernetes API server must have anonymous authentication disabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000360
+    stig_title: The Kubernetes API server must have anonymous authentication disabled.
+    stig_description: |
+      The Kubernetes API Server controls Kubernetes via an API interface. A user who has access to the API essentially has root access to the entire Kubernetes cluster. To control access, users must be authenticated and authorized. By allowing anonymous connections, the controls put in place to secure the API can be bypassed.
+
+      Setting anonymous authentication to 'false' also disables unauthenticated requests from kubelets.
+
+      While there are instances where anonymous connections may be needed (e.g., health checks) and Role-Based Access Controls (RBAC) are in place to limit the anonymous access, this access should be disabled, and only enabled when necessary.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i anonymous-auth * 
+
+      If the setting anonymous-auth is set to 'true' in the Kubernetes API Server manifest file, this is a finding.
+    stig_check_command: grep -i anonymous-auth=false /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --anonymous-auth to 'false'.
+  tags:
+    - CNTR-K8-000360
+
+- name: The Kubernetes Kubelet must have anonymous authentication disabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000370
+    stig_title: The Kubernetes Kubelet must have anonymous authentication disabled.
+    stig_description: |
+      A user who has access to the Kubelet essentially has root access to the nodes contained within the Kubernetes Control Plane. To control access, users must be authenticated and authorized. By allowing anonymous connections, the controls put in place to secure the Kubelet can be bypassed.
+
+      Setting anonymous authentication to 'false' also disables unauthenticated requests from kubelets.
+
+      While there are instances where anonymous connections may be needed (e.g., health checks) and Role-Based Access Controls (RBAC) are in place to limit the anonymous access, this access must be disabled and only enabled when necessary.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i anonymous-auth kubelet 
+
+      If the setting 'anonymous-auth' is set to 'true' or the parameter not set in the Kubernetes Kubelet configuration file, this is a finding.
+    stig_check_command: grep -i anonymous-auth=false /etc/sysconfig/kubelet
+    stig_fixtext: |
+      Edit the Kubernetes Kubelet file in the/etc/sysconfig/ directory on the Kubernetes Master Node. 
+
+      Set the argument '--anonymous-auth' to 'false'. 
+
+      Restart kubelet service using command:
+      service kubelet restart
+  tags:
+    - CNTR-K8-000370
+
+- name: The Kubernetes kubelet must enable explicit authorization.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000380
+    stig_title: The Kubernetes kubelet must enable explicit authorization.
+    stig_description: |
+      Kubelet is the primary agent on each node. The API server communicates with each kubelet to perform tasks such as starting/stopping pods. By default, kubelets allow all authenticated requests, even anonymous ones, without requiring any authorization checks from the API server. This default behavior bypasses any authorization controls put in place to limit what users may perform within the Kubernetes cluster. To change this behavior, the default setting of AlwaysAllow for the authorization mode must be set to 'Webhook'.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i authorization-mode kubelet  
+
+      On each Worker node, change to the /etc/sysconfig/ directory. Run the command:
+
+      grep -i authorization-mode kubelet
+
+      If authorization-mode is missing or is set to 'AllowAlways' on the Master node or any of the Worker nodes, this is a finding.
+    stig_check_command: grep -i authorization-mode=Webhook /etc/sysconfig/kubelet
+    stig_fixtext: |
+      Edit the Kubernetes Kubelet file in the/etc/sysconfig/ directory on the Kubernetes Master and Worker nodes. 
+
+      Set the argument --authorization-mode to 'Webhook'. 
+
+      Restart each kubelet service after the change is made using the command:
+      service kubelet restart
+  tags:
+    - CNTR-K8-000380
+
+- name: Kubernetes Worker Nodes must not have sshd service running.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000400
+    stig_title: Kubernetes Worker Nodes must not have sshd service running.
+    stig_description: |
+      Worker Nodes are maintained and monitored by the Master Node. Direct access and manipulation of the nodes should not take place by administrators. Worker nodes should be treated as immutable and updated via replacement rather than in-place upgrades.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Log in to each worker node. Verify that the sshd service is not running. To validate that the service is not running, run the command:
+
+      systemctl status sshd
+
+      If the service sshd is active (running), this is a finding.
+
+      Note: If console access is not available, SSH access can be attempted. If the worker nodes cannot be reached, this requirement is 'not a finding'.
+    stig_check_command: systemctl list-units  --type=service  --state=running | grep ssh.service && exit 1 || exit 0
+    stig_fixtext: |
+      To stop the sshd service, run the command:
+
+      systemctl stop sshd
+
+      Note: If access to the worker node is through an SSH session, it is important to realize there are two requirements for disabling and stopping the sshd service and they should be done during the same SSH session. Disabling the service must be performed first and then the service stopped to guarantee both settings can be made if the session is interrupted.
+  tags:
+    - CNTR-K8-000400
+
+- name: Kubernetes Worker Nodes must not have the sshd service enabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000410
+    stig_title: Kubernetes Worker Nodes must not have the sshd service enabled.
+    stig_description: |
+      Worker Nodes are maintained and monitored by the Master Node. Direct access and manipulation of the nodes must not take place by administrators. Worker nodes must be treated as immutable and updated via replacement rather than in-place upgrades.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      Log in to each worker node. Verify that the sshd service is not enabled. To validate the service is not enabled, run the command:
+
+      systemctl is-enabled sshd.service
+
+      If the service sshd is enabled, this is a finding.
+
+      Note: If console access is not available, SSH access can be attempted. If the worker nodes cannot be reached, this requirement is 'not a finding'.
+    stig_check_command: if [ $(systemctl is-enabled sshd.service | tr -d '[:space:]') == "enabled" ]; then exit 1; else exit 0; fi
+    stig_fixtext: |
+      To disable the sshd service, run the command:
+
+      chkconfig sshd off
+
+      Note: If access to the worker node is through an SSH session, it is important to realize there are two requirements for disabling and stopping the sshd service that must be done during the same SSH session. Disabling the service must be performed first and then the service stopped to guarantee both settings can be made if the session is interrupted.
+  tags:
+    - CNTR-K8-000410
+
+- name: Kubernetes dashboard must not be enabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000420
+    stig_title: Kubernetes dashboard must not be enabled.
+    stig_description: |
+      While the Kubernetes dashboard is not inherently insecure on its own, it is often coupled with a misconfiguration of Role-Based Access control (RBAC) permissions that can unintentionally over-grant access. It is not commonly protected with 'NetworkPolicies', preventing all pods from being able to reach it. In increasingly rare circumstances, the Kubernetes dashboard is exposed publicly to the internet.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      From the master node, run the command:
+
+      kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard
+
+      If any resources are returned, this is a finding.
+    stig_check_command: kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
+    stig_fixtext: |
+      Delete the Kubernetes dashboard deployment with the following command:
+
+      kubectl delete deployment kubernetes-dashboard --namespace=kube-system
+  tags:
+    - CNTR-K8-000420
+
+- name: Kubernetes Kubectl cp command must give expected access and results.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000430
+    stig_title: Kubernetes Kubectl cp command must give expected access and results.
+    stig_description: |
+      One of the tools heavily used to interact with containers in the Kubernetes cluster is kubectl. The command is the tool System Administrators used to create, modify, and delete resources. One of the capabilities of the tool is to copy files to and from running containers (i.e., kubectl cp). The command uses the 'tar' command of the container to copy files from the container to the host executing the 'kubectl cp' command. If the 'tar' command on the container has been replaced by a malicious user, the command can copy files anywhere on the host machine. This flaw has been fixed in later versions of the tool. It is recommended to use kubectl versions newer than 1.12.9.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      From the Master and each Worker node, check the version of kubectl by executing the command:
+
+      kubectl version --client
+
+      If the Master or any Work nodes are not using kubectl version 1.12.9 or newer, this is a finding.
+    stig_check_command: |-
+      TEST=$(/tmp/bin/kubectl version --client -o json)
+      VERSION=$(echo "$TEST" | jq -r '.clientVersion.gitVersion' | cut -d "v" -f2)
+      ver () { echo "$@" | awk -F. '{ printf("%d%03d%03d", $1,$2,$3); }'; }
+      if [ $(ver $VERSION) -lt $(ver 1.12.9) ]; then exit 1; else exit 0; fi
+    stig_fixtext: |
+      Upgrade the Master and Worker nodes to the latest version of kubectl.
+  tags:
+    - CNTR-K8-000430
+
+- name: The Kubernetes kubelet static PodPath must not enable static pods.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000440
+    stig_title: The Kubernetes kubelet static PodPath must not enable static pods.
+    stig_description: |
+      Allowing kubelet to set a staticPodPath gives containers with root access permissions to traverse the hosting filesystem. The danger comes when the container can create a manifest file within the /etc/kubernetes/manifests directory. When a manifest is created within this directory, containers are entirely governed by the Kubelet not the API Server. The container is not susceptible to admission control at all. Any containers or pods that are instantiated in this manner are called 'static pods' and are meant to be used for pods such as the API server, scheduler, controller, etc., not workload pods that need to be governed by the API Server.
+    stig_severity: high
+    stig_ident: CCI-000213
+    stig_check_content: |
+      On the Master and Worker nodes, change to the /etc/sysconfig/ directory and run the command:
+
+      grep -i staticPodPath kubelet
+
+      If any of the nodes return a value for staticPodPath, this is a finding.
+    stig_check_commands: grep -i staticPodPath /etc/sysconfig/kubelet && exit 1 || exit 0
+      - 
+    stig_fixtext: |
+      Edit the kubelet file on each node under the /etc/sysconfig directory to remove the staticPodPath setting and restart the kubelet service by executing the command:
+
+      service kubelet restart
+  tags:
+    - CNTR-K8-000440
+
+- name: Kubernetes DynamicAuditing must not be enabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000450
+    stig_title: Kubernetes DynamicAuditing must not be enabled.
+    stig_description: |
+      Protecting the audit data from change or deletion is important when an attack occurs. One way an attacker can cover their tracks is to change or delete audit records. This will either make the attack unnoticeable or make it more difficult to investigate how the attack took place and what changes were made. The audit data can be protected through audit log file protections and user authorization.
+
+      One way for an attacker to thwart these measures is to send the audit logs to another source and filter the audited results before sending them on to the original target. This can be done in Kubernetes through the configuration of dynamic audit webhooks through the DynamicAuditing flag.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      On the Master node, change to the manifests' directory at /etc/kubernetes/manifests and run the command:
+
+      grep -i feature-gates *
+
+      Review the feature-gates setting, if one is returned.
+
+      If the feature-gates setting is available and contains the DynamicAuditing flag set to 'true', this is a finding.
+
+      Change to the directory /etc/sysconfig on the Master and each Worker Node and execute the command:
+
+      grep -i feature-gates kubelet
+
+      Review every feature-gates setting that is returned.
+
+      If any feature-gates setting is available and contains the 'DynamicAuditing' flag set to 'true', this is a finding.
+    stig_check_commands: grep -i feature-gates /etc/kubernetes/manifests/* | grep DynamicAuditing=true && exit 1 || exit 0
+    stig_fixtext: |
+      Edit any manifest files or kubelet config files that contain the feature-gates setting with DynamicAuditing set to 'true'. Set the flag to 'false' or remove the 'DynamicAuditing' setting completely. Restart the kubelet service if the kubelet config file if the kubelet config file is changed.
+  tags:
+    - CNTR-K8-000450
+
+- name: Kubernetes DynamicKubeletConfig must not be enabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000460
+    stig_title: Kubernetes DynamicKubeletConfig must not be enabled.
+    stig_description: |
+      Kubernetes allows a user to configure kubelets with dynamic configurations. When dynamic configuration is used, the kubelet will watch for changes to the configuration file. When changes are made, the kubelet will automatically restart. Allowing this capability bypasses access restrictions and authorizations. Using this capability, an attacker can lower the security posture of the kubelet, which includes allowing the ability to run arbitrary commands in any container running on that node.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      On the Master node, change to the manifests' directory at /etc/kubernetes/manifests and run the command:
+
+      grep -i feature-gates *
+
+      Review the feature-gates setting if one is returned.
+
+      If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the 'DynamicKubletConfig' flag is set to 'true', this is a finding.
+
+      Change to the directory /etc/sysconfig on the Master and each Worker node and execute the command:
+
+      grep -i feature-gates kubelet
+
+      Review every feature-gates setting if one is returned.
+
+      If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the DynamicKubletConfig flag is set to 'true', this is a finding.
+    stig_check_commands: grep -i feature-gates /etc/sysconfig/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
+    stig_fixtext: |
+      Edit any manifest file or kubelet config file that does not contain a feature-gates setting or has DynamicKubeletConfig set to 'true'.
+
+      An omission of DynamicKubeletConfig within the feature-gates defaults to true. Set DynamicKubeletConfig to 'false'. Restart the kubelet service if the kubelet config file is changed.
+  tags:
+    - CNTR-K8-000460
+
+- name: The Kubernetes API server must have Alpha APIs disabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000470
+    stig_title: The Kubernetes API server must have Alpha APIs disabled.
+    stig_description: |
+      Kubernetes allows alpha API calls within the API server. The alpha features are disabled by default since they are not ready for production and likely to change without notice. These features may also contain security issues that are rectified as the feature matures. To keep the Kubernetes cluster secure and stable, these alpha features must not be used.
+    stig_severity: medium
+    stig_ident: CCI-000213
+    stig_check_content: |
+      On the Master node, change to the manifests' directory at /etc/kubernetes/manifests and run the command:
+
+      grep -i feature-gates *
+
+      Review the feature-gates setting, if one is returned.
+
+      If the feature-gates setting is available and contains the AllAlpha flag set to 'true', this is a finding.
+    stig_check_commands: grep -i feature-gates /etc/kubernetes/manifests/* | grep AllAlpha=true && exit 1 || exit 0
+    stig_fixtext: |
+      Edit any manifest files that contain the feature-gates setting with AllAlpha set to 'true'. Set the flag to 'false' or remove the AllAlpha setting completely.
+      (AllAlpha- default=false)
+  tags:
+    - CNTR-K8-000470
+
+- name: The Kubernetes API Server must have an audit policy set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000600
+    stig_title: The Kubernetes API Server must have an audit policy set.
+    stig_description: |
+      When Kubernetes is started, components and user services are started. For auditing startup events, and events for components and services, it is important that auditing begin on startup. Within Kubernetes, audit data for all components is generated by the API server. To enable auditing to begin, an audit policy must be defined for the events and the information to be stored with each event. It is also necessary to give a secure location where the audit logs are to be stored. If an audit log path is not specified, all audit data is sent to studio.
+    stig_severity: medium
+    stig_ident: CCI-001464
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-policy-file * 
+
+      If the audit-policy-file is not set, this is a finding.
+    stig_check_commands: grep -i audit-policy-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 0 || exit 1
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest and set '--audit-policy-file' to the audit policy file.
+
+      Note: If the API server is running as a Pod, then the manifest will also need to be updated to mount the host system filesystem where the audit policy file resides.
+  tags:
+    - CNTR-K8-000600
+
+- name: The Kubernetes API Server must have an audit log path set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000610
+    stig_title: The Kubernetes API Server must have an audit log path set.
+    stig_description: |
+      When Kubernetes is started, components and user services are started for auditing startup events, and events for components and services, it is important that auditing begin on startup. Within Kubernetes, audit data for all components is generated by the API server. To enable auditing to begin, an audit policy must be defined for the events and the information to be stored with each event. It is also necessary to give a secure location where the audit logs are to be stored. If an audit log path is not specified, all audit data is sent to studio.
+    stig_severity: medium
+    stig_ident: CCI-001464
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-log-path * 
+
+      If the audit-log-path is not set, this is a finding.
+    stig_check_commands: grep -i audit-log-path /etc/kubernetes/manifests/* && exit 0 || exit 1
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest and set '--audit-log-path' to a secure location for the audit logs to be written.
+
+      Note: If the API server is running as a Pod, then the manifest will also need to be updated to mount the host system filesystem where the audit log file is to be written.
+  tags:
+    - CNTR-K8-000610
+
+- name: Kubernetes API Server must generate audit records that identify what type of event has occurred, identify the source of the event, contain the event results, identify any users, and identify any containers associated with the event.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000700
+    stig_title: Kubernetes API Server must generate audit records that identify what type of event has occurred, identify the source of the event, contain the event results, identify any users, and identify any containers associated with the event.
+    stig_description: |
+      Within Kubernetes, audit data for all components is generated by the API server. This audit data is important when there are issues, to include security incidents that must be investigated. To make the audit data worthwhile for the investigation of events, it is necessary to have the appropriate and required data logged. To fully understand the event, it is important to identify any users associated with the event. 
+
+      The API server policy file allows for the following levels of auditing:
+            None - Do not log events that match the rule.
+            Metadata - Log request metadata (requesting user, timestamp, resource, verb, etc.) but not request or response body.
+            Request - Log event metadata and request body but not response body.
+            RequestResponse - Log event metadata, request, and response bodies.
+
+      Satisfies: SRG-APP-000026-CTR-000070, SRG-APP-000027-CTR-000075, SRG-APP-000028-CTR-000080, SRG-APP-000101-CTR-000205, SRG-APP-000100-CTR-000200, SRG-APP-000100-CTR-000195, SRG-APP-000099-CTR-000190, SRG-APP-000098-CTR-000185, SRG-APP-000095-CTR-000170, SRG-APP-000096-CTR-000175, SRG-APP-000097-CTR-000180, SRG-APP-000507-CTR-001295, SRG-APP-000504-CTR-001280, SRG-APP-000503-CTR-001275, SRG-APP-000501-CTR-001265, SRG-APP-000500-CTR-001260, SRG-APP-000497-CTR-001245, SRG-APP-000496-CTR-001240, SRG-APP-000493-CTR-001225, SRG-APP-000492-CTR-001220, SRG-APP-000343-CTR-000780, SRG-APP-000381-CTR-000905
+    stig_severity: medium
+    stig_ident: ['CCI-000018', 'CCI-000130', 'CCI-000131', 'CCI-000132', 'CCI-000133', 'CCI-000134', 'CCI-000135', 'CCI-000172', 'CCI-001403', 'CCI-001404', 'CCI-001487', 'CCI-001814', 'CCI-002234']
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-policy-file 
+
+      If the audit-policy-file is not set, this is a finding. 
+
+      The file given is the policy file and defines what is audited and what information is included with each event.
+
+      The policy file must look like this:
+
+      # Log all requests at the RequestResponse level.
+      apiVersion: audit.k8s.io/vX (Where X is the latest apiVersion)
+      kind: Policy
+      rules:
+      - level: RequestResponse
+
+      If the audit policy file does not look like above, this is a finding.
+    stig_check_commands: 
+      - grep -i audit-policy-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 0 || exit 1
+      - grep -i RequestResponse $(grep -i audit-policy-file /etc/kubernetes/manifests/kube-apiserver.manifest | cut -d "=" -f2) && exit 0 || exit 1
+    stig_fixtext: |
+      Edit the Kubernetes API Server audit policy and set it to look like the following:
+
+      # Log all requests at the RequestResponse level.
+      apiVersion: audit.k8s.io/vX (Where X is the latest apiVersion)
+      kind: Policy
+      rules:
+      - level: RequestResponse
+  tags:
+    - CNTR-K8-000700
+
+- name: Kubernetes Kubelet must deny hostname override.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000850
+    stig_title: Kubernetes Kubelet must deny hostname override.
+    stig_description: |
+      Kubernetes allows for the overriding of hostnames. Allowing this feature to be implemented within the kubelets may break the TLS setup between the kubelet service and the API server. This setting also can make it difficult to associate logs with nodes if security analytics needs to take place. The better practice is to setup nodes with resolvable FQDNs and avoid overriding the hostnames.
+    stig_severity: medium
+    stig_ident: CCI-001499
+    stig_check_content: |
+      On the Master and each Worker node, change to the /etc/sysconfig/ directory and run the command:
+
+      grep -i hostname-override kubelet  
+      --hostname-override
+
+      If any of the nodes have the setting 'hostname-override' present, this is a finding.
+    stig_check_commands:
+      - grep -i hostname-override /etc/sysconfig/kubelet && exit 1 || exit 0
+    stig_fixtext: |
+      Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Master and Worker nodes and remove the '--hostname-override' setting. Restart the service after the change is made by running:
+
+      service kubelet restart
+  tags:
+    - CNTR-K8-000850
+
+- name: The Kubernetes manifests must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000860
+    stig_title: The Kubernetes manifests must be owned by root.
+    stig_description: |
+      The manifest files contain the runtime configuration of the API server, proxy, scheduler, controller, and etcd. If an attacker can gain access to these files, changes can be made to open vulnerabilities and bypass user authorizations inherit within Kubernetes with RBAC implemented.
+    stig_severity: medium
+    stig_ident: CCI-001499
+    stig_check_content: |
+      On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
+
+      ls -l *
+
+      Each manifest file must be owned by root:root.
+
+      If any manifest file is not owned by root:root, this is a finding.
+    stig_check_commands:
+      - if [ $(find /etc/kubernetes/manifests -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+    stig_fixtext: |
+      On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
+
+      chown root:root *
+
+      To verify the change took place, run the command:
+
+      ls -l *
+
+      All the manifest files should be owned by root:root.
+  tags:
+    - CNTR-K8-000860
+
+- name: The Kubernetes kubelet configuration file must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000880
+    stig_title: The Kubernetes kubelet configuration file must be owned by root.
+    stig_description: |
+      The kubelet configuration file contains the runtime configuration of the kubelet service. If an attacker can gain access to this file, changes can be made to open vulnerabilities and bypass user authorizations inherent within Kubernetes with RBAC implemented.
+    stig_severity: medium
+    stig_ident: CCI-001499
+    stig_check_content: |
+      On the Master and worker nodes, change to the /etc/sysconfig directory. Run the command:
+
+      ls -l kubelet
+
+      Each kubelet configuration file must be owned by root:root.
+
+      If any manifest file is not owned by root:root, this is a finding.
+    stig_check_commands:
+      - if [ $(find /etc/sysconfig/kubelet -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+    stig_fixtext: |
+      On the Master and Worker nodes, change to the /etc/sysconfig directory. Run the command:
+
+      chown root:root kubelet
+
+      To verify the change took place, run the command:
+
+      ls -l kubelet
+
+      The kubelet file should now be owned by root:root.
+  tags:
+    - CNTR-K8-000880
+
+- name: The Kubernetes kubelet configuration file must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000890
+    stig_title: The Kubernetes kubelet configuration file must be owned by root.
+    stig_description: |
+      The kubelet configuration file contains the runtime configuration of the kubelet service. If an attacker can gain access to this file, changes can be made to open vulnerabilities and bypass user authorizations inherit within Kubernetes with RBAC implemented.
+    stig_severity: medium
+    stig_ident: CCI-001499
+    stig_check_content: |
+      On the Master and worker nodes, change to the /etc/kubernetes/manifest directory. Run the command:
+
+      ls -l kubelet
+
+      Each kubelet configuration file must have permissions of '644' or more restrictive.
+
+      If any kubelet configuration file is less restrictive than '644', this is a finding.
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' /etc/kubernetes/manifests/kubelet)
+      if [ "$FILES" ]
+      then
+        FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+      else
+        exit 0
+      fi
+    stig_fixtext: |
+      On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
+
+      chmod 644 kubelet
+
+      To verify the change took place, run the command:
+
+      ls -l kubelet
+
+      The kubelet file should now have the permissions of '644'.
+  tags:
+    - CNTR-K8-000890
+
+- name: The Kubernetes manifests must have least privileges.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000900
+    stig_title: The Kubernetes manifests must have least privileges.
+    stig_description: |
+      The manifest files contain the runtime configuration of the API server, scheduler, controller, and etcd. If an attacker can gain access to these files, changes can be made to open vulnerabilities and bypass user authorizations inherent within Kubernetes with RBAC implemented.
+
+      Satisfies: SRG-APP-000133-CTR-000310, SRG-APP-000133-CTR-000295
+    stig_severity: medium
+    stig_ident: CCI-001499
+    stig_check_content: |
+      On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
+
+      ls -l *
+
+      Each manifest file must have permissions '644' or more restrictive.
+
+      If any manifest file is less restrictive than '644', this is a finding.
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' /etc/kubernetes/manifests/*)
+      for FILE in $FILES
+      do
+        FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+      done
+    stig_fixtext: |
+      On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
+
+      chmod 644 *
+
+      To verify the change took place, run the command:
+
+      ls -l *
+
+      All the manifest files should now have privileges of '644'.
+  tags:
+    - CNTR-K8-000900
+
+- name: Kubernetes Controller Manager must disable profiling.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000910
+    stig_title: Kubernetes Controller Manager must disable profiling.
+    stig_description: |
+      Kubernetes profiling provides the ability to analyze and troubleshoot Controller Manager events over a web interface on a host port. Enabling this service can expose details about the Kubernetes architecture. This service must not be enabled unless deemed necessary.
+    stig_severity: medium
+    stig_ident: CCI-000381
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i profiling * 
+
+      If the setting 'profiling' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'True', this is a finding.
+    stig_check_commands:
+      - grep -i profiling=false /etc/kubernetes/manifests/*
+    stig_fixtext: |
+      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--profiling value' to 'false'.
+  tags:
+    - CNTR-K8-000910
+
+- name: The Kubernetes API Server must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000920
+    stig_title: The Kubernetes API Server must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+    stig_description: |
+      Kubernetes API Server PPSs must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
+    stig_severity: medium
+    stig_ident: CCI-000382
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      grep kube-apiserver.manifest -I-insecure-port
+                    grep kube-apiserver.manifest -I -secure-port
+      grep kube-apiserver.manifest -I -etcd-servers *
+      -edit manifest file:
+      VIM <Manifest Name>
+      Review  livenessProbe:
+      HttpGet:
+      Port:
+      Review ports:
+      - containerPort:
+             hostPort:
+      - containerPort:
+             hostPort:
+      Run Command:
+      kubectl describe services –all-namespace
+      Search labels for any apiserver names spaces.
+      Port:
+
+      Any manifest and namespace PPS or services configuration not in compliance with PPSM CAL is a finding.
+
+      Review the information systems documentation and interview the team, gain an understanding of the API Server architecture, and determine applicable PPS. If there are any ports, protocols, and services in the system documentation not in compliance with the CAL PPSM, this is a finding. Any PPS not set in the system documentation is a finding.
+
+      Review findings against the most recent PPSM CAL:
+      https://cyber.mil/ppsm/cal/
+
+      Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
+    stig_check_commands: |-
+      echo "--- Manual Verification Required - CNTR-K8-000920 ---"
+      grep -i insecure-port /etc/kubernetes/manifests/kube-apiserver.manifest
+      grep -i secure-port /etc/kubernetes/manifests/kube-apiserver.manifest
+      grep -i etcd-servers /etc/kubernetes/manifests/kube-apiserver.manifest
+      kubectl describe services --all-namespaces
+    stig_fixtext: |
+      Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
+  tags:
+    - CNTR-K8-000920
+
+- name: The Kubernetes Scheduler must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000930
+    stig_title: The Kubernetes Scheduler must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+    stig_description: |
+      Kubernetes Scheduler PPS must be controlled and conform to the PPSM CAL. Those ports, protocols, and services that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
+    stig_severity: medium
+    stig_ident: CCI-000382
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      grep kube-scheduler.manifest -I -insecure-port
+                      grep kube-scheduler.manifest -I -secure-port
+      -edit manifest file:
+      VIM <Manifest Name>
+      Review  livenessProbe:
+      HttpGet:
+      Port:
+      Review ports:
+      - containerPort:
+             hostPort:
+      - containerPort:
+             hostPort:
+      Run Command:
+      kubectl describe services –all-namespace
+      Search labels for any scheduler names spaces.
+      Port:
+
+      Any manifest and namespace PPS configuration not in compliance with PPSM CAL is a finding.
+
+      Review the information systems documentation and interview the team, gain an understanding of the Scheduler architecture, and determine applicable PPS. Any PPS in the system documentation not in compliance with the CAL PPSM is a finding. Any PPSs not set in the system documentation is a finding.
+
+      Review findings against the most recent PPSM CAL:
+      https://cyber.mil/ppsm/cal/
+
+      Verify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
+    stig_check_commands:
+      echo "--- Manual Verification Required - CNTR-K8-000930 ---"
+      echo ""
+      echo "grep insecure-port"
+      grep -i insecure-port /etc/kubernetes/manifests/kube-scheduler.manifest
+      echo "grep secure-port"
+      grep -i secure-port /etc/kubernetes/manifests/kube-scheduler.manifest
+      echo "grep all services"
+      kubectl describe services --all-namespaces
+    stig_fixtext: |
+      Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
+  tags:
+    - CNTR-K8-000930
+
+- name: The Kubernetes Controllers must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000940
+    stig_title: The Kubernetes Controllers must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+    stig_description: |
+      Kubernetes Controller ports, protocols, and services must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
+    stig_severity: medium
+    stig_ident: CCI-000382
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      grep kube-scheduler.manifest -I -insecure-port
+                    grep kube-scheduler.manifest -I -secure-port
+      -edit manifest file:
+      VIM <Manifest Name:
+      Review  livenessProbe:
+      HttpGet:
+      Port:
+      Review ports:
+      - containerPort:
+             hostPort:
+      - containerPort:
+             hostPort:
+      Run Command:
+      kubectl describe services –all-namespace
+      Search labels for any controller names spaces.
+      Port:
+
+      Any manifest and namespace PPS or services configuration not in compliance with PPSM CAL is a finding.
+
+      Review the information systems documentation and interview the team, gain an understanding of the Controller architecture, and determine applicable PPS. Any PPS in the system documentation not in compliance with the CAL PPSM is a finding. Any PPS not set in the system documentation is a finding.
+
+      Review findings against the most recent PPSM CAL:
+      https://cyber.mil/ppsm/cal/
+
+      Verify Controller network boundary with the PPS associated with the Controller for Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
+    stig_check_commands: |-
+      echo "--- Manual Verification Required - CNTR-K8-000940 ---"
+      echo ""
+      echo "grep insecure-port"
+      grep -i insecure-port /etc/kubernetes/manifests/kube-controller-manager.manifest
+      echo "grep secure-port"
+      grep -i secure-port /etc/kubernetes/manifests/kube-controller-manager.manifest
+      echo "grep all services"
+      kubectl describe services --all-namespaces
+    stig_fixtext: |
+      Amend any system documentation requiring revision. Update Kubernetes Controller manifest and namespace PPS configuration to comply with PPSM CAL.
+  tags:
+    - CNTR-K8-000940
+
+- name: The Kubernetes etcd must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000950
+    stig_title: The Kubernetes etcd must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
+    stig_description: |
+      Kubernetes etcd PPS must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
+    stig_severity: medium
+    stig_ident: CCI-000382
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      grep kube-apiserver.manifest -I -etcd-servers *
+      -edit etcd-main.manifest file:
+      VIM <Manifest Name:
+      Review  livenessProbe:
+      HttpGet:
+      Port:
+      Review ports:
+      - containerPort:
+             hostPort:
+      - containerPort:
+             hostPort:
+      Run Command:
+      kubectl describe services –all-namespace
+      Search labels for any apiserver names spaces.
+      Port:
+
+      Any manifest and namespace PPS configuration not in compliance with PPSM CAL is a finding.
+
+      Review the information systems documentation and interview the team, gain an understanding of the etcd architecture, and determine applicable PPS. Any PPS in the system documentation not in compliance with the CAL PPSM is a finding. Any PPS not set in the system documentation is a finding.
+
+      Review findings against the most recent PPSM CAL:
+      https://cyber.mil/ppsm/cal/
+
+      Verify etcd network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
+    stig_check_commands: |-
+
+      echo "--- Manual Verification Required - CNTR-K8-000950 ---"
+      echo ""
+      echo "grep insecure-port"
+      grep -i insecure-port /etc/kubernetes/manifests/etcd-main.manifest
+      echo "grep secure-port"
+      grep -i secure-port /etc/kubernetes/manifests/etcd-main.manifest
+      echo "grep all services"
+      kubectl describe services --all-namespaces
+    stig_fixtext: |
+      Amend any system documentation requiring revision. Update Kubernetes etcd manifest and namespace PPS configuration to comply with PPSM CAL.
+  tags:
+    - CNTR-K8-000950
+
+- name: The Kubernetes cluster must use non-privileged host ports for user pods.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-000960
+    stig_title: The Kubernetes cluster must use non-privileged host ports for user pods.
+    stig_description: |
+      Privileged ports are those ports below 1024 and that require system privileges for their use. If containers can use these ports, the container must be run as a privileged user. Kubernetes must stop containers that try to map to these ports directly. Allowing non-privileged ports to be mapped to the container-privileged port is the allowable method when a certain port is needed. An example is mapping port 8080 externally to port 80 in the container.
+    stig_severity: medium
+    stig_ident: CCI-000382
+    stig_check_content: |
+      On the Master node, run the command:
+
+      kubectl get pods --all-namespaces
+
+      The list returned is all pods running within the Kubernetes cluster. For those pods running within the user namespaces (System namespaces are kube-system, kube-node-lease and kube-public), run the command:
+
+      kubectl get pod podname -o yaml | grep -i port
+
+      Note: In the above command, 'podname' is the name of the pod. For the command to work correctly, the current context must be changed to the namespace for the pod. The command to do this is:
+
+      kubectl config set-context --current --namespace=namespace-name
+      (Note: 'namespace-name' is the name of the namespace.)
+
+      Review the ports that are returned for the pod.
+
+      If any host-privileged ports are returned for any of the pods, this is a finding.
+    stig_check_commands: |-
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      kubectl get pods \
+      --all-namespaces \
+      --field-selector metadata.namespace!=kube-system,metadata.namespace!=kube-public,metadata.namespace!=kube-node-lease \
+      -o json \
+      | jq -e --arg hp 1024 -r '[.items[] | .spec.containers[].ports[]?.hostPort // empty] | select( all( . < $hp)) | length > 0' && exit 1 || exit 0
+    stig_fixtext: |
+      For any of the pods that are using host-privileged ports, reconfigure the pod to use a service to map a host non-privileged port to the pod port or reconfigure the image to use non-privileged ports.
+  tags:
+    - CNTR-K8-000960
+
+- name: Secrets in Kubernetes must not be stored as environment variables.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001160
+    stig_title: Secrets in Kubernetes must not be stored as environment variables.
+    stig_description: |
+      Secrets, such as passwords, keys, tokens, and certificates should not be stored as environment variables. These environment variables are accessible inside Kubernetes by the 'Get Pod' API call, and by any system, such as CI/CD pipeline, which has access to the definition file of the container. Secrets must be mounted from files or stored within password vaults.
+    stig_severity: high
+    stig_ident: CCI-000196
+    stig_check_content: |
+      On the Kubernetes Master node, run the following command:
+
+      kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {'\n'}{end}' -A
+
+      If any of the values returned reference environment variables, this is a finding.
+    stig_check_commands:
+      - kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A && exit 1 || exit 0
+    stig_fixtext: |
+      Any secrets stored as environment variables must be moved to the secret files with the proper protections and enforcements or placed within a password vault.
+  tags:
+    - CNTR-K8-001160
+
+- name: Kubernetes Kubelet must not disable timeouts.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001300
+    stig_title: Kubernetes Kubelet must not disable timeouts.
+    stig_description: |
+      Idle connections from the Kubelet can be use by unauthorized users to perform malicious activity to the nodes, pods, containers, and cluster within the Kubernetes Control Plane. Setting the streaming connection idle timeout defines the maximum time an idle session is permitted prior to disconnect. Setting the value to '0' never disconnects any idle sessions. Idle timeouts must never be set to '0' and should be defined at a minimum of '5 minutes'.
+    stig_severity: medium
+    stig_ident: CCI-001133
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i streaming-connection-idle-timeout kubelet  
+
+      If the setting streaming-connection-idle-timeout is set to '0' or the parameter is not configured in the Kubernetes Kubelet, this is a finding.
+    stig_check_commands:
+      - grep -i streaming-connection-idle-timeout=0 /etc/sysconfig/kubelet && exit 1 || exit 0
+    stig_fixtext: |
+      Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--streaming-connection-idle-timeout' to a value other than '0'. Reset Kubelet service using the following command:
+
+      service kubelet restart
+  tags:
+    - CNTR-K8-001300
+
+- name: Kubernetes must separate user functionality.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001360
+    stig_title: Kubernetes must separate user functionality.
+    stig_description: |
+      Separating user functionality from management functionality is a requirement for all the components within the Kubernetes Control Plane. Without the separation, users may have access to management functions that can degrade the Kubernetes architecture and the services being offered, and can offer a method to bypass testing and validation of functions before introduced into a production environment.
+    stig_severity: medium
+    stig_ident: CCI-001082
+    stig_check_content: |
+      On the Master node, run the command:
+
+      kubectl get pods --all-namespaces
+
+      Review the namespaces and pods that are returned. Kubernetes system namespaces are kube-node-lease, kube-public, and kube-system.
+
+      If any user pods are present in the Kubernetes system namespaces, this is a finding.
+    stig_check_commands:
+      - kubectl get pods --all-namespaces && exit 2
+    stig_fixtext: |
+      Move any user pods that are present in the Kubernetes system namespaces to user specific namespaces.
+  tags:
+    - CNTR-K8-001360
+
+- name: The Kubernetes API server must use approved cipher suites.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001400
+    stig_title: The Kubernetes API server must use approved cipher suites.
+    stig_description: |
+      The Kubernetes API server communicates to the kubelet service on the nodes to deploy, update, and delete resources. If an attacker were able to get between this communication and modify the request, the Kubernetes cluster could be compromised. Using approved cypher suites for the communication ensures the protection of the transmitted information, confidentiality, and integrity so that the attacker cannot read or alter this communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-cipher-suites *
+
+      If the setting feature tls-cipher-suites is not set in the Kubernetes API server manifest file or contains no value or does not contain TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM _SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM _SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM _SHA384, this is a finding.
+    stig_check_commands:
+      - grep -i tls-cipher-suites /etc/kubernetes/manifests/kube-apiserver.manifest && exit 2
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of tls-cipher-suites to:
+      TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM _SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM _SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM _SHA384
+  tags:
+    - CNTR-K8-001400
+
+- name: Kubernetes API Server must have the SSL Certificate Authority set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001410
+    stig_title: Kubernetes API Server must have the SSL Certificate Authority set.
+    stig_description: |
+      Kubernetes control plane and external communication is managed by API Server. The main implementation of the API Server is to manage hardware resources for pods and containers using horizontal or vertical scaling. Anyone who can access the API Server can effectively control the Kubernetes architecture. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for API Server, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure API Server communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i client-ca-file *
+
+      If the setting feature client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
+    stig_check_commands:
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt /etc/kubernetes/manifests/kube-apiserver.manifest && exit 0 || exit 1
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate.
+  tags:
+    - CNTR-K8-001410
+
+- name: Kubernetes Kubelet must have the SSL Certificate Authority set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001420
+    stig_title: Kubernetes Kubelet must have the SSL Certificate Authority set.
+    stig_description: |
+      Kubernetes container and pod configuration are maintained by Kubelet. Kubelet agents register nodes with the API Server, mount volume storage, and perform health checks for containers and pods. Anyone who gains access to Kubelet agents can effectively control applications within the pods and containers. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic.
+
+      To enable encrypted communication for Kubelet, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure Kubelet communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i client-ca-file kubelet
+
+      If the setting client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
+    stig_check_commands:
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt /etc/sysconfig/kubelet && exit 0 || exit 1
+    stig_fixtext: |
+      Edit the Kubernetes Kubelet file in the /etc/sysconfig/ directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate. 
+
+      Reset Kubelet service using the following command:
+      service kubelet restart
+  tags:
+    - CNTR-K8-001420
+
+- name: Kubernetes Controller Manager must have the SSL Certificate Authority set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001430
+    stig_title: Kubernetes Controller Manager must have the SSL Certificate Authority set.
+    stig_description: |
+      The Kubernetes Controller Manager is responsible for creating service accounts and tokens for the API Server, maintaining the correct number of pods for every replication controller and provides notifications when nodes are offline.  
+
+      Anyone who gains access to the Controller Manager can generate backdoor accounts, take possession of, or diminish system performance without detection by disabling system notification. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes Controller Manager with a means to be able to authenticate sessions and encrypt traffic.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i root-ca-file *
+
+      If the setting client-ca-file is not set in the Kubernetes Controller Manager manifest file or contains no value, this is a finding.
+    stig_check_commands:
+      - grep -i root-ca-file=/srv/kubernetes/ca.crt /etc/kubernetes/manifests/kube-controller-manager.manifest
+    stig_fixtext: |
+      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of root-ca-file to path containing Approved Organizational Certificate.
+  tags:
+    - CNTR-K8-001430
+
+- name: Kubernetes API Server must have a certificate for communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001440
+    stig_title: Kubernetes API Server must have a certificate for communication.
+    stig_description: |
+      Kubernetes control plane and external communication is managed by API Server. The main implementation of the API Server is to manage hardware resources for pods and container using horizontal or vertical scaling. Anyone who can access the API Server can effectively control the Kubernetes architecture. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for API Server, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure API Server communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-cert-file *
+      grep -i tls-private-key-file *
+
+      If the setting tls-cert-file and private-key-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
+    stig_check_commands:
+      - grep -i tls-cert-file=/srv/kubernetes/server.crt /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i tls-private-key-file=/srv/kubernetes/server.key /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of tls-cert-file and tls-private-key-file to path containing Approved Organizational Certificate.
+  tags:
+    - CNTR-K8-001440
+
+- name: Kubernetes etcd must enable client authentication to secure service.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001450
+    stig_title: Kubernetes etcd must enable client authentication to secure service.
+    stig_description: |
+      Kubernetes container and pod configuration are maintained by Kubelet. Kubelet agents register nodes with the API Server, mount volume storage, and perform health checks for containers and pods. Anyone who gains access to Kubelet agents can effectively control applications within the pods and containers. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic.
+
+      To enable encrypted communication for Kubelet, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure Kubelet communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i client-cert-auth * 
+
+      If the setting client-cert-auth is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
+    stig_check_commands:
+      - grep -i client-cert-auth=/etc/kubernetes/etcd.crt /etc/kubernetes/manifests/etcd-main.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
+  tags:
+    - CNTR-K8-001450
+
+- name: Kubernetes Kubelet must enable tls-private-key-file for client authentication to secure service.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001460
+    stig_title: Kubernetes Kubelet must enable tls-private-key-file for client authentication to secure service.
+    stig_description: |
+      Kubernetes container and pod configuration are maintained by Kubelet. Kubelet agents register nodes with the API Server, mount volume storage, and perform health checks for containers and pods. Anyone who gains access to Kubelet agents can effectively control applications within the pods and containers. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic.
+
+      To enable encrypted communication for Kubelet, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure Kubelet communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the commands:
+
+      grep -i tls-private-key-file kubelet
+
+      If the setting 'tls-private-key-file' is not configured in the Kubernetes Kubelet, this is a finding.
+    stig_check_commands:
+      - grep -i tls-private-key-file /etc/sysconfig/kubelet
+    stig_fixtext: |
+      Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument tls-private-key-file to an Approved Organization Certificate. Reset Kubelet service using the following command:
+
+      service kubelet restart
+  tags:
+    - CNTR-K8-001460
+
+- name: Kubernetes Kubelet must enable tls-cert-file for client authentication to secure service.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001470
+    stig_title: Kubernetes Kubelet must enable tls-cert-file for client authentication to secure service.
+    stig_description: |
+      Kubernetes container and pod configuration are maintained by Kubelet. Kubelet agents register nodes with the API Server, mount volume storage, and perform health checks for containers and pods. Anyone who gains access to Kubelet agents can effectively control applications within the pods and containers. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic.
+
+      To enable encrypted communication for Kubelet, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure Kubelet communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the commands:
+
+      grep -i tls-cert-file kubelet  
+
+      If the setting 'tls-cert-file' is not configured in the Kubernetes Kubelet, this is a finding.
+    stig_check_commands:
+      - grep -i tls-cert-file /etc/sysconfig/kubelet
+    stig_fixtext: |
+      Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument 'tls-cert-file' to an Approved Organization Certificate. Reset Kubelet service using the following command:
+
+      service kubelet restart
+  tags:
+    - CNTR-K8-001470
+
+- name: Kubernetes etcd must enable client authentication to secure service.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001480
+    stig_title: Kubernetes etcd must enable client authentication to secure service.
+    stig_description: |
+      Kubernetes container and pod configuration are maintained by Kubelet. Kubelet agents register nodes with the API Server, mount volume storage, and perform health checks for containers and pods. Anyone who gains access to Kubelet agents can effectively control applications within the pods and containers. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic.
+
+      To enable encrypted communication for Kubelet, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure Kubelet communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i client-cert-auth * 
+
+      If the setting 'client-cert-auth' is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
+    stig_check_commands:
+      - grep -i client-cert-auth=true /etc/kubernetes/manifests/etcd-main.manifest
+    stig_fixtext: |
+      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
+  tags:
+    - CNTR-K8-001480
+
+- name: Kubernetes etcd must have a key file for secure communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001490
+    stig_title: Kubernetes etcd must have a key file for secure communication.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control the Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-keyfile must be set. This parameter gives the location of the key file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i etcd-keyfile * 
+
+      If the setting 'etcd-keyfile' is not configured in the Kubernetes etcd manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i etcd-keyfile /etc/kubernetes/manifests/etcd-main.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the Approved Organizational Certificate.
+  tags:
+    - CNTR-K8-001490
+
+- name: Kubernetes etcd must have a certificate for communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001500
+    stig_title: Kubernetes etcd must have a certificate for communication.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control a Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-certfile must be set. This parameter gives the location of the SSL certification file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i etcd-certfile * 
+
+      If the setting 'etcd-certfile' is not configured in the Kubernetes etcd manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i etcd-certfile /etc/kubernetes/manifests/etcd-main.manifest
+    stig_fixtext: |
+      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the Approved Organizational Certificate.
+  tags:
+    - CNTR-K8-001500
+
+- name: Kubernetes etcd must have the SSL Certificate Authority set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001510
+    stig_title: Kubernetes etcd must have the SSL Certificate Authority set.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control a Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-cafile must be set. This parameter gives the location of the SSL Certificate Authority file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i etcd-cafile * 
+
+      If the setting 'etcd-cafile' is not configured in the Kubernetes API Server manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i etcd-cafile /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-cafile' to the Certificate Authority for etcd.
+  tags:
+    - CNTR-K8-001510
+
+- name: Kubernetes etcd must have a certificate for communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001520
+    stig_title: Kubernetes etcd must have a certificate for communication.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control your Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-certfile must be set. This parameter gives the location of the SSL certification file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i etcd-certfile * 
+
+      If the setting 'etcd-certfile' is not set in the Kubernetes API Server manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i etcd-certfile /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the certificate to be used for communication with etcd.
+  tags:
+    - CNTR-K8-001520
+
+- name: Kubernetes etcd must have a key file for secure communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001530
+    stig_title: Kubernetes etcd must have a key file for secure communication.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control a Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-keyfile must be set. This parameter gives the location of the key file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i etcd-keyfile * 
+
+      If the setting 'etcd-keyfile' is not configured in the Kubernetes API Server manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i etcd-keyfile /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the certificate to be used for communication with etcd.
+  tags:
+    - CNTR-K8-001530
+
+- name: Kubernetes etcd must have peer-cert-file set for secure communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001540
+    stig_title: Kubernetes etcd must have peer-cert-file set for secure communication.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control the Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-certfile must be set. This parameter gives the location of the SSL certification file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i peer-cert-file * 
+
+      If the setting 'peer-cert-file' is not configured in the Kubernetes etcd manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i peer-cert-file /etc/kubernetes/manifests/etcd-main.manifest
+    stig_fixtext: |
+      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--peer-cert-file' to the certificate to be used for communication with etcd.
+  tags:
+    - CNTR-K8-001540
+
+- name: Kubernetes etcd must have a peer-key-file set for secure communication.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001550
+    stig_title: Kubernetes etcd must have a peer-key-file set for secure communication.
+    stig_description: |
+      Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control a Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. 
+
+      To enable encrypted communication for etcd, the parameter etcd-certfile must be set. This parameter gives the location of the SSL certification file used to secure etcd communication.
+    stig_severity: medium
+    stig_ident: CCI-001184
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i peer-key-file *
+
+      If the setting 'peer-key-file' is not set in the Kubernetes etcd manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i peer-key-file /etc/kubernetes/manifests/etcd-main.manifest
+    stig_fixtext: |
+      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--peer-key-file' to the certificate to be used for communication with etcd.
+  tags:
+    - CNTR-K8-001550
+
+- name: Kubernetes Kubelet must enable kernel protection.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001620
+    stig_title: Kubernetes Kubelet must enable kernel protection.
+    stig_description: |
+      System kernel is responsible for memory, disk, and task management. The kernel provides a gateway between the system hardware and software. Kubernetes requires kernel access to allocate resources to the Control Plane. Threat actors that penetrate the system kernel can inject malicious code or hijack the Kubernetes architecture. It is vital to implement protections through Kubernetes components to reduce the attack surface.
+    stig_severity: high
+    stig_ident: CCI-001084
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i protect-kernel-defaults kubelet  
+
+      If the setting 'protect-kernel-defaults' is set to false or not set in the Kubernetes Kubelet, this is a finding.
+    stig_check_commands:
+      - grep -i protect-kernel-defaults=true /etc/sysconfig/kubelet
+    stig_fixtext: |
+      Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--protect-kernel-defaults' to 'true'. 
+
+      Reset Kubelet service using the following command:
+
+      service kubelet restart
+  tags:
+    - CNTR-K8-001620
+
+- name: Kubernetes must prevent non-privileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures or the installation of patches and updates.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-001990
+    stig_title: Kubernetes must prevent non-privileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures or the installation of patches and updates.
+    stig_description: |
+      Kubernetes uses the API Server to control communication to the other services that makeup Kubernetes. The use of authorizations and not the default of 'AlwaysAllow' enables the Kubernetes functions control to only the groups that need them.
+
+      To control access the API server must have one of the following options set for the authorization mode:
+          --authorization-mode=ABAC Attribute-Based Access Control (ABAC) mode allows a user to configure policies using local files.
+          --authorization-mode=RBAC Role-based access control (RBAC) mode allows a user to create and store policies using the Kubernetes API.
+          --authorization-mode=Webhook
+       
+      WebHook is an HTTP callback mode that allows a user to manage authorization using a remote REST endpoint.
+          --authorization-mode=Node
+
+      Node authorization is a special-purpose authorization mode that specifically authorizes API requests made by kubelets.
+          --authorization-mode=AlwaysDeny 
+
+      This flag blocks all requests. Use this flag only for testing.
+
+      Satisfies: SRG-APP-000340-CTR-000770, SRG-APP-000033-CTR-000095, SRG-APP-000378-CTR-000880
+    stig_severity: high
+    stig_ident: ['CCI-000213', 'CCI-001812', 'CCI-002235']
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i authorization-mode * 
+
+      If the setting authorization-mode is set to 'AlwaysAllow' in the Kubernetes API Server manifest file or is not configured, this is a finding.
+    stig_check_commands:
+      - grep -i authorization-mode=Node,RBAC /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--authorization-mode' to any valid authorization mode other than AlwaysAllow.
+  tags:
+    - CNTR-K8-001990
+
+- name: The Kubernetes API server must have the ValidatingAdmissionWebhook enabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002000
+    stig_title: The Kubernetes API server must have the ValidatingAdmissionWebhook enabled.
+    stig_description: |
+      Enabling the admissions webhook allows for Kubernetes to apply policies against objects that are to be created, read, updated, or deleted. By applying a pod security policy, control can be given to not allow images to be instantiated that run as the root user. If pods run as the root user, the pod then has root privileges to the host system and all the resources it has. An attacker can use this to attack the Kubernetes cluster. By implementing a policy that does not allow root or privileged pods, the pod users are limited in what the pod can do and access.
+    stig_severity: high
+    stig_ident: CCI-002233
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i ValidatingAdmissionWebhook * 
+
+      If a line is not returned that includes enable-admission-plugins and ValidatingAdmissionWebhook, this is a finding.
+    stig_check_commands:
+      - grep -i enable-admission-plugins /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i ValidatingAdmissionWebhook /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--enable-admission-plugins' to include 'ValidatingAdmissionWebhook'.  Each enabled plugin is separated by commas.
+
+      Note: It is best to implement policies first and then enable the webhook, otherwise a denial of service may occur.
+  tags:
+    - CNTR-K8-002000
+
+- name: Kubernetes must have a pod security policy set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002010
+    stig_title: Kubernetes must have a pod security policy set.
+    stig_description: |
+      Enabling the admissions webhook allows for Kubernetes to apply policies against objects that are to be created, read, updated, or deleted. By applying a pod security policy, control can be given to not allow images to be instantiated that run as the root user. If pods run as the root user, the pod then has root privileges to the host system and all the resources it has. An attacker can use this to attack the Kubernetes cluster. By implementing a policy that does not allow root or privileged pods, the pod users are limited in what the pod can do and access.
+    stig_severity: high
+    stig_ident: CCI-002233
+    stig_check_content: |
+      On the Master Node, run the command:
+
+      kubectl get podsecuritypolicy
+
+      If there is no pod security policy configured, this is a finding. 
+
+      For any pod security policies listed, edit the policy with the command:
+
+      kubectl edit podsecuritypolicy policyname
+      (Note: 'policyname' is the name of the policy.)
+
+      Review the runAsUser, supplementalGroups and fsGroup sections of the policy.
+
+      If any of these sections are missing, this is a finding.
+
+      If the rule within the runAsUser section is not set to 'MustRunAsNonRoot', this is a finding.
+
+      If the ranges within the supplementalGroups section has min set to '0' or min is missing, this is a finding.
+
+      If the ranges within the fsGroup section has a min set to '0' or the min is missing, this is a finding.
+    stig_check_commands:
+      - kubectl get podsecuritypolicy -o json | jq -r '[.items[] | { runAsUser: .spec.runAsUser}, { supplementalGroups: .spec.supplementalGroups} ]' && exit 2
+    stig_fixtext: |
+      From the Master node, save the following policy to a file called restricted.yml.
+
+      apiVersion: policy/v1beta1
+      kind: PodSecurityPolicy
+      metadata:
+        name: restricted
+        annotations:
+          seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default,
+          apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'
+          seccomp.security.alpha.kubernetes.io/defaultProfileName:  'runtime/default'
+          apparmor.security.beta.kubernetes.io/defaultProfileName:  'runtime/default'
+      spec:
+        privileged: false
+        # Required to prevent escalations to root.
+        allowPrivilegeEscalation: false
+        # This is redundant with non-root + disallow privilege escalation,
+        # but we can provide it for defense in depth.
+        requiredDropCapabilities:
+          - ALL
+        # Allow core volume types.
+        volumes:
+          - 'configMap'
+          - 'emptyDir'
+          - 'projected'
+          - 'secret'
+          - 'downwardAPI'
+          # Assume that persistentVolumes set up by the cluster admin are safe to use.
+          - 'persistentVolumeClaim'
+        hostNetwork: false
+        hostIPC: false
+        hostPID: false
+        runAsUser:
+          # Require the container to run without root privileges.
+          rule: 'MustRunAsNonRoot'
+        seLinux:
+          # This policy assumes the nodes are using AppArmor rather than SELinux.
+          rule: 'RunAsAny'
+        supplementalGroups:
+          rule: 'MustRunAs'
+          ranges:
+            # Forbid adding the root group.
+            - min: 1
+              max: 65535
+        fsGroup:
+          rule: 'MustRunAs'
+          ranges:
+            # Forbid adding the root group.
+            - min: 1
+              max: 65535
+        readOnlyRootFilesystem: false
+
+      To implement the policy, run the command:
+
+      kubectl create -f restricted.yml
+  tags:
+    - CNTR-K8-002010
+
+- name: Kubernetes API Server must configure timeouts to limit attack surface.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002600
+    stig_title: Kubernetes API Server must configure timeouts to limit attack surface.
+    stig_description: |
+      Kubernetes API Server request timeouts sets the duration a request stays open before timing out. Since the API Server is the central component in the Kubernetes Control Plane, it is vital to protect this service. If request timeouts were not set, malicious attacks or unwanted activities might affect multiple deployments across different applications or environments. This might deplete all resources from the Kubernetes infrastructure causing the information system to go offline. The request-timeout value must never be set to '0'. This disables the request-timeout feature. By default, the request-timeout is set to '1 minute'.
+    stig_severity: medium
+    stig_ident: CCI-002385
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -I request-timeout * 
+
+      If Kubernetes API Server manifest file does not exist, this is a finding. 
+
+      If the setting request-timeout is set to '0' in the Kubernetes API Server manifest file, or is not configured this is a finding.
+    stig_check_commands:
+      - grep -i request-timeout=3m0s /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of request-timeout greater than '0'.
+  tags:
+    - CNTR-K8-002600
+
+- name: Kubernetes API Server must disable basic authentication to protect information in transit.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002620
+    stig_title: Kubernetes API Server must disable basic authentication to protect information in transit.
+    stig_description: |
+      Kubernetes basic authentication sends and receives request containing username, uid, groups, and other fields over a clear text HTTP communication. Basic authentication does not provide any security mechanisms using encryption standards. PKI certificate-based authentication must be set over a secure channel to ensure confidentiality and integrity. Basic authentication must not be set in the manifest file.
+    stig_severity: high
+    stig_ident: CCI-002418
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i basic-auth-file * 
+
+      If 'basic-auth-file' is set in the Kubernetes API server manifest file, or is not configured this is a finding.
+    stig_check_commands:
+      - grep -i basic-auth-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 1 || exit 0
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove the setting '--basic-auth-file'.
+  tags:
+    - CNTR-K8-002620
+
+- name: Kubernetes API Server must disable token authentication to protect information in transit.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002630
+    stig_title: Kubernetes API Server must disable token authentication to protect information in transit.
+    stig_description: |
+      Kubernetes token authentication uses password known as secrets in a plaintext file. This file contains sensitive information such as token, username and user uid. This token is used by service accounts within pods to authenticate with the API Server. This information is very valuable for attackers with malicious intent if the service account is privileged having access to the token. With this token a threat actor can impersonate the service account gaining access to the Rest API service.
+    stig_severity: medium
+    stig_ident: CCI-002418
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i token-auth-file * 
+
+      If 'token-auth-file' is set in the Kubernetes API server manifest file, this is a finding.
+    stig_check_commands:
+      - grep -i token-auth-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 1 || exit 0
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove parameter '--token-auth-file'.
+  tags:
+    - CNTR-K8-002630
+
+- name: Kubernetes endpoints must use approved organizational certificate and key pair to protect information in transit.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002640
+    stig_title: Kubernetes endpoints must use approved organizational certificate and key pair to protect information in transit.
+    stig_description: |
+      Kubernetes control plane and external communication is managed by API Server. The main implementation of the API Server is to manage hardware resources for pods and container using horizontal or vertical scaling. Anyone who can gain access to the API Server can effectively control your Kubernetes architecture. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.
+
+      The communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server with a means to be able to authenticate sessions and encrypt traffic.
+
+      By default, the API Server does not authenticate to the kubelet HTTPs endpoint. To enable secure communication for API Server, the parameter -kubelet-client-certificate and kubelet-client-key must be set. This parameter gives the location of the certificate and key pair used to secure API Server communication.
+    stig_severity: medium
+    stig_ident: CCI-002418
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i kubelet-client-certificate *
+      grep -I kubelet-client-key * 
+
+      If the setting '--kubelet-client-certificate' is not configured in the Kubernetes API server manifest file or contains no value, this is a finding.
+
+      If the setting '--kubelet-client-key' is not configured in the Kubernetes API server manifest file or contains no value, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--kubelet-client-certificate' and '--kubelet-client-key' to an Approved Organizational Certificate and key pair.
+  tags:
+    - CNTR-K8-002640
+
+- name: Kubernetes must remove old components after updated versions have been installed.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002700
+    stig_title: Kubernetes must remove old components after updated versions have been installed.
+    stig_description: |
+      Previous versions of Kubernetes components that are not removed after updates have been installed may be exploited by adversaries by allowing the vulnerabilities to still exist within the cluster. It is important for Kubernetes to remove old pods when newer pods are created using new images to always be at the desired security state.
+    stig_severity: medium
+    stig_ident: CCI-002617
+    stig_check_content: |
+      To view all pods and the images used to create the pods, from the Master node, run the following command:
+
+      kubectl get pods --all-namespaces -o jsonpath='{..image}' | \
+      tr -s '[[:space:]]' '\n' | \
+      sort | \
+      uniq -c
+
+      Review the images used for pods running within Kubernetes.
+
+      If there are multiple versions of the same image, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Remove any old pods that are using older images. On the Master node, run the command:
+
+      kubectl delete pod podname
+      (Note: 'podname' is the name of the pod to delete.)
+  tags:
+    - CNTR-K8-002700
+
+- name: Kubernetes must contain the latest updates as authorized by IAVMs, CTOs, DTMs, and STIGs.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-002720
+    stig_title: Kubernetes must contain the latest updates as authorized by IAVMs, CTOs, DTMs, and STIGs.
+    stig_description: |
+      Kubernetes software must stay up to date with the latest patches, service packs, and hot fixes. Not updating the Kubernetes control plane will expose the organization to vulnerabilities.
+
+      Flaws discovered during security assessments, continuous monitoring, incident response activities, or information system error handling must also be addressed expeditiously. 
+
+      Organization-defined time periods for updating security-relevant container platform components may vary based on a variety of factors including, for example, the security category of the information system or the criticality of the update (i.e., severity of the vulnerability related to the discovered flaw). 
+
+      This requirement will apply to software patch management solutions that are used to install patches across the enclave and also to applications themselves that are not part of that patch management solution. For example, many browsers today provide the capability to install their own patch software. Patch criticality, as well as system criticality will vary. Therefore, the tactical situations regarding the patch management process will also vary. This means that the time period utilized must be a configurable parameter. Time frames for application of security-relevant software updates may be dependent upon the IAVM process.
+
+      The container platform components will be configured to check for and install security-relevant software updates within an identified time period from the availability of the update. The container platform registry will ensure the images are current. The specific time period will be defined by an authoritative source (e.g., IAVM, CTOs, DTMs, and STIGs).
+    stig_severity: medium
+    stig_ident: CCI-002605
+    stig_check_content: |
+      Authenticate on the Kubernetes Master Node. Run the command:
+
+      kubectl version --short
+
+      If kubectl version has a setting not supporting Kubernetes skew policy, this is a finding.
+
+      Note: Kubernetes Skew Policy can be found at: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Upgrade Kubernetes to the supported version. Institute and adhere to the policies and procedures to ensure that patches are consistently applied within the time allowed.
+  tags:
+    - CNTR-K8-002720
+
+- name: The Kubernetes component manifests must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003110
+    stig_title: The Kubernetes component manifests must be owned by root.
+    stig_description: |
+      The Kubernetes manifests are those files that contain the arguments and settings for the Master Node services. These services are etcd, the api server, controller, proxy, and scheduler. If these files can be changed, the scheduler will be implementing the changes immediately. Many of the security settings within the document are implemented through these manifests.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the ownership of the Kubernetes manifests files by using the command:
+
+      stat -c %U:%G /etc/kubernetes/manifests/* | grep -v root:root
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the manifest files to root: root by executing the command:
+
+      chown root:root /etc/kubernetes/manifests/*
+  tags:
+    - CNTR-K8-003110
+
+- name: The Kubernetes component etcd must be owned by etcd.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003120
+    stig_title: The Kubernetes component etcd must be owned by etcd.
+    stig_description: |
+      The Kubernetes etcd key-value store provides a way to store data to the Master Node. If these files can be changed, data to API object and the master node would be compromised. The scheduler will implement the changes immediately. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the ownership of the Kubernetes etcd files by using the command:
+
+      stat -c %U:%G /var/lib/etcd/* | grep -v etcd:etcd
+
+      If the command returns any non etcd:etcd file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the manifest files to etcd:etcd by executing the command:
+
+      chown etcd:etcd /var/lib/etcd/*
+  tags:
+    - CNTR-K8-003120
+
+- name: The Kubernetes conf files must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003130
+    stig_title: The Kubernetes conf files must be owned by root.
+    stig_description: |
+      The Kubernetes conf files contain the arguments and settings for the Master Node services. These services are controller and scheduler. If these files can be changed, the scheduler will be implementing the changes immediately. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the Kubernetes conf files by using the command:
+
+      stat -c %U:%G /etc/kubernetes/admin.conf | grep -v root:root
+      stat -c %U:%G /etc/kubernetes/scheduler.conf | grep -v root:root
+      stat -c %U:%G /etc/kubernetes/controller-manager.conf | grep -v root:root
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the conf files to root: root by executing the command:
+
+      chown root:root /etc/kubernetes/admin.conf 
+      chown root:root /etc/kubernetes/scheduler.conf 
+      chown root:root /etc/kubernetes/controller-manager.conf
+  tags:
+    - CNTR-K8-003130
+
+- name: The Kubernetes Kube Proxy must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003140
+    stig_title: The Kubernetes Kube Proxy must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes kube proxy kubeconfig contain the argument and setting for the Master Nodes. These settings contain network rules for restricting network communication between pods, clusters, and networks. If these files can be changed, data traversing between the Kubernetes Control Panel components would be compromised. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Check if Kube-Proxy is running and obtain --kubeconfig parameter use the following command:
+      ps -ef | grep kube-proxy
+
+      If Kube-Proxy exists:
+      Review the permissions of the Kubernetes Kube Proxy by using the command:
+      stat -c %a <location from --kubeconfig>
+
+      If the file has permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the Kube Proxy to '644' by executing the command:
+
+      chown 644 <location from kubeconfig>.
+  tags:
+    - CNTR-K8-003140
+
+- name: The Kubernetes Kube Proxy must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003150
+    stig_title: The Kubernetes Kube Proxy must be owned by root.
+    stig_description: |
+      The Kubernetes kube proxy kubeconfig contain the argument and setting for the Master Nodes. These settings contain network rules for restricting network communication between pods, clusters, and networks. If these files can be changed, data traversing between the Kubernetes Control Panel components would be compromised. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Check if Kube-Proxy is running use the following command:
+      ps -ef | grep kube-proxy
+
+      If Kube-Proxy exists:
+      Review the permissions of the Kubernetes Kube Proxy by using the command:
+      stat -c   %U:%G <location from --kubeconfig>| grep -v root:root
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the Kube Proxy to root:root by executing the command:
+
+      chown root:root <location from kubeconfig>.
+  tags:
+    - CNTR-K8-003150
+
+- name: The Kubernetes Kubelet certificate authority file must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003160
+    stig_title: The Kubernetes Kubelet certificate authority file must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes kubelet certificate authority file contains settings for the Kubernetes Node TLS certificate authority. Any request presenting a client certificate signed by one of the authorities in the client-ca-file is authenticated with an identity corresponding to the CommonName of the client certificate. If this file can be changed, the Kubernetes architecture could be compromised. The scheduler will implement the changes immediately. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run command:
+
+      more kubelet
+      --client-ca-file argument 
+      Note certificate location
+
+      If the ca-file argument location file has permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the --client-ca-file to '644' by executing the command:
+
+      chown 644 <kubelet --client--ca-file argument location>.
+  tags:
+    - CNTR-K8-003160
+
+- name: The Kubernetes Kubelet certificate authority must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003170
+    stig_title: The Kubernetes Kubelet certificate authority must be owned by root.
+    stig_description: |
+      The Kubernetes kube proxy kubeconfig contain the argument and setting for the Master Nodes. These settings contain network rules for restricting network communication between pods, clusters, and networks. If these files can be changed, data traversing between the Kubernetes Control Panel components would be compromised. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Check if Kube-Proxy is running and obtain --kubeconfig parameter use the following command:
+      ps -ef | grep kube-proxy
+
+      If Kube-Proxy exists:
+      Review the permissions of the Kubernetes Kube Proxy by using the command:
+      stat -c %a <location from --kubeconfig>
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the Kube Proxy to 'root' by executing the command:
+
+      chown root:root <location from kubeconfig>.
+  tags:
+    - CNTR-K8-003170
+
+- name: The Kubernetes component PKI must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003180
+    stig_title: The Kubernetes component PKI must be owned by root.
+    stig_description: |
+      The Kubernetes PKI directory contains all certificates (.crt files) supporting secure network communications in the Kubernetes Control Plane. If these files can be modified, data traversing within the architecture components would become unsecure and compromised. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the PKI files in Kubernetes by using the command:
+
+      ls -laR /etc/kubernetes/pki/
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the PKI to root: root by executing the command:
+
+      chown -R root:root /etc/kubernetes/pki/
+  tags:
+    - CNTR-K8-003180
+
+- name: The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003190
+    stig_title: The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes kubelet agent registers nodes with the API Server, mounts volume storage for pods, and performs health checks to containers within pods. If these files can be modified, the information system would be unaware of pod or container degradation. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes Kubelet conf by using the command:
+
+      stat -c %a  /etc/kubernetes/kubelet.conf
+
+      If any of the files are have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the Kubelet to '644' by executing the command:
+
+      chown 644 /etc/kubernetes/kubelet.conf
+  tags:
+    - CNTR-K8-003190
+
+- name: The Kubernetes kubelet config must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003200
+    stig_title: The Kubernetes kubelet config must be owned by root.
+    stig_description: |
+      The Kubernetes kubelet agent registers nodes with the API server and performs health checks to containers within pods. If these files can be modified, the information system would be unaware of pod or container degradation. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the Kubernetes Kubelet conf files by using the command:
+
+      stat -c %U:%G /etc/kubernetes/kubelet.conf| grep -v root:root
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the kubelet.conf to root: root by executing the command:
+
+      chown root:root /etc/kubernetes/kubelet.conf
+  tags:
+    - CNTR-K8-003200
+
+- name: The Kubernetes kubeadm must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003210
+    stig_title: The Kubernetes kubeadm must be owned by root.
+    stig_description: |
+      The Kubernetes kubeeadm.conf contains sensitive information regarding the cluster nodes configuration. If this file can be modified, the Kubernetes Platform Plane would be degraded or compromised for malicious intent. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the Kubernetes kubeadm by using the command:
+
+      stat -c %U:%G /usr/bin/kubeadm| grep -v root:root
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the kubeadm to root: root by executing the command:
+
+      chown root:root /user/bin/kubeadm
+  tags:
+    - CNTR-K8-003210
+
+- name: The Kubernetes kubelet service must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003220
+    stig_title: The Kubernetes kubelet service must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes kubeadm.conf contains sensitive information regarding the cluster nodes configuration. If this file can be modified, the Kubernetes Platform Plane would be degraded or compromised for malicious intent. Many of the security settings within the document are implemented through this file.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes kubelet by using the command:
+
+      stat -c %a /usr/bin/kubeadm
+
+      If any of the files have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of Kubeadm to '644' by executing the command:
+
+      chown 644 /usr/bin/kubeadm
+  tags:
+    - CNTR-K8-003220
+
+- name: The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003230
+    stig_title: The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes kubelet agent registers nodes with the API server and performs health checks to containers within pods. If this file can be modified, the information system would be unaware of pod or container degradation.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes config.yaml by using the command:
+
+      stat -c %a /var/lib/kubelet/config.yaml
+
+      If any of the files are have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the config.yaml to '644' by executing the command:
+
+      chown 644 /var/lib/kubelet/config.yaml
+  tags:
+    - CNTR-K8-003230
+
+- name: The Kubernetes kubelet config must be owned by root.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003240
+    stig_title: The Kubernetes kubelet config must be owned by root.
+    stig_description: |
+      The Kubernetes kubelet agent registers nodes with the API Server and performs health checks to containers within pods. If this file can be modified, the information system would be unaware of pod or container degradation.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the Kubernetes Kubeadm kubelet conf file by using the command:
+
+      stat -c %U:%G /var/lib/kubelet/config.yaml| grep -v root:root
+
+      If the command returns any non root:root file permissions, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the kubelet config to 'root: root' by executing the command:
+
+      chown root:root /var/lib/kubelet/config.yaml
+  tags:
+    - CNTR-K8-003240
+
+- name: The Kubernetes API Server must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003250
+    stig_title: The Kubernetes API Server must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes manifests are those files that contain the arguments and settings for the Master Node services. These services are etcd, the API Server, controller, proxy, and scheduler. If these files can be changed, the scheduler will be implementing the changes immediately. Many of the security settings within the document are implemented through these manifests.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes Kubelet by using the command:
+
+      stat -c %a  /etc/kubernetes/manifests/*
+
+      If any of the files are have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the manifest files to 'root: root' by executing the command:
+
+      chown root:root /etc/kubernetes/manifests/*
+  tags:
+    - CNTR-K8-003250
+
+- name: The Kubernetes etcd must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003260
+    stig_title: The Kubernetes etcd must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes etcd key-value store provides a way to store data to the Master Node. If these files can be changed, data to API object and master node would be compromised.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes etcd by using the command:
+
+      stat -c %a  /var/lib/etcd/*
+
+      If any of the files are have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the manifest files to '644' by executing the command:
+
+      chmod 644/var/lib/etcd/*
+  tags:
+    - CNTR-K8-003260
+
+- name: The Kubernetes admin.conf must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003270
+    stig_title: The Kubernetes admin.conf must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes conf files contain the arguments and settings for the Master Node services. These services are controller and scheduler. If these files can be changed, the scheduler will be implementing the changes immediately.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes config files by using the command:
+
+      stat -c %a /etc/kubernetes/admin.conf
+      stat -c %a /etc/kubernetes/scheduler.conf
+      stat -c %a /etc/kubernetes/controller-manager.conf
+
+      If any of the files are have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the permissions of the conf files to '644' by executing the command:
+
+      chmod 644 /etc/kubernetes/admin.conf 
+      chmod 644 /etc/kubernetes/scheduler.conf
+      chmod 644 /etc/kubernetes/controller-manager.conf
+  tags:
+    - CNTR-K8-003270
+
+- name: Kubernetes API Server audit logs must be enabled.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003280
+    stig_title: Kubernetes API Server audit logs must be enabled.
+    stig_description: |
+      Kubernetes API Server validates and configures pods and services for the API object. The REST operation provides frontend functionality to the cluster share state. Enabling audit logs provides a way to monitor and identify security risk events or misuse of information. Audit logs are necessary to provide evidence in the case the Kubernetes API Server is compromised requiring a Cyber Security Investigation.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-policy-file * 
+
+      If the setting 'audit-policy-file' is not set or is found in the Kubernetes API manifest file without valid content, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--audit-policy-file' to 'log file directory'.
+  tags:
+    - CNTR-K8-003280
+
+- name: The Kubernetes API Server must be set to audit log max size.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003290
+    stig_title: The Kubernetes API Server must be set to audit log max size.
+    stig_description: |
+      The Kubernetes API Server must be set for enough storage to retain log information over the period required. When audit logs are large in size, the monitoring service for events becomes degraded. The function of the maximum log file size is to set these limits.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-log-maxsize * 
+
+      If the setting 'audit-log-maxsize' is not set in the Kubernetes API Server manifest file or it is set to less than '100', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of –'--audit-log-maxsize' to a minimum of '100'.
+  tags:
+    - CNTR-K8-003290
+
+- name: The Kubernetes API Server must be set to audit log maximum backup.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003300
+    stig_title: The Kubernetes API Server must be set to audit log maximum backup.
+    stig_description: |
+      The Kubernetes API Server must set enough storage to retain logs for monitoring suspicious activity and system misconfiguration, and provide evidence for Cyber Security Investigations.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-log-maxbackup * 
+
+      If the setting 'audit-log-maxbackup' is not set in the Kubernetes API Server manifest file or it is set less than '10', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-maxbackup' to a minimum of '10'.
+  tags:
+    - CNTR-K8-003300
+
+- name: The Kubernetes API Server audit log retention must be set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003310
+    stig_title: The Kubernetes API Server audit log retention must be set.
+    stig_description: |
+      The Kubernetes API Server must set enough storage to retain logs for monitoring suspicious activity and system misconfiguration, and provide evidence for Cyber Security Investigations.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-log-maxage * 
+
+      If the setting 'audit-log-path' is not set in the Kubernetes API Server manifest file or it is set less than '30', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-maxage' to a minimum of '30'.
+  tags:
+    - CNTR-K8-003310
+
+- name: The Kubernetes API Server audit log path must be set.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003320
+    stig_title: The Kubernetes API Server audit log path must be set.
+    stig_description: |
+      Kubernetes API Server validates and configures pods and services for the API object. The REST operation provides frontend functionality to the cluster share state. Audit logs are necessary to provide evidence in the case the Kubernetes API Server is compromised requiring Cyber Security Investigation. To record events in the audit log the log path value must be set.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+
+      grep -i audit-log-path * 
+
+      If the setting audit-log-path is not set in the Kubernetes API Server manifest file or it is set to a valid path, this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-path' to valid location.
+  tags:
+    - CNTR-K8-003320
+
+- name: The Kubernetes PKI CRT must have file permissions set to 644 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003330
+    stig_title: The Kubernetes PKI CRT must have file permissions set to 644 or more restrictive.
+    stig_description: |
+      The Kubernetes PKI directory contains all certificates (.crt files) supporting secure network communications in the Kubernetes Control Plane. If these files can be modified, data traversing within the architecture components would become unsecure and compromised.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes PKI cert files by using the command:
+
+      find /etc/kubernetes/pki -name '*.crt' | xargs stat -c '%n %a'
+
+      If any of the files are have permissions more permissive than '644', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the cert files to '644' by executing the command:
+
+      chmod -R 644 /etc/kubernetes/pki/*.crt
+  tags:
+    - CNTR-K8-003330
+
+- name: The Kubernetes PKI keys must have file permissions set to 600 or more restrictive.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003340
+    stig_title: The Kubernetes PKI keys must have file permissions set to 600 or more restrictive.
+    stig_description: |
+      The Kubernetes PKI directory contains all certificate key files supporting secure network communications in the Kubernetes Control Plane. If these files can be modified, data traversing within the architecture components would become unsecure and compromised.
+    stig_severity: medium
+    stig_ident: CCI-000366
+    stig_check_content: |
+      Review the permissions of the Kubernetes PKI key files by using the command:
+
+      find /etc/kubernetes/pki -name '*.key' | xargs stat -c '%n %a'
+
+      If any of the files are have permissions more permissive than '600', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Change the ownership of the cert files to '600' by executing the command:
+
+      chmod -R 600 /etc/kubernetes/pki/*.key
+  tags:
+    - CNTR-K8-003340
+
+- name: The Kubernetes API Server must prohibit communication using TLS version 1.0 and 1.1, and SSL 2.0 and 3.0.
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:
+    stig_id: CNTR-K8-003350
+    stig_title: The Kubernetes API Server must prohibit communication using TLS version 1.0 and 1.1, and SSL 2.0 and 3.0.
+    stig_description: |
+      The Kubernetes API Server will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.
+
+      The use of unsupported protocol exposes vulnerabilities to Kubernetes by rogue traffic interceptions, man-in-the middle attacks, and impersonation of users or services from the container platform runtime, registry, and keystore. To enable the minimum version of TLS to be used by the Kubernetes API Server, the setting 'tls-min-version' must be set.
+
+      The container platform and its components will adhere to NIST 800-52R2.
+    stig_severity: medium
+    stig_ident: CCI-001453
+    stig_check_content: |
+      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+
+      grep -i tls-min-version * 
+
+      If the setting tls-min-version is not configured in the Kubernetes API Server manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
+    stig_check_commands:
+      - 
+    stig_fixtext: |
+      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to either 'VersionTLS12' or higher.
+  tags:
+    - CNTR-K8-003350
+
