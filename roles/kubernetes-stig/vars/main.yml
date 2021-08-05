@@ -1,6 +1,8 @@
 kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
 
 # kubernetes config files
+conf_path: /etc/kubernetes
+cert_path: /srv/kubernetes
 manifest_path: /etc/kubernetes/manifests
 manifest_path_kubelet: /etc/sysconfig
 controllermanager_manifest: kube-controller-manager.manifest
@@ -11,7 +13,7 @@ kubelet_manifest: kubelet
 proxy_manifest: kube-proxy.manifest
 
 
-
+kubeconfig_proxy: /var/lib/kube-proxy/kubeconfig
 
 
 
