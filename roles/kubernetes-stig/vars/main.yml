@@ -1,25 +1,38 @@
 kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
 
-# kubernetes config files
+# host paths
+
+# path for typical config files like admin.conf
 conf_path: /etc/kubernetes
+
+# path to k8s certs
 cert_path: /srv/kubernetes
+
+# path to k8s pki
 pki_path: /etc/kubernetes/pki
+
+# path for k8s manifests e.g. kube-apiserver.manifest
 manifest_path: /etc/kubernetes/manifests
-manifest_path_kubelet: /etc/sysconfig
-kubeadm_path: /usr/bin/kubeadm
+
+# path to kubelet config
+conf_path_kubelet: /etc/sysconfig
+
+# path to etcd files
 etcd_path: /var/lib/etcd
+
+
+# k8s manifests file names
 controllermanager_manifest: kube-controller-manager.manifest
 apiserver_manifest: kube-apiserver.manifest
 scheduler_manifest: kube-scheduler.manifest
 etcd_manifest: etcd-main.manifest
-kubelet_manifest: kubelet
-kubelet_config: /var/lib/kubelet/config.yaml
 proxy_manifest: kube-proxy.manifest
+
+
+# files
+kubeadm: /usr/bin/kubeadm
+kubelet: kubelet
 kubeconfig_proxy: /var/lib/kube-proxy/kubeconfig
 audit_policy_file: /srv/kubernetes/audit/policy-config.yaml
 
 
-
-
-
-# etcd-events.manifest  etcd-main.manifest  kube-apiserver.manifest  kube-controller-manager.manifest  kube-proxy.manifest  kube-scheduler.manifest
