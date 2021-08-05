@@ -2617,7 +2617,7 @@
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
-      - 
+      - if [ $(find {{ kubeconfig_proxy }} -not -user root -not -group root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Change the permissions of the Kube Proxy to 'root' by executing the command:
 
@@ -2646,7 +2646,7 @@
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
-      - 
+      - if [ $(find {{ pki_path }}/* -not -user root -not -group root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Change the ownership of the PKI to root: root by executing the command:
 
@@ -2674,8 +2674,14 @@
       stat -c %a  /etc/kubernetes/kubelet.conf
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ conf_path }}/kubelet.conf)
+      for FILE in $FILES
+      do
+        FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+      done
     stig_fixtext: |
       Change the permissions of the Kubelet to '644' by executing the command:
 
@@ -2704,7 +2710,7 @@
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
-      - 
+      - if [ $(find {{ conf_path }}/kubelet.conf -not -user root -not -group root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Change the ownership of the kubelet.conf to root: root by executing the command:
 
@@ -2733,7 +2739,7 @@
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
-      - 
+      - if [ $(find {{ kubeadm_path }} -not -user root -not -group root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Change the ownership of the kubeadm to root: root by executing the command:
 
@@ -2761,8 +2767,14 @@
       stat -c %a /usr/bin/kubeadm
 
       If any of the files have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ kubeadm_path }})
+      for FILE in $FILES
+      do
+        FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+      done
     stig_fixtext: |
       Change the permissions of Kubeadm to '644' by executing the command:
 
@@ -2790,8 +2802,14 @@
       stat -c %a /var/lib/kubelet/config.yaml
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ kubelet_config }})
+      for FILE in $FILES
+      do
+        FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+      done
     stig_fixtext: |
       Change the permissions of the config.yaml to '644' by executing the command:
 
@@ -2820,7 +2838,7 @@
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
-      - 
+      - if [ $(find {{ kubelet_config }} -not -user root -not -group root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Change the ownership of the kubelet config to 'root: root' by executing the command:
 
@@ -2848,8 +2866,14 @@
       stat -c %a  /etc/kubernetes/manifests/*
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ manifest_path_kubelet }}/{{ kubelet_manifest }})
+      for FILE in $FILES
+      do
+        FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+      done
     stig_fixtext: |
       Change the permissions of the manifest files to 'root: root' by executing the command:
 
@@ -2877,8 +2901,14 @@
       stat -c %a  /var/lib/etcd/*
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ etcd_path }}/*)
+      for FILE in $FILES
+      do
+        FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+      done
     stig_fixtext: |
       Change the permissions of the manifest files to '644' by executing the command:
 
@@ -2908,8 +2938,16 @@
       stat -c %a /etc/kubernetes/controller-manager.conf
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ conf_path }}/admin.conf {{ conf_path }}/scheduler.conf {{ conf_path }}/controller-manager.conf)
+      if [ $FILES ]; then
+        for FILE in $FILES
+        do
+          FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+          echo "$FILE_PERM"
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+        done
+      fi
     stig_fixtext: |
       Change the permissions of the conf files to '644' by executing the command:
 
@@ -2940,7 +2978,7 @@
 
       If the setting 'audit-policy-file' is not set or is found in the Kubernetes API manifest file without valid content, this is a finding.
     stig_check_commands:
-      - 
+      - grep -i audit-policy-file={{ audit_policy_file }} {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--audit-policy-file' to 'log file directory'.
   tags:
@@ -2966,8 +3004,18 @@
       grep -i audit-log-maxsize * 
 
       If the setting 'audit-log-maxsize' is not set in the Kubernetes API Server manifest file or it is set to less than '100', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(grep -i audit-log-maxsize {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2)
+      if [ $FILES ]; then
+        for FILE in $FILES
+        do
+          MAX="$(printf '%d' "$FILE" 2>/dev/null)"
+          echo "$MAX"
+          if [ "$MAX" -lt "100" ]; then exit 1; fi
+        done
+      else
+        exit 1
+      fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of –'--audit-log-maxsize' to a minimum of '100'.
   tags:
@@ -2993,8 +3041,18 @@
       grep -i audit-log-maxbackup * 
 
       If the setting 'audit-log-maxbackup' is not set in the Kubernetes API Server manifest file or it is set less than '10', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(grep -i audit-log-maxbackup {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2)
+      if [ $FILES ]; then
+        for FILE in $FILES
+        do
+          MAX="$(printf '%d' "$FILE" 2>/dev/null)"
+          echo "$MAX"
+          if [ "$MAX" -lt "10" ]; then exit 1; fi
+        done
+      else
+        exit 1
+      fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-maxbackup' to a minimum of '10'.
   tags:
@@ -3020,8 +3078,18 @@
       grep -i audit-log-maxage * 
 
       If the setting 'audit-log-path' is not set in the Kubernetes API Server manifest file or it is set less than '30', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(grep -i audit-log-path {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2)
+      if [ $FILES ]; then
+        for FILE in $FILES
+        do
+          MAX="$(printf '%d' "$FILE" 2>/dev/null)"
+          echo "$MAX"
+          if [ "$MAX" -lt "30" ]; then exit 1; fi
+        done
+      else
+        exit 1
+      fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-maxage' to a minimum of '30'.
   tags:
