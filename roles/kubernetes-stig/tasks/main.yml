@@ -2940,7 +2940,7 @@
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands: |-
       FILES=$(stat -c '%n:%a' {{ conf_path }}/admin.conf {{ conf_path }}/scheduler.conf {{ conf_path }}/controller-manager.conf)
-      if [ $FILES ]; then
+      if [ "$FILES" ]; then
         for FILE in $FILES
         do
           FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
@@ -3006,7 +3006,7 @@
       If the setting 'audit-log-maxsize' is not set in the Kubernetes API Server manifest file or it is set to less than '100', this is a finding.
     stig_check_commands: |-
       FILES=$(grep -i audit-log-maxsize {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2)
-      if [ $FILES ]; then
+      if [ "$FILES" ]; then
         for FILE in $FILES
         do
           MAX="$(printf '%d' "$FILE" 2>/dev/null)"
@@ -3043,7 +3043,7 @@
       If the setting 'audit-log-maxbackup' is not set in the Kubernetes API Server manifest file or it is set less than '10', this is a finding.
     stig_check_commands: |-
       FILES=$(grep -i audit-log-maxbackup {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2)
-      if [ $FILES ]; then
+      if [ "$FILES" ]; then
         for FILE in $FILES
         do
           MAX="$(printf '%d' "$FILE" 2>/dev/null)"
@@ -3080,7 +3080,7 @@
       If the setting 'audit-log-path' is not set in the Kubernetes API Server manifest file or it is set less than '30', this is a finding.
     stig_check_commands: |-
       FILES=$(grep -i audit-log-path {{ manifest_path }}/{{ apiserver_manifest }} | cut -d "=" -f2)
-      if [ $FILES ]; then
+      if [ "$FILES" ]; then
         for FILE in $FILES
         do
           MAX="$(printf '%d' "$FILE" 2>/dev/null)"
@@ -3116,7 +3116,7 @@
 
       If the setting audit-log-path is not set in the Kubernetes API Server manifest file or it is set to a valid path, this is a finding.
     stig_check_commands:
-      - 
+      - grep -i audit-log_path {{ manifest_path }}/{{ apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-path' to valid location.
   tags:
@@ -3142,8 +3142,16 @@
       find /etc/kubernetes/pki -name '*.crt' | xargs stat -c '%n %a'
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ pki_path }}/*)
+      if [ "$FILES" ]; then
+        for FILE in $FILES
+        do
+          FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+          echo "$FILE_PERM"
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+        done
+      fi
     stig_fixtext: |
       Change the ownership of the cert files to '644' by executing the command:
 
@@ -3171,8 +3179,16 @@
       find /etc/kubernetes/pki -name '*.key' | xargs stat -c '%n %a'
 
       If any of the files are have permissions more permissive than '600', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ pki_path }}/*.key)
+      if [ "$FILES" ]; then
+        for FILE in $FILES
+        do
+          FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
+          echo "$FILE_PERM"
+          if [ "$FILE_PERM" -gt "600" ]; then exit 1; fi
+        done
+      fi
     stig_fixtext: |
       Change the ownership of the cert files to '600' by executing the command:
 
@@ -3205,7 +3221,13 @@
 
       If the setting tls-min-version is not configured in the Kubernetes API Server manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
     stig_check_commands:
-      - 
+      FILES=$(grep -i tls-min-version=VersionTLS12 tls-min-version=VersionTLS13 {{ manifest_path }}/{{ apiserver_manifest }})
+      if [ "$FILES" ]; then
+        exit 0
+      else
+        exit 1
+      fi
+
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to either 'VersionTLS12' or higher.
   tags:
