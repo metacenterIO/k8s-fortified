@@ -1,1 +1,5 @@
 kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
+
+# variables to set file paths
+
+
