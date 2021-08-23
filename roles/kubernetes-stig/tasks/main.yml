@@ -733,6 +733,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000440
     stig_title: The Kubernetes kubelet static PodPath must not enable static pods.
     stig_description: |
@@ -762,6 +763,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000450
     stig_title: Kubernetes DynamicAuditing must not be enabled.
     stig_description: |
@@ -787,7 +789,7 @@
 
       If any feature-gates setting is available and contains the 'DynamicAuditing' flag set to 'true', this is a finding.
     stig_check_commands:
-      - grep -i feature-gates {{ k8s_dir }}/* | grep DynamicAuditing=true && exit 1 || exit 0
+      - grep -i feature-gates {{ k8s_dir }}/{{ kube_apiserver_manifest }} | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files or kubelet config files that contain the feature-gates setting with DynamicAuditing set to 'true'. Set the flag to 'false' or remove the 'DynamicAuditing' setting completely. Restart the kubelet service if the kubelet config file if the kubelet config file is changed.
   tags:
@@ -801,6 +803,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000460
     stig_title: Kubernetes DynamicKubeletConfig must not be enabled.
     stig_description: |
@@ -840,6 +843,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000470
     stig_title: The Kubernetes API server must have Alpha APIs disabled.
     stig_description: |
@@ -855,7 +859,7 @@
 
       If the feature-gates setting is available and contains the AllAlpha flag set to 'true', this is a finding.
     stig_check_commands:
-      - grep -i feature-gates {{ k8s_dir }}/* | grep AllAlpha=true && exit 1 || exit 0
+      - grep -i feature-gates {{ k8s_dir }}/{{ kube_apiserver_manifest }} | grep AllAlpha=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files that contain the feature-gates setting with AllAlpha set to 'true'. Set the flag to 'false' or remove the AllAlpha setting completely.
       (AllAlpha- default=false)
@@ -870,6 +874,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000600
     stig_title: The Kubernetes API Server must have an audit policy set.
     stig_description: |
@@ -899,6 +904,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000610
     stig_title: The Kubernetes API Server must have an audit log path set.
     stig_description: |
@@ -912,7 +918,7 @@
 
       If the audit-log-path is not set, this is a finding.
     stig_check_commands:
-      - grep -i audit-log-path {{ k8s_dir }}/* && exit 0 || exit 1
+      - grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-log-path' to a secure location for the audit logs to be written.
 
@@ -928,6 +934,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000700
     stig_title: Kubernetes API Server must generate audit records that identify what type of event has occurred, identify the source of the event, contain the event results, identify any users, and identify any containers associated with the event.
     stig_description: |
@@ -982,6 +989,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000850
     stig_title: Kubernetes Kubelet must deny hostname override.
     stig_description: |
@@ -1012,6 +1020,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000860
     stig_title: The Kubernetes manifests must be owned by root.
     stig_description: |
@@ -1049,6 +1058,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000880
     stig_title: The Kubernetes kubelet configuration file must be owned by root.
     stig_description: |
@@ -1086,6 +1096,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000890
     stig_title: The Kubernetes kubelet configuration file must be owned by root.
     stig_description: |
@@ -1131,6 +1142,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000900
     stig_title: The Kubernetes manifests must have least privileges.
     stig_description: |
@@ -1176,6 +1188,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000910
     stig_title: Kubernetes Controller Manager must disable profiling.
     stig_description: |
@@ -1203,6 +1216,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000920
     stig_title: The Kubernetes API Server must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1256,6 +1270,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000930
     stig_title: The Kubernetes Scheduler must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1311,6 +1326,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000940
     stig_title: The Kubernetes Controllers must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1366,6 +1382,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000950
     stig_title: The Kubernetes etcd must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1421,6 +1438,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000960
     stig_title: The Kubernetes cluster must use non-privileged host ports for user pods.
     stig_description: |
@@ -1464,6 +1482,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-001160
     stig_title: Secrets in Kubernetes must not be stored as environment variables.
     stig_description: |
@@ -1477,7 +1496,7 @@
 
       If any of the values returned reference environment variables, this is a finding.
     stig_check_commands:
-      - kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A && exit 1 || exit 0
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A && exit 1 || exit 0
     stig_fixtext: |
       Any secrets stored as environment variables must be moved to the secret files with the proper protections and enforcements or placed within a password vault.
   tags:
@@ -1491,6 +1510,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-001300
     stig_title: Kubernetes Kubelet must not disable timeouts.
     stig_description: |
@@ -1520,6 +1540,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-001360
     stig_title: Kubernetes must separate user functionality.
     stig_description: |
@@ -1535,7 +1556,7 @@
 
       If any user pods are present in the Kubernetes system namespaces, this is a finding.
     stig_check_commands:
-      - kubectl get pods --all-namespaces && exit 2
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; kubectl get pods --all-namespaces && exit 2
     stig_fixtext: |
       Move any user pods that are present in the Kubernetes system namespaces to user specific namespaces.
   tags:
@@ -1549,6 +1570,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001400
     stig_title: The Kubernetes API server must use approved cipher suites.
     stig_description: |
@@ -1577,6 +1599,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001410
     stig_title: Kubernetes API Server must have the SSL Certificate Authority set.
     stig_description: |
