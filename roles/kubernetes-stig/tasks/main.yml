@@ -2361,8 +2361,14 @@
       Review the images used for pods running within Kubernetes.
 
       If there are multiple versions of the same image, this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      echo "MANUAL CHECK REQUIRED"
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      kubectl get pods \
+      --all-namespaces \
+      tr -s '[[:space:]]' '\n' | \
+      sort | \
+      uniq -c
     stig_fixtext: |
       Remove any old pods that are using older images. On the Master node, run the command:
 
@@ -2401,8 +2407,9 @@
       If kubectl version has a setting not supporting Kubernetes skew policy, this is a finding.
 
       Note: Kubernetes Skew Policy can be found at: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      kubectl version --short
     stig_fixtext: |
       Upgrade Kubernetes to the supported version. Institute and adhere to the policies and procedures to ensure that patches are consistently applied within the time allowed.
   tags:
