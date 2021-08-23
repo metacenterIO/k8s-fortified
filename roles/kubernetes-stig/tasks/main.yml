@@ -113,7 +113,8 @@
       grep -i tls-min-version * 
 
       If the setting 'tls-min-version' is not configured in the Kubernetes API Server manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
-    stig_check_commands: grep -ri tls-min-version {{ k8s_manifests }}/ | grep "VersionTLS12" | grep apiserver
+    stig_check_commands:
+     - grep -ri tls-min-version {{ k8s_manifests }}/ | grep "VersionTLS12" | grep apiserver
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
@@ -141,7 +142,8 @@
       grep -i  auto-tls * 
 
       If the setting 'auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to true, this is a finding.
-    stig_check_commands: grep -ri auto-tls {{ k8s_manifests }}/ | grep etcd | grep "auto-tls=true"
+    stig_check_commands:
+     - grep -ri auto-tls {{ k8s_manifests }}/ | grep etcd | grep "auto-tls=true"
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '-auto-tls' to 'false'.
   tags:
@@ -169,7 +171,8 @@
       grep -I  peer-auto-tls * 
 
       If the setting 'peer-auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to 'true', this is a finding.
-    stig_check_commands: grep -ri peer-auto-tls {{ k8s_manifests }}/ | grep etcd | grep "peer-auto-tls=false"
+    stig_check_commands:
+     - grep -ri peer-auto-tls {{ k8s_manifests }}/ | grep etcd | grep "peer-auto-tls=false"
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of 'peer-auto-tls' to 'false'.
   tags:
@@ -195,7 +198,7 @@
       grep -i use-service-account-credential * 
 
       If the setting use-service-account-credential is not configured in the Kubernetes Controller Manager manifest file or it is set to 'false', this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -ri use-service-account-credential {{ k8s_manifests }}/ | grep kube-controller-manager.manifest | grep "use-service-account-credential=true"
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of 'use-service-account-credential' to 'true'.
@@ -226,7 +229,7 @@
       'grep -i authorization-mode *'
 
       If the setting 'authorization-mode' is not configured in the Kubernetes API Server manifest file or is not set to 'Node,RBAC', this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -ri use-service-account-credential {{ k8s_manifests }}/ | grep apiserver | grep "use-service-account-credential=Node,RBAC"
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--authorization-mode' to 'Node,RBAC'.
@@ -303,7 +306,7 @@
       grep -i bind-address * 
 
       If the setting 'bind-address' is not set to '127.0.0.1' or is not found in the Kubernetes Scheduler manifest file, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -i bind-address=127.0.0.1 {{ k8s_manifests }}/kube-scheduler.manifest
     stig_fixtext: |
       Edit the Kubernetes Scheduler manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
@@ -330,7 +333,7 @@
       grep -i bind-address * 
 
       If the setting bind-address is not set to '127.0.0.1' or is not found in the Kubernetes Controller Manager manifest file, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -i bind-address=127.0.0.1 {{ k8s_manifests }}/kube-controller-manager.manifest
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
@@ -359,7 +362,7 @@
       grep -i insecure-port * 
 
       If the setting insecure-port is not set to '0' or is not configured in the Kubernetes API server manifest file, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -i insecure-port=0 {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument --insecure-port to '0'.
@@ -401,7 +404,8 @@
       If the --read-only-port argument exists and is not set to '0' this is a finding. 
 
       If '--read-only-port=0' argument does not exist on the worker node and the master node, this is a finding.
-    stig_check_commands: grep -i read-only-port=0 {{ kubelet_manifests }}/kubelet
+    stig_check_commands:
+     - grep -i read-only-port=0 {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the --config directory on the Kubernetes Master Node. Set the argument --read-only-port to 0.  
 
@@ -435,7 +439,7 @@
       grep -i insecure-bind-address * 
 
       If the setting insecure-bind-address is found and set to 'localhost' in the Kubernetes API manifest file, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -i insecure-bind-address {{ k8s_manifests }}/kube-apiserver.manifest | if [ $(wc -l) -gt 0 ]; then exit 1; fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Remove the value for the --insecure-bind-address setting.
@@ -464,7 +468,7 @@
       grep -i secure-port * 
 
       If the setting secure-port is set to '0' or is not configured in the Kubernetes API manifest file, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -i "\-\-secure-port" {{ k8s_manifests }}/kube-apiserver.manifest | if [ $(cut -d "=" -f2) -gt 0 ]; then exit 0; fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument --secure-port to a value greater than '0'.
@@ -495,7 +499,7 @@
       grep -i anonymous-auth * 
 
       If the setting anonymous-auth is set to 'true' in the Kubernetes API Server manifest file, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
      - grep -i anonymous-auth=false {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument --anonymous-auth to 'false'.
@@ -526,7 +530,8 @@
       grep -i anonymous-auth kubelet 
 
       If the setting 'anonymous-auth' is set to 'true' or the parameter not set in the Kubernetes Kubelet configuration file, this is a finding.
-    stig_check_commands: grep -i anonymous-auth=false {{ kubelet_manifests }}/kubelet
+    stig_check_commands:
+     - grep -i anonymous-auth=false {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the{{ kubelet_manifests }}/ directory on the Kubernetes Master Node. 
 
@@ -561,7 +566,8 @@
       grep -i authorization-mode kubelet
 
       If authorization-mode is missing or is set to 'AllowAlways' on the Master node or any of the Worker nodes, this is a finding.
-    stig_check_commands: grep -i authorization-mode=Webhook {{ kubelet_manifests }}/kubelet
+    stig_check_commands:
+     - grep -i authorization-mode=Webhook {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the{{ kubelet_manifests }}/ directory on the Kubernetes Master and Worker nodes. 
 
@@ -594,7 +600,8 @@
       If the service sshd is active (running), this is a finding.
 
       Note: If console access is not available, SSH access can be attempted. If the worker nodes cannot be reached, this requirement is 'not a finding'.
-    stig_check_commands: systemctl list-units  --type=service  --state=running | grep ssh.service && exit 1 || exit 0
+    stig_check_commands:
+     - systemctl list-units  --type=service  --state=running | grep ssh.service && exit 1 || exit 0
     stig_fixtext: |
       To stop the sshd service, run the command:
 
@@ -626,7 +633,8 @@
       If the service sshd is enabled, this is a finding.
 
       Note: If console access is not available, SSH access can be attempted. If the worker nodes cannot be reached, this requirement is 'not a finding'.
-    stig_check_commands: if [ $(systemctl is-enabled sshd.service | tr -d '[:space:]') == "enabled" ]; then exit 1; else exit 0; fi
+    stig_check_commands:
+     - if [ $(systemctl is-enabled sshd.service | tr -d '[:space:]') == "enabled" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       To disable the sshd service, run the command:
 
@@ -656,7 +664,8 @@
       kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard
 
       If any resources are returned, this is a finding.
-    stig_check_commands: kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
+    stig_check_commands:
+     - kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
     stig_fixtext: |
       Delete the Kubernetes dashboard deployment with the following command:
 
@@ -714,7 +723,7 @@
       grep -i staticPodPath kubelet
 
       If any of the nodes return a value for staticPodPath, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i staticPodPath {{ kubelet_manifests }}/kubelet && exit 1 || exit 0
     stig_fixtext: |
       Edit the kubelet file on each node under the {{ kubelet_manifests }} directory to remove the staticPodPath setting and restart the kubelet service by executing the command:
@@ -755,7 +764,7 @@
       Review every feature-gates setting that is returned.
 
       If any feature-gates setting is available and contains the 'DynamicAuditing' flag set to 'true', this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i feature-gates {{ k8s_manifests }}/* | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files or kubelet config files that contain the feature-gates setting with DynamicAuditing set to 'true'. Set the flag to 'false' or remove the 'DynamicAuditing' setting completely. Restart the kubelet service if the kubelet config file if the kubelet config file is changed.
@@ -792,7 +801,7 @@
       Review every feature-gates setting if one is returned.
 
       If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the DynamicKubletConfig flag is set to 'true', this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i feature-gates {{ kubelet_manifests }}/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest file or kubelet config file that does not contain a feature-gates setting or has DynamicKubeletConfig set to 'true'.
@@ -823,7 +832,7 @@
       Review the feature-gates setting, if one is returned.
 
       If the feature-gates setting is available and contains the AllAlpha flag set to 'true', this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i feature-gates {{ k8s_manifests }}/* | grep AllAlpha=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files that contain the feature-gates setting with AllAlpha set to 'true'. Set the flag to 'false' or remove the AllAlpha setting completely.
@@ -851,7 +860,7 @@
       grep -i audit-policy-file * 
 
       If the audit-policy-file is not set, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i audit-policy-file {{ k8s_manifests }}/kube-apiserver.manifest && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-policy-file' to the audit policy file.
@@ -880,7 +889,7 @@
       grep -i audit-log-path * 
 
       If the audit-log-path is not set, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i audit-log-path {{ k8s_manifests }}/* && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-log-path' to a secure location for the audit logs to be written.
@@ -929,7 +938,7 @@
       - level: RequestResponse
 
       If the audit policy file does not look like above, this is a finding.
-    stig_check_commands: 
+    stig_check_commands:
       - grep -i audit-policy-file {{ k8s_manifests }}/kube-apiserver.manifest && exit 0 || exit 1
       - grep -i RequestResponse $(grep -i audit-policy-file {{ k8s_manifests }}/kube-apiserver.manifest | cut -d "=" -f2) && exit 0 || exit 1
     stig_fixtext: |
