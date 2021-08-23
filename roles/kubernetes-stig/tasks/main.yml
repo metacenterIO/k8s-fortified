@@ -41,6 +41,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000150
     stig_title: The Kubernetes Controller Manager must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
     stig_description: |
@@ -70,6 +71,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000160
     stig_title: The Kubernetes Scheduler must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
     stig_description: |
@@ -99,6 +101,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000170
     stig_title: The Kubernetes API Server must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
     stig_description: |
@@ -128,6 +131,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000180
     stig_title: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
     stig_description: |
@@ -157,6 +161,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000190
     stig_title: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
     stig_description: |
@@ -186,6 +191,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000220
     stig_title: The Kubernetes Controller Manager must create unique service accounts for each work payload.
     stig_description: |
@@ -213,6 +219,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000270
     stig_title: The Kubernetes API Server must enable Node,RBAC as the authorization mode.
     stig_description: |
@@ -244,6 +251,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-000290
     stig_title: User-managed resources must be created in dedicated namespaces.
     stig_description: |
@@ -294,6 +302,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000300
     stig_title: The Kubernetes Scheduler must have secure binding.
     stig_description: |
@@ -321,6 +330,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000310
     stig_title: The Kubernetes Controller Manager must have secure binding.
     stig_description: |
@@ -348,6 +358,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000320
     stig_title: The Kubernetes API server must have the insecure port flag disabled.
     stig_description: |
@@ -377,6 +388,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000330
     stig_title: The Kubernetes Kubelet must have the read-only port flag disabled.
     stig_description: |
@@ -425,6 +437,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000340
     stig_title: The Kubernetes API server must have the insecure bind address not set.
     stig_description: |
@@ -454,6 +467,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000350
     stig_title: The Kubernetes API server must have the secure port set.
     stig_description: |
@@ -483,6 +497,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-000360
     stig_title: The Kubernetes API server must have anonymous authentication disabled.
     stig_description: |
@@ -514,6 +529,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000370
     stig_title: The Kubernetes Kubelet must have anonymous authentication disabled.
     stig_description: |
@@ -550,6 +566,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000380
     stig_title: The Kubernetes kubelet must enable explicit authorization.
     stig_description: |
@@ -586,6 +603,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-000400
     stig_title: Kubernetes Worker Nodes must not have sshd service running.
     stig_description: |
@@ -619,6 +637,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-000410
     stig_title: Kubernetes Worker Nodes must not have the sshd service enabled.
     stig_description: |
@@ -652,6 +671,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-000420
     stig_title: Kubernetes dashboard must not be enabled.
     stig_description: |
@@ -681,6 +701,8 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl['vol'] }}"
+    vol_mnt_path: "{{ kubectl['path'] }}"
     stig_id: CNTR-K8-000430
     stig_title: Kubernetes Kubectl cp command must give expected access and results.
     stig_description: |
@@ -694,7 +716,7 @@
 
       If the Master or any Work nodes are not using kubectl version 1.12.9 or newer, this is a finding.
     stig_check_commands: |-
-      TEST=$(/tmp/bin/kubectl version --client -o json)
+      TEST=$({{ kubectl['path'] }} version --client -o json)
       VERSION=$(echo "$TEST" | jq -r '.clientVersion.gitVersion' | cut -d "v" -f2)
       ver () { echo "$@" | awk -F. '{ printf("%d%03d%03d", $1,$2,$3); }'; }
       if [ $(ver $VERSION) -lt $(ver 1.12.9) ]; then exit 1; else exit 0; fi

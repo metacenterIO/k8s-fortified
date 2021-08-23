@@ -15,3 +15,8 @@ kube_apiserver_manifest: "kube-apiserver.manifest"
 kube_controller_manager_manifest: "kube-controller-manager.manifest"
 kube_scheduler_manifest: "kube-scheduler.manifest"
 etcd_main_manifest: "etcd-main.manifest"
+
+
+kubectl:
+  vol: "/usr/bin/kubectl"
+  mnt: "/tmp/bin/kubectl"

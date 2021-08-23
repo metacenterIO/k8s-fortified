@@ -11,7 +11,7 @@ spec:
         kubernetes.io/role: master
       containers:
       - name: bash
-        image: mward29/gardenctl
+        image: metacenterio/k8s-fortified
         command: 
         - /bin/entrypoint.sh
         securityContext:
@@ -21,16 +21,16 @@ spec:
           mountPath: /bin/entrypoint.sh
           readOnly: true
           subPath: entrypoint.sh
-        - name: manifests
-          mountPath: /etc/kubernetes/manifests
+        - name: dirpath
+          mountPath: "{% if vol_mnt_path %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
       volumes:
       - name: configmap-volume
         configMap:
           defaultMode: 0700
           name: "{{ stig_id }}"
-      - name: manifests
+      - name: dirpath
         hostPath:
-          path: /etc/kubernetes/manifests
+          path: "{{ vol_path }}"
       tolerations:
       - key: node-role.kubernetes.io/master
       restartPolicy: Never
