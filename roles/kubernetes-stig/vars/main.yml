@@ -1,13 +1,17 @@
 kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
 
-# variables to set file paths
-base_manifests: "/etc/kubernetes"
-k8s_manifests: "/etc/kubernetes/manifests"
-etcd_manifests: "/etc/kubernetes/manifests"
+# paths
+base_dir: "/etc/kubernetes"
+k8s_dir: "/etc/kubernetes/manifests"
+etcd_dir: "/etc/kubernetes/manifests"
+etcd_data_dir: "/var/lib/etcd"
 kubelet_dir: "/etc/sysconfig"
-etcd_manifests: "/var/lib/etcd"
 pki_dir: "/etc/kubernetes/pki"
 
 # manifests
 kube_proxy_manifest: "kube-proxy.manifest"
 kubelet_manifest: "kubelet"
+kube_apiserver_manifest: "kube-apiserver.manifest"
+kube_controller_manager_manifest: "kube-controller-manager.manifest"
+kube_scheduler_manifest: "kube-scheduler.manifest"
+etcd_main_manifest: "etcd-main.manifest"
