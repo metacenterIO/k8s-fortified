@@ -11,7 +11,7 @@
     stig_severity: medium
     stig_ident: CCI-000068
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-min-version * 
 
@@ -19,7 +19,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+      Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
     - template
     - never
@@ -50,15 +50,15 @@
     stig_severity: medium
     stig_ident: CCI-000068
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-min-version * 
 
       If the setting 'tls-min-version' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
     stig_check_commands:
-      - grep -i tls-min-version=VersionTLS12 /etc/kubernetes/manifests/*
+      - grep -i tls-min-version=VersionTLS12 {{ k8s_manifests }}/*
     stig_fixtext: |
-      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+      Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
     - CNTR-K8-000150
 
@@ -79,7 +79,7 @@
     stig_severity: medium
     stig_ident: CCI-000068
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-min-version * 
 
@@ -87,7 +87,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes Scheduler manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+      Edit the Kubernetes Scheduler manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
     - CNTR-K8-000160
 
@@ -108,14 +108,14 @@
     stig_severity: medium
     stig_ident: CCI-000068
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-min-version * 
 
       If the setting 'tls-min-version' is not configured in the Kubernetes API Server manifest file or it is set to 'VersionTLS10' or 'VersionTLS11', this is a finding.
-    stig_check_commands: grep -ri tls-min-version /etc/kubernetes/manifests/ | grep "VersionTLS12" | grep apiserver
+    stig_check_commands: grep -ri tls-min-version {{ k8s_manifests }}/ | grep "VersionTLS12" | grep apiserver
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
     - CNTR-K8-000170
 
@@ -136,14 +136,14 @@
     stig_severity: medium
     stig_ident: CCI-000068
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i  auto-tls * 
 
       If the setting 'auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to true, this is a finding.
-    stig_check_commands: grep -ri auto-tls /etc/kubernetes/manifests/ | grep etcd | grep "auto-tls=true"
+    stig_check_commands: grep -ri auto-tls {{ k8s_manifests }}/ | grep etcd | grep "auto-tls=true"
     stig_fixtext: |
-      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '-auto-tls' to 'false'.
+      Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '-auto-tls' to 'false'.
   tags:
     - CNTR-K8-000180
 
@@ -164,14 +164,14 @@
     stig_severity: medium
     stig_ident: CCI-000068
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -I  peer-auto-tls * 
 
       If the setting 'peer-auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to 'true', this is a finding.
-    stig_check_commands: grep -ri peer-auto-tls /etc/kubernetes/manifests/ | grep etcd | grep "peer-auto-tls=false"
+    stig_check_commands: grep -ri peer-auto-tls {{ k8s_manifests }}/ | grep etcd | grep "peer-auto-tls=false"
     stig_fixtext: |
-      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of 'peer-auto-tls' to 'false'.
+      Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of 'peer-auto-tls' to 'false'.
   tags:
     - CNTR-K8-000190
 
@@ -190,14 +190,15 @@
     stig_severity: high
     stig_ident: CCI-000015
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i use-service-account-credential * 
 
       If the setting use-service-account-credential is not configured in the Kubernetes Controller Manager manifest file or it is set to 'false', this is a finding.
-    stig_check_commands: grep -ri use-service-account-credential /etc/kubernetes/manifests/ | grep kube-controller-manager.manifest | grep "use-service-account-credential=true"
+    stig_check_commands: 
+      - grep -ri use-service-account-credential {{ k8s_manifests }}/ | grep kube-controller-manager.manifest | grep "use-service-account-credential=true"
     stig_fixtext: |
-      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of 'use-service-account-credential' to 'true'.
+      Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of 'use-service-account-credential' to 'true'.
   tags:
     - CNTR-K8-000220
 
@@ -220,14 +221,15 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       'grep -i authorization-mode *'
 
       If the setting 'authorization-mode' is not configured in the Kubernetes API Server manifest file or is not set to 'Node,RBAC', this is a finding.
-    stig_check_commands: grep -ri use-service-account-credential /etc/kubernetes/manifests/ | grep apiserver | grep "use-service-account-credential=Node,RBAC"
+    stig_check_commands: 
+     - grep -ri use-service-account-credential {{ k8s_manifests }}/ | grep apiserver | grep "use-service-account-credential=Node,RBAC"
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--authorization-mode' to 'Node,RBAC'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--authorization-mode' to 'Node,RBAC'.
   tags:
     - CNTR-K8-000270
 
@@ -296,14 +298,15 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i bind-address * 
 
       If the setting 'bind-address' is not set to '127.0.0.1' or is not found in the Kubernetes Scheduler manifest file, this is a finding.
-    stig_check_commands: grep -i bind-address=127.0.0.1 /etc/kubernetes/manifests/kube-scheduler.manifest
+    stig_check_commands: 
+     - grep -i bind-address=127.0.0.1 {{ k8s_manifests }}/kube-scheduler.manifest
     stig_fixtext: |
-      Edit the Kubernetes Scheduler manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
+      Edit the Kubernetes Scheduler manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
   tags:
     - CNTR-K8-000300
 
@@ -322,14 +325,15 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i bind-address * 
 
       If the setting bind-address is not set to '127.0.0.1' or is not found in the Kubernetes Controller Manager manifest file, this is a finding.
-    stig_check_commands: grep -i bind-address=127.0.0.1 /etc/kubernetes/manifests/kube-controller-manager.manifest
+    stig_check_commands: 
+     - grep -i bind-address=127.0.0.1 {{ k8s_manifests }}/kube-controller-manager.manifest
     stig_fixtext: |
-      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
+      Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--bind-address' to '127.0.0.1'.
   tags:
     - CNTR-K8-000310
 
@@ -350,14 +354,15 @@
     stig_severity: high
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i insecure-port * 
 
       If the setting insecure-port is not set to '0' or is not configured in the Kubernetes API server manifest file, this is a finding.
-    stig_check_commands: grep -i insecure-port=0 /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_check_commands: 
+     - grep -i insecure-port=0 {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --insecure-port to '0'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument --insecure-port to '0'.
   tags:
     - CNTR-K8-000320
 
@@ -396,7 +401,7 @@
       If the --read-only-port argument exists and is not set to '0' this is a finding. 
 
       If '--read-only-port=0' argument does not exist on the worker node and the master node, this is a finding.
-    stig_check_commands: grep -i read-only-port=0 /etc/sysconfig/kubelet
+    stig_check_commands: grep -i read-only-port=0 {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the --config directory on the Kubernetes Master Node. Set the argument --read-only-port to 0.  
 
@@ -425,14 +430,15 @@
     stig_severity: high
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i insecure-bind-address * 
 
       If the setting insecure-bind-address is found and set to 'localhost' in the Kubernetes API manifest file, this is a finding.
-    stig_check_commands: grep -i insecure-bind-address /etc/kubernetes/manifests/kube-apiserver.manifest | if [ $(wc -l) -gt 0 ]; then exit 1; fi
+    stig_check_commands: 
+     - grep -i insecure-bind-address {{ k8s_manifests }}/kube-apiserver.manifest | if [ $(wc -l) -gt 0 ]; then exit 1; fi
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove the value for the --insecure-bind-address setting.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Remove the value for the --insecure-bind-address setting.
   tags:
     - CNTR-K8-000340
 
@@ -453,14 +459,15 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i secure-port * 
 
       If the setting secure-port is set to '0' or is not configured in the Kubernetes API manifest file, this is a finding.
-    stig_check_commands: grep -i "\-\-secure-port" /etc/kubernetes/manifests/kube-apiserver.manifest | if [ $(cut -d "=" -f2) -gt 0 ]; then exit 0; fi
+    stig_check_commands: 
+     - grep -i "\-\-secure-port" {{ k8s_manifests }}/kube-apiserver.manifest | if [ $(cut -d "=" -f2) -gt 0 ]; then exit 0; fi
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --secure-port to a value greater than '0'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument --secure-port to a value greater than '0'.
   tags:
     - CNTR-K8-000350
 
@@ -483,14 +490,15 @@
     stig_severity: high
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i anonymous-auth * 
 
       If the setting anonymous-auth is set to 'true' in the Kubernetes API Server manifest file, this is a finding.
-    stig_check_commands: grep -i anonymous-auth=false /etc/kubernetes/manifests/kube-apiserver.manifest
+    stig_check_commands: 
+     - grep -i anonymous-auth=false {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument --anonymous-auth to 'false'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument --anonymous-auth to 'false'.
   tags:
     - CNTR-K8-000360
 
@@ -513,14 +521,14 @@
     stig_severity: high
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i anonymous-auth kubelet 
 
       If the setting 'anonymous-auth' is set to 'true' or the parameter not set in the Kubernetes Kubelet configuration file, this is a finding.
-    stig_check_commands: grep -i anonymous-auth=false /etc/sysconfig/kubelet
+    stig_check_commands: grep -i anonymous-auth=false {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
-      Edit the Kubernetes Kubelet file in the/etc/sysconfig/ directory on the Kubernetes Master Node. 
+      Edit the Kubernetes Kubelet file in the{{ kubelet_manifests }}/ directory on the Kubernetes Master Node. 
 
       Set the argument '--anonymous-auth' to 'false'. 
 
@@ -544,18 +552,18 @@
     stig_severity: high
     stig_ident: CCI-000213
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i authorization-mode kubelet  
 
-      On each Worker node, change to the /etc/sysconfig/ directory. Run the command:
+      On each Worker node, change to the {{ kubelet_manifests }}/ directory. Run the command:
 
       grep -i authorization-mode kubelet
 
       If authorization-mode is missing or is set to 'AllowAlways' on the Master node or any of the Worker nodes, this is a finding.
-    stig_check_commands: grep -i authorization-mode=Webhook /etc/sysconfig/kubelet
+    stig_check_commands: grep -i authorization-mode=Webhook {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
-      Edit the Kubernetes Kubelet file in the/etc/sysconfig/ directory on the Kubernetes Master and Worker nodes. 
+      Edit the Kubernetes Kubelet file in the{{ kubelet_manifests }}/ directory on the Kubernetes Master and Worker nodes. 
 
       Set the argument --authorization-mode to 'Webhook'. 
 
@@ -697,19 +705,19 @@
     stig_id: CNTR-K8-000440
     stig_title: The Kubernetes kubelet static PodPath must not enable static pods.
     stig_description: |
-      Allowing kubelet to set a staticPodPath gives containers with root access permissions to traverse the hosting filesystem. The danger comes when the container can create a manifest file within the /etc/kubernetes/manifests directory. When a manifest is created within this directory, containers are entirely governed by the Kubelet not the API Server. The container is not susceptible to admission control at all. Any containers or pods that are instantiated in this manner are called 'static pods' and are meant to be used for pods such as the API server, scheduler, controller, etc., not workload pods that need to be governed by the API Server.
+      Allowing kubelet to set a staticPodPath gives containers with root access permissions to traverse the hosting filesystem. The danger comes when the container can create a manifest file within the {{ k8s_manifests }} directory. When a manifest is created within this directory, containers are entirely governed by the Kubelet not the API Server. The container is not susceptible to admission control at all. Any containers or pods that are instantiated in this manner are called 'static pods' and are meant to be used for pods such as the API server, scheduler, controller, etc., not workload pods that need to be governed by the API Server.
     stig_severity: high
     stig_ident: CCI-000213
     stig_check_content: |
-      On the Master and Worker nodes, change to the /etc/sysconfig/ directory and run the command:
+      On the Master and Worker nodes, change to the {{ kubelet_manifests }}/ directory and run the command:
 
       grep -i staticPodPath kubelet
 
       If any of the nodes return a value for staticPodPath, this is a finding.
     stig_check_commands: 
-      - grep -i staticPodPath /etc/sysconfig/kubelet && exit 1 || exit 0
+      - grep -i staticPodPath {{ kubelet_manifests }}/kubelet && exit 1 || exit 0
     stig_fixtext: |
-      Edit the kubelet file on each node under the /etc/sysconfig directory to remove the staticPodPath setting and restart the kubelet service by executing the command:
+      Edit the kubelet file on each node under the {{ kubelet_manifests }} directory to remove the staticPodPath setting and restart the kubelet service by executing the command:
 
       service kubelet restart
   tags:
@@ -732,7 +740,7 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      On the Master node, change to the manifests' directory at /etc/kubernetes/manifests and run the command:
+      On the Master node, change to the manifests' directory at {{ k8s_manifests }} and run the command:
 
       grep -i feature-gates *
 
@@ -740,7 +748,7 @@
 
       If the feature-gates setting is available and contains the DynamicAuditing flag set to 'true', this is a finding.
 
-      Change to the directory /etc/sysconfig on the Master and each Worker Node and execute the command:
+      Change to the directory {{ kubelet_manifests }} on the Master and each Worker Node and execute the command:
 
       grep -i feature-gates kubelet
 
@@ -748,7 +756,7 @@
 
       If any feature-gates setting is available and contains the 'DynamicAuditing' flag set to 'true', this is a finding.
     stig_check_commands: 
-      - grep -i feature-gates /etc/kubernetes/manifests/* | grep DynamicAuditing=true && exit 1 || exit 0
+      - grep -i feature-gates {{ k8s_manifests }}/* | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files or kubelet config files that contain the feature-gates setting with DynamicAuditing set to 'true'. Set the flag to 'false' or remove the 'DynamicAuditing' setting completely. Restart the kubelet service if the kubelet config file if the kubelet config file is changed.
   tags:
@@ -769,7 +777,7 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      On the Master node, change to the manifests' directory at /etc/kubernetes/manifests and run the command:
+      On the Master node, change to the manifests' directory at {{ k8s_manifests }} and run the command:
 
       grep -i feature-gates *
 
@@ -777,7 +785,7 @@
 
       If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the 'DynamicKubletConfig' flag is set to 'true', this is a finding.
 
-      Change to the directory /etc/sysconfig on the Master and each Worker node and execute the command:
+      Change to the directory {{ kubelet_manifests }} on the Master and each Worker node and execute the command:
 
       grep -i feature-gates kubelet
 
@@ -785,7 +793,7 @@
 
       If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the DynamicKubletConfig flag is set to 'true', this is a finding.
     stig_check_commands: 
-      - grep -i feature-gates /etc/sysconfig/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
+      - grep -i feature-gates {{ kubelet_manifests }}/kubelet | grep DynamicAuditing=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest file or kubelet config file that does not contain a feature-gates setting or has DynamicKubeletConfig set to 'true'.
 
@@ -808,7 +816,7 @@
     stig_severity: medium
     stig_ident: CCI-000213
     stig_check_content: |
-      On the Master node, change to the manifests' directory at /etc/kubernetes/manifests and run the command:
+      On the Master node, change to the manifests' directory at {{ k8s_manifests }} and run the command:
 
       grep -i feature-gates *
 
@@ -816,7 +824,7 @@
 
       If the feature-gates setting is available and contains the AllAlpha flag set to 'true', this is a finding.
     stig_check_commands: 
-      - grep -i feature-gates /etc/kubernetes/manifests/* | grep AllAlpha=true && exit 1 || exit 0
+      - grep -i feature-gates {{ k8s_manifests }}/* | grep AllAlpha=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest files that contain the feature-gates setting with AllAlpha set to 'true'. Set the flag to 'false' or remove the AllAlpha setting completely.
       (AllAlpha- default=false)
@@ -838,13 +846,13 @@
     stig_severity: medium
     stig_ident: CCI-001464
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-policy-file * 
 
       If the audit-policy-file is not set, this is a finding.
     stig_check_commands: 
-      - grep -i audit-policy-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 0 || exit 1
+      - grep -i audit-policy-file {{ k8s_manifests }}/kube-apiserver.manifest && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-policy-file' to the audit policy file.
 
@@ -867,13 +875,13 @@
     stig_severity: medium
     stig_ident: CCI-001464
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-log-path * 
 
       If the audit-log-path is not set, this is a finding.
     stig_check_commands: 
-      - grep -i audit-log-path /etc/kubernetes/manifests/* && exit 0 || exit 1
+      - grep -i audit-log-path {{ k8s_manifests }}/* && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-log-path' to a secure location for the audit logs to be written.
 
@@ -904,7 +912,7 @@
     stig_severity: medium
     stig_ident: ['CCI-000018', 'CCI-000130', 'CCI-000131', 'CCI-000132', 'CCI-000133', 'CCI-000134', 'CCI-000135', 'CCI-000172', 'CCI-001403', 'CCI-001404', 'CCI-001487', 'CCI-001814', 'CCI-002234']
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-policy-file 
 
@@ -922,8 +930,8 @@
 
       If the audit policy file does not look like above, this is a finding.
     stig_check_commands: 
-      - grep -i audit-policy-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 0 || exit 1
-      - grep -i RequestResponse $(grep -i audit-policy-file /etc/kubernetes/manifests/kube-apiserver.manifest | cut -d "=" -f2) && exit 0 || exit 1
+      - grep -i audit-policy-file {{ k8s_manifests }}/kube-apiserver.manifest && exit 0 || exit 1
+      - grep -i RequestResponse $(grep -i audit-policy-file {{ k8s_manifests }}/kube-apiserver.manifest | cut -d "=" -f2) && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server audit policy and set it to look like the following:
 
@@ -950,16 +958,16 @@
     stig_severity: medium
     stig_ident: CCI-001499
     stig_check_content: |
-      On the Master and each Worker node, change to the /etc/sysconfig/ directory and run the command:
+      On the Master and each Worker node, change to the {{ kubelet_manifests }}/ directory and run the command:
 
       grep -i hostname-override kubelet  
       --hostname-override
 
       If any of the nodes have the setting 'hostname-override' present, this is a finding.
     stig_check_commands:
-      - grep -i hostname-override /etc/sysconfig/kubelet && exit 1 || exit 0
+      - grep -i hostname-override {{ kubelet_manifests }}/kubelet && exit 1 || exit 0
     stig_fixtext: |
-      Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Master and Worker nodes and remove the '--hostname-override' setting. Restart the service after the change is made by running:
+      Edit the Kubernetes Kubelet file in the {{ kubelet_manifests }} directory on the Master and Worker nodes and remove the '--hostname-override' setting. Restart the service after the change is made by running:
 
       service kubelet restart
   tags:
@@ -988,7 +996,7 @@
 
       If any manifest file is not owned by root:root, this is a finding.
     stig_check_commands:
-      - if [ $(find /etc/kubernetes/manifests -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+      - if [ $(find {{ k8s_manifests }} -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
 
@@ -1017,7 +1025,7 @@
     stig_severity: medium
     stig_ident: CCI-001499
     stig_check_content: |
-      On the Master and worker nodes, change to the /etc/sysconfig directory. Run the command:
+      On the Master and worker nodes, change to the {{ kubelet_manifests }} directory. Run the command:
 
       ls -l kubelet
 
@@ -1025,9 +1033,9 @@
 
       If any manifest file is not owned by root:root, this is a finding.
     stig_check_commands:
-      - if [ $(find /etc/sysconfig/kubelet -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+      - if [ $(find {{ kubelet_manifests }}/kubelet -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
-      On the Master and Worker nodes, change to the /etc/sysconfig directory. Run the command:
+      On the Master and Worker nodes, change to the {{ kubelet_manifests }} directory. Run the command:
 
       chown root:root kubelet
 
@@ -1062,7 +1070,7 @@
 
       If any kubelet configuration file is less restrictive than '644', this is a finding.
     stig_check_commands: |-
-      FILES=$(stat -c '%n:%a' /etc/kubernetes/manifests/kubelet)
+      FILES=$(stat -c '%n:%a' {{ k8s_manifests }}/kubelet)
       if [ "$FILES" ]
       then
         FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
@@ -1109,7 +1117,7 @@
 
       If any manifest file is less restrictive than '644', this is a finding.
     stig_check_commands: |-
-      FILES=$(stat -c '%n:%a' /etc/kubernetes/manifests/*)
+      FILES=$(stat -c '%n:%a' {{ k8s_manifests }}/*)
       for FILE in $FILES
       do
         FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
@@ -1144,15 +1152,15 @@
     stig_severity: medium
     stig_ident: CCI-000381
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i profiling * 
 
       If the setting 'profiling' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'True', this is a finding.
     stig_check_commands:
-      - grep -i profiling=false /etc/kubernetes/manifests/*
+      - grep -i profiling=false {{ k8s_manifests }}/*
     stig_fixtext: |
-      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--profiling value' to 'false'.
+      Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--profiling value' to 'false'.
   tags:
     - CNTR-K8-000910
 
@@ -1171,7 +1179,7 @@
     stig_severity: medium
     stig_ident: CCI-000382
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
       grep kube-apiserver.manifest -I-insecure-port
                     grep kube-apiserver.manifest -I -secure-port
       grep kube-apiserver.manifest -I -etcd-servers *
@@ -1200,9 +1208,9 @@
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands: |-
       echo "--- Manual Verification Required - CNTR-K8-000920 ---"
-      grep -i insecure-port /etc/kubernetes/manifests/kube-apiserver.manifest
-      grep -i secure-port /etc/kubernetes/manifests/kube-apiserver.manifest
-      grep -i etcd-servers /etc/kubernetes/manifests/kube-apiserver.manifest
+      grep -i insecure-port {{ k8s_manifests }}/kube-apiserver.manifest
+      grep -i secure-port {{ k8s_manifests }}/kube-apiserver.manifest
+      grep -i etcd-servers {{ k8s_manifests }}/kube-apiserver.manifest
       kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
@@ -1224,7 +1232,7 @@
     stig_severity: medium
     stig_ident: CCI-000382
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
       grep kube-scheduler.manifest -I -insecure-port
                       grep kube-scheduler.manifest -I -secure-port
       -edit manifest file:
@@ -1254,9 +1262,9 @@
       echo "--- Manual Verification Required - CNTR-K8-000930 ---"
       echo ""
       echo "grep insecure-port"
-      grep -i insecure-port /etc/kubernetes/manifests/kube-scheduler.manifest
+      grep -i insecure-port {{ k8s_manifests }}/kube-scheduler.manifest
       echo "grep secure-port"
-      grep -i secure-port /etc/kubernetes/manifests/kube-scheduler.manifest
+      grep -i secure-port {{ k8s_manifests }}/kube-scheduler.manifest
       echo "grep all services"
       kubectl describe services --all-namespaces
     stig_fixtext: |
@@ -1279,7 +1287,7 @@
     stig_severity: medium
     stig_ident: CCI-000382
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
       grep kube-scheduler.manifest -I -insecure-port
                     grep kube-scheduler.manifest -I -secure-port
       -edit manifest file:
@@ -1309,9 +1317,9 @@
       echo "--- Manual Verification Required - CNTR-K8-000940 ---"
       echo ""
       echo "grep insecure-port"
-      grep -i insecure-port /etc/kubernetes/manifests/kube-controller-manager.manifest
+      grep -i insecure-port {{ k8s_manifests }}/kube-controller-manager.manifest
       echo "grep secure-port"
-      grep -i secure-port /etc/kubernetes/manifests/kube-controller-manager.manifest
+      grep -i secure-port {{ k8s_manifests }}/kube-controller-manager.manifest
       echo "grep all services"
       kubectl describe services --all-namespaces
     stig_fixtext: |
@@ -1334,7 +1342,7 @@
     stig_severity: medium
     stig_ident: CCI-000382
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
       grep kube-apiserver.manifest -I -etcd-servers *
       -edit etcd-main.manifest file:
       VIM <Manifest Name:
@@ -1364,9 +1372,9 @@
       echo "--- Manual Verification Required - CNTR-K8-000950 ---"
       echo ""
       echo "grep insecure-port"
-      grep -i insecure-port /etc/kubernetes/manifests/etcd-main.manifest
+      grep -i insecure-port {{ k8s_manifests }}/etcd-main.manifest
       echo "grep secure-port"
-      grep -i secure-port /etc/kubernetes/manifests/etcd-main.manifest
+      grep -i secure-port {{ k8s_manifests }}/etcd-main.manifest
       echo "grep all services"
       kubectl describe services --all-namespaces
     stig_fixtext: |
@@ -1459,15 +1467,15 @@
     stig_severity: medium
     stig_ident: CCI-001133
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i streaming-connection-idle-timeout kubelet  
 
       If the setting streaming-connection-idle-timeout is set to '0' or the parameter is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i streaming-connection-idle-timeout=0 /etc/sysconfig/kubelet && exit 1 || exit 0
+      - grep -i streaming-connection-idle-timeout=0 {{ kubelet_manifests }}/kubelet && exit 1 || exit 0
     stig_fixtext: |
-      Edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--streaming-connection-idle-timeout' to a value other than '0'. Reset Kubelet service using the following command:
+      Edit the Kubernetes Kubelet file in the {{ kubelet_manifests }} directory on the Kubernetes Master Node. Set the argument '--streaming-connection-idle-timeout' to a value other than '0'. Reset Kubelet service using the following command:
 
       service kubelet restart
   tags:
@@ -1517,15 +1525,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-cipher-suites *
 
       If the setting feature tls-cipher-suites is not set in the Kubernetes API server manifest file or contains no value or does not contain TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM _SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM _SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM _SHA384, this is a finding.
     stig_check_commands:
-      - grep -i tls-cipher-suites /etc/kubernetes/manifests/kube-apiserver.manifest && exit 2
+      - grep -i tls-cipher-suites {{ k8s_manifests }}/kube-apiserver.manifest && exit 2
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of tls-cipher-suites to:
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of tls-cipher-suites to:
       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM _SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM _SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM _SHA384
   tags:
     - CNTR-K8-001400
@@ -1549,15 +1557,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i client-ca-file *
 
       If the setting feature client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i client-ca-file=/srv/kubernetes/ca.crt /etc/kubernetes/manifests/kube-apiserver.manifest && exit 0 || exit 1
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ k8s_manifests }}/kube-apiserver.manifest && exit 0 || exit 1
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate.
   tags:
     - CNTR-K8-001410
 
@@ -1580,15 +1588,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i client-ca-file kubelet
 
       If the setting client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i client-ca-file=/srv/kubernetes/ca.crt /etc/sysconfig/kubelet && exit 0 || exit 1
+      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ kubelet_manifests }}/kubelet && exit 0 || exit 1
     stig_fixtext: |
-      Edit the Kubernetes Kubelet file in the /etc/sysconfig/ directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate. 
+      Edit the Kubernetes Kubelet file in the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate. 
 
       Reset Kubelet service using the following command:
       service kubelet restart
@@ -1614,15 +1622,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i root-ca-file *
 
       If the setting client-ca-file is not set in the Kubernetes Controller Manager manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i root-ca-file=/srv/kubernetes/ca.crt /etc/kubernetes/manifests/kube-controller-manager.manifest
+      - grep -i root-ca-file=/srv/kubernetes/ca.crt {{ k8s_manifests }}/kube-controller-manager.manifest
     stig_fixtext: |
-      Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of root-ca-file to path containing Approved Organizational Certificate.
+      Edit the Kubernetes Controller Manager manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of root-ca-file to path containing Approved Organizational Certificate.
   tags:
     - CNTR-K8-001430
 
@@ -1645,17 +1653,17 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-cert-file *
       grep -i tls-private-key-file *
 
       If the setting tls-cert-file and private-key-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i tls-cert-file=/srv/kubernetes/server.crt /etc/kubernetes/manifests/kube-apiserver.manifest
-      - grep -i tls-private-key-file=/srv/kubernetes/server.key /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i tls-cert-file=/srv/kubernetes/server.crt {{ k8s_manifests }}/kube-apiserver.manifest
+      - grep -i tls-private-key-file=/srv/kubernetes/server.key {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of tls-cert-file and tls-private-key-file to path containing Approved Organizational Certificate.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of tls-cert-file and tls-private-key-file to path containing Approved Organizational Certificate.
   tags:
     - CNTR-K8-001440
 
@@ -1678,15 +1686,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i client-cert-auth * 
 
       If the setting client-cert-auth is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
     stig_check_commands:
-      - grep -i client-cert-auth=/etc/kubernetes/etcd.crt /etc/kubernetes/manifests/etcd-main.manifest
+      - grep -i client-cert-auth=/etc/kubernetes/etcd.crt {{ k8s_manifests }}/etcd-main.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
   tags:
     - CNTR-K8-001450
 
@@ -1709,15 +1717,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the commands:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the commands:
 
       grep -i tls-private-key-file kubelet
 
       If the setting 'tls-private-key-file' is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i tls-private-key-file /etc/sysconfig/kubelet
+      - grep -i tls-private-key-file {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
-      Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument tls-private-key-file to an Approved Organization Certificate. Reset Kubelet service using the following command:
+      Edit the Kubernetes Kuberlet file in the {{ kubelet_manifests }} directory on the Kubernetes Master Node. Set the argument tls-private-key-file to an Approved Organization Certificate. Reset Kubelet service using the following command:
 
       service kubelet restart
   tags:
@@ -1742,15 +1750,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the commands:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the commands:
 
       grep -i tls-cert-file kubelet  
 
       If the setting 'tls-cert-file' is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i tls-cert-file /etc/sysconfig/kubelet
+      - grep -i tls-cert-file {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
-      Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument 'tls-cert-file' to an Approved Organization Certificate. Reset Kubelet service using the following command:
+      Edit the Kubernetes Kuberlet file in the {{ kubelet_manifests }} directory on the Kubernetes Master Node. Set the argument 'tls-cert-file' to an Approved Organization Certificate. Reset Kubelet service using the following command:
 
       service kubelet restart
   tags:
@@ -1775,15 +1783,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i client-cert-auth * 
 
       If the setting 'client-cert-auth' is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
     stig_check_commands:
-      - grep -i client-cert-auth=true /etc/kubernetes/manifests/etcd-main.manifest
+      - grep -i client-cert-auth=true {{ k8s_manifests }}/etcd-main.manifest
     stig_fixtext: |
-      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
+      Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
   tags:
     - CNTR-K8-001480
 
@@ -1806,15 +1814,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i etcd-keyfile * 
 
       If the setting 'etcd-keyfile' is not configured in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-keyfile /etc/kubernetes/manifests/etcd-main.manifest
+      - grep -i etcd-keyfile {{ k8s_manifests }}/etcd-main.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the Approved Organizational Certificate.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the Approved Organizational Certificate.
   tags:
     - CNTR-K8-001490
 
@@ -1837,15 +1845,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i etcd-certfile * 
 
       If the setting 'etcd-certfile' is not configured in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-certfile /etc/kubernetes/manifests/etcd-main.manifest
+      - grep -i etcd-certfile {{ k8s_manifests }}/etcd-main.manifest
     stig_fixtext: |
-      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the Approved Organizational Certificate.
+      Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the Approved Organizational Certificate.
   tags:
     - CNTR-K8-001500
 
@@ -1868,15 +1876,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i etcd-cafile * 
 
       If the setting 'etcd-cafile' is not configured in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-cafile /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i etcd-cafile {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-cafile' to the Certificate Authority for etcd.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--etcd-cafile' to the Certificate Authority for etcd.
   tags:
     - CNTR-K8-001510
 
@@ -1899,15 +1907,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i etcd-certfile * 
 
       If the setting 'etcd-certfile' is not set in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-certfile /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i etcd-certfile {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the certificate to be used for communication with etcd.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--etcd-certfile' to the certificate to be used for communication with etcd.
   tags:
     - CNTR-K8-001520
 
@@ -1930,15 +1938,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i etcd-keyfile * 
 
       If the setting 'etcd-keyfile' is not configured in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-keyfile /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i etcd-keyfile {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the certificate to be used for communication with etcd.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the certificate to be used for communication with etcd.
   tags:
     - CNTR-K8-001530
 
@@ -1961,15 +1969,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i peer-cert-file * 
 
       If the setting 'peer-cert-file' is not configured in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i peer-cert-file /etc/kubernetes/manifests/etcd-main.manifest
+      - grep -i peer-cert-file {{ k8s_manifests }}/etcd-main.manifest
     stig_fixtext: |
-      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--peer-cert-file' to the certificate to be used for communication with etcd.
+      Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--peer-cert-file' to the certificate to be used for communication with etcd.
   tags:
     - CNTR-K8-001540
 
@@ -1992,15 +2000,15 @@
     stig_severity: medium
     stig_ident: CCI-001184
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i peer-key-file *
 
       If the setting 'peer-key-file' is not set in the Kubernetes etcd manifest file, this is a finding.
     stig_check_commands:
-      - grep -i peer-key-file /etc/kubernetes/manifests/etcd-main.manifest
+      - grep -i peer-key-file {{ k8s_manifests }}/etcd-main.manifest
     stig_fixtext: |
-      Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--peer-key-file' to the certificate to be used for communication with etcd.
+      Edit the Kubernetes etcd manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--peer-key-file' to the certificate to be used for communication with etcd.
   tags:
     - CNTR-K8-001550
 
@@ -2019,15 +2027,15 @@
     stig_severity: high
     stig_ident: CCI-001084
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i protect-kernel-defaults kubelet  
 
       If the setting 'protect-kernel-defaults' is set to false or not set in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i protect-kernel-defaults=true /etc/sysconfig/kubelet
+      - grep -i protect-kernel-defaults=true {{ kubelet_manifests }}/kubelet
     stig_fixtext: |
-      Edit the Kubernetes Kuberlet file in the /etc/sysconfig directory on the Kubernetes Master Node. Set the argument '--protect-kernel-defaults' to 'true'. 
+      Edit the Kubernetes Kuberlet file in the {{ kubelet_manifests }} directory on the Kubernetes Master Node. Set the argument '--protect-kernel-defaults' to 'true'. 
 
       Reset Kubelet service using the following command:
 
@@ -2065,15 +2073,15 @@
     stig_severity: high
     stig_ident: ['CCI-000213', 'CCI-001812', 'CCI-002235']
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i authorization-mode * 
 
       If the setting authorization-mode is set to 'AlwaysAllow' in the Kubernetes API Server manifest file or is not configured, this is a finding.
     stig_check_commands:
-      - grep -i authorization-mode=Node,RBAC /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i authorization-mode=Node,RBAC {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--authorization-mode' to any valid authorization mode other than AlwaysAllow.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--authorization-mode' to any valid authorization mode other than AlwaysAllow.
   tags:
     - CNTR-K8-001990
 
@@ -2092,16 +2100,16 @@
     stig_severity: high
     stig_ident: CCI-002233
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i ValidatingAdmissionWebhook * 
 
       If a line is not returned that includes enable-admission-plugins and ValidatingAdmissionWebhook, this is a finding.
     stig_check_commands:
-      - grep -i enable-admission-plugins /etc/kubernetes/manifests/kube-apiserver.manifest
-      - grep -i ValidatingAdmissionWebhook /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i enable-admission-plugins {{ k8s_manifests }}/kube-apiserver.manifest
+      - grep -i ValidatingAdmissionWebhook {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--enable-admission-plugins' to include 'ValidatingAdmissionWebhook'.  Each enabled plugin is separated by commas.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--enable-admission-plugins' to include 'ValidatingAdmissionWebhook'.  Each enabled plugin is separated by commas.
 
       Note: It is best to implement policies first and then enable the webhook, otherwise a denial of service may occur.
   tags:
@@ -2217,7 +2225,7 @@
     stig_severity: medium
     stig_ident: CCI-002385
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -I request-timeout * 
 
@@ -2225,9 +2233,9 @@
 
       If the setting request-timeout is set to '0' in the Kubernetes API Server manifest file, or is not configured this is a finding.
     stig_check_commands:
-      - grep -i request-timeout=3m0s /etc/kubernetes/manifests/kube-apiserver.manifest
+      - grep -i request-timeout=3m0s {{ k8s_manifests }}/kube-apiserver.manifest
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of request-timeout greater than '0'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of request-timeout greater than '0'.
   tags:
     - CNTR-K8-002600
 
@@ -2246,15 +2254,15 @@
     stig_severity: high
     stig_ident: CCI-002418
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i basic-auth-file * 
 
       If 'basic-auth-file' is set in the Kubernetes API server manifest file, or is not configured this is a finding.
     stig_check_commands:
-      - grep -i basic-auth-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 1 || exit 0
+      - grep -i basic-auth-file {{ k8s_manifests }}/kube-apiserver.manifest && exit 1 || exit 0
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove the setting '--basic-auth-file'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Remove the setting '--basic-auth-file'.
   tags:
     - CNTR-K8-002620
 
@@ -2273,15 +2281,15 @@
     stig_severity: medium
     stig_ident: CCI-002418
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i token-auth-file * 
 
       If 'token-auth-file' is set in the Kubernetes API server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i token-auth-file /etc/kubernetes/manifests/kube-apiserver.manifest && exit 1 || exit 0
+      - grep -i token-auth-file {{ k8s_manifests }}/kube-apiserver.manifest && exit 1 || exit 0
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Remove parameter '--token-auth-file'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Remove parameter '--token-auth-file'.
   tags:
     - CNTR-K8-002630
 
@@ -2304,7 +2312,7 @@
     stig_severity: medium
     stig_ident: CCI-002418
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i kubelet-client-certificate *
       grep -I kubelet-client-key * 
@@ -2313,9 +2321,9 @@
 
       If the setting '--kubelet-client-key' is not configured in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i kubelet-client-certificate /etc/kubernetes/manifests/*
+      - grep -i kubelet-client-certificate {{ k8s_manifests }}/*
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--kubelet-client-certificate' and '--kubelet-client-key' to an Approved Organizational Certificate and key pair.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--kubelet-client-certificate' and '--kubelet-client-key' to an Approved Organizational Certificate and key pair.
   tags:
     - CNTR-K8-002640
 
@@ -2408,7 +2416,7 @@
     stig_check_content: |
       Review the ownership of the Kubernetes manifests files by using the command:
 
-      stat -c %U:%G /etc/kubernetes/manifests/* | grep -v root:root
+      stat -c %U:%G {{ k8s_manifests }}/* | grep -v root:root
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
@@ -2416,7 +2424,7 @@
     stig_fixtext: |
       Change the ownership of the manifest files to root: root by executing the command:
 
-      chown root:root /etc/kubernetes/manifests/*
+      chown root:root {{ k8s_manifests }}/*
   tags:
     - CNTR-K8-003110
 
@@ -2561,7 +2569,7 @@
     stig_severity: medium
     stig_ident: CCI-000366
     stig_check_content: |
-      Change to the /etc/sysconfig/ directory on the Kubernetes Master Node. Run command:
+      Change to the {{ kubelet_manifests }}/ directory on the Kubernetes Master Node. Run command:
 
       more kubelet
       --client-ca-file argument 
@@ -2829,7 +2837,7 @@
     stig_check_content: |
       Review the permissions of the Kubernetes Kubelet by using the command:
 
-      stat -c %a  /etc/kubernetes/manifests/*
+      stat -c %a  {{ k8s_manifests }}/*
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
@@ -2837,7 +2845,7 @@
     stig_fixtext: |
       Change the permissions of the manifest files to 'root: root' by executing the command:
 
-      chown root:root /etc/kubernetes/manifests/*
+      chown root:root {{ k8s_manifests }}/*
   tags:
     - CNTR-K8-003250
 
@@ -2918,7 +2926,7 @@
     stig_severity: medium
     stig_ident: CCI-000366
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-policy-file * 
 
@@ -2926,7 +2934,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the argument '--audit-policy-file' to 'log file directory'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the argument '--audit-policy-file' to 'log file directory'.
   tags:
     - CNTR-K8-003280
 
@@ -2945,7 +2953,7 @@
     stig_severity: medium
     stig_ident: CCI-000366
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-log-maxsize * 
 
@@ -2953,7 +2961,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of –'--audit-log-maxsize' to a minimum of '100'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of –'--audit-log-maxsize' to a minimum of '100'.
   tags:
     - CNTR-K8-003290
 
@@ -2972,7 +2980,7 @@
     stig_severity: medium
     stig_ident: CCI-000366
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-log-maxbackup * 
 
@@ -2980,7 +2988,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-maxbackup' to a minimum of '10'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--audit-log-maxbackup' to a minimum of '10'.
   tags:
     - CNTR-K8-003300
 
@@ -2999,7 +3007,7 @@
     stig_severity: medium
     stig_ident: CCI-000366
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-log-maxage * 
 
@@ -3007,7 +3015,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-maxage' to a minimum of '30'.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--audit-log-maxage' to a minimum of '30'.
   tags:
     - CNTR-K8-003310
 
@@ -3026,7 +3034,7 @@
     stig_severity: medium
     stig_ident: CCI-000366
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }}/ directory on the Kubernetes Master Node. Run the command:
 
       grep -i audit-log-path * 
 
@@ -3034,7 +3042,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--audit-log-path' to valid location.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--audit-log-path' to valid location.
   tags:
     - CNTR-K8-003320
 
@@ -3115,7 +3123,7 @@
     stig_severity: medium
     stig_ident: CCI-001453
     stig_check_content: |
-      Change to the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Run the command:
+      Change to the {{ k8s_manifests }} directory on the Kubernetes Master Node. Run the command:
 
       grep -i tls-min-version * 
 
@@ -3123,7 +3131,7 @@
     stig_check_commands:
       - 
     stig_fixtext: |
-      Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to either 'VersionTLS12' or higher.
+      Edit the Kubernetes API Server manifest file in the {{ k8s_manifests }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to either 'VersionTLS12' or higher.
   tags:
     - CNTR-K8-003350
 

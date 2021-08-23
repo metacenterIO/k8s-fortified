@@ -1,5 +1,6 @@
 kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
 
 # variables to set file paths
-
-
+k8s_manifests: "/etc/kubernetes/manifests"
+etcd_manifests: "/etc/kubernetes/manifests"
+kubelet_manifests: "/etc/sysconfig"
