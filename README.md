@@ -1,4 +1,4 @@
-# Kubernetes DISA Compliance
+# Kubernetes DISA/STIG Compliance
 
 **In development**
 
