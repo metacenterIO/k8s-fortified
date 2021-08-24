@@ -22,12 +22,12 @@ spec:
           readOnly: true
           subPath: entrypoint.sh
         - name: dirpath
-          mountPath: "{% if vol_mnt_path %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
+          mountPath: "{% if vol_mnt_path is defined %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
       volumes:
       - name: configmap-volume
         configMap:
           defaultMode: 0700
-          name: "{{ stig_id }}"
+          name: "{{ stig_id | lower }}"
       - name: dirpath
         hostPath:
           path: "{{ vol_path }}"
