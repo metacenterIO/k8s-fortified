@@ -32,6 +32,7 @@
       kind: namespace
       metadata:
         name: compliance
+  tags: namespace
 
 - name: The Kubernetes Controller Manager must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination.
   community.kubernetes.k8s:
@@ -251,7 +252,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ base_dir }}"
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000290
     stig_title: User-managed resources must be created in dedicated namespaces.
     stig_description: |
@@ -284,7 +285,8 @@
 
       If a return value is returned from the 'kubectl get all' command and it is not the kubernetes service (i.e., service/kubernetes), this is a finding.
     stig_check_commands: |-
-      kubectl get all \
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+      {{ kubectl['mnt'] }}/kubectl get all \
       --all-namespaces \
       --no-headers \
       --field-selector metadata.name!=kubernetes,metadata.namespace=kube-public,metadata.namespace=default,metadata.namespace=kube-node-lease \
@@ -685,7 +687,7 @@
 
       If any resources are returned, this is a finding.
     stig_check_commands:
-     - kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
+     - export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
     stig_fixtext: |
       Delete the Kubernetes dashboard deployment with the following command:
 
@@ -716,7 +718,8 @@
 
       If the Master or any Work nodes are not using kubectl version 1.12.9 or newer, this is a finding.
     stig_check_commands: |-
-      TEST=$({{ kubectl['path'] }} version --client -o json)
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      TEST=$({{ kubectl['mnt'] }}/kubectl version --client -o json)
       VERSION=$(echo "$TEST" | jq -r '.clientVersion.gitVersion' | cut -d "v" -f2)
       ver () { echo "$@" | awk -F. '{ printf("%d%03d%03d", $1,$2,$3); }'; }
       if [ $(ver $VERSION) -lt $(ver 1.12.9) ]; then exit 1; else exit 0; fi
@@ -1252,11 +1255,12 @@
 
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands: |-
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
       echo "--- Manual Verification Required - CNTR-K8-000920 ---"
       grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
       grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
       grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-      kubectl describe services --all-namespaces
+      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1312,7 +1316,8 @@
       echo "grep secure-port"
       grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }}
       echo "grep all services"
-      kubectl describe services --all-namespaces
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
   tags:
@@ -1368,7 +1373,8 @@
       echo "grep secure-port"
       grep -i secure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }}
       echo "grep all services"
-      kubectl describe services --all-namespaces
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Controller manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1424,7 +1430,8 @@
       echo "grep secure-port"
       grep -i secure-port {{ k8s_dir }}/{{ etcd_main_manifest }}
       echo "grep all services"
-      kubectl describe services --all-namespaces
+      export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes etcd manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1464,7 +1471,7 @@
       If any host-privileged ports are returned for any of the pods, this is a finding.
     stig_check_commands: |-
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      kubectl get pods \
+      {{ kubectl['mnt'] }}/kubectl get pods \
       --all-namespaces \
       --field-selector metadata.namespace!=kube-system,metadata.namespace!=kube-public,metadata.namespace!=kube-node-lease \
       -o json \
@@ -1496,7 +1503,7 @@
 
       If any of the values returned reference environment variables, this is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A && exit 1 || exit 0
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A && exit 1 || exit 0
     stig_fixtext: |
       Any secrets stored as environment variables must be moved to the secret files with the proper protections and enforcements or placed within a password vault.
   tags:
@@ -1556,7 +1563,7 @@
 
       If any user pods are present in the Kubernetes system namespaces, this is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; kubectl get pods --all-namespaces && exit 2
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get pods --all-namespaces && exit 2
     stig_fixtext: |
       Move any user pods that are present in the Kubernetes system namespaces to user specific namespaces.
   tags:
@@ -2223,7 +2230,7 @@
 
       If the ranges within the fsGroup section has a min set to '0' or the min is missing, this is a finding.
     stig_check_commands:
-      - "kubectl get podsecuritypolicy -o json | jq -r '[.items[] | { runAsUser: .spec.runAsUser}, { supplementalGroups: .spec.supplementalGroups} ]' && exit 2"
+      - "export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get podsecuritypolicy -o json | jq -r '[.items[] | { runAsUser: .spec.runAsUser}, { supplementalGroups: .spec.supplementalGroups} ]' && exit 2"
     stig_fixtext: |
       From the Master node, save the following policy to a file called restricted.yml.
 
@@ -2432,7 +2439,7 @@
     stig_check_commands: |-
       echo "MANUAL CHECK REQUIRED"
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      kubectl get pods \
+      {{ kubectl['mnt'] }}/kubectl get pods \
       --all-namespaces \
       tr -s '[[:space:]]' '\n' | \
       sort | \
@@ -2478,7 +2485,7 @@
       Note: Kubernetes Skew Policy can be found at: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
     stig_check_commands: |-
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      kubectl version --short
+      {{ kubectl['mnt'] }}/kubectl version --short
     stig_fixtext: |
       Upgrade Kubernetes to the supported version. Institute and adhere to the policies and procedures to ensure that patches are consistently applied within the time allowed.
   tags:
