@@ -284,13 +284,13 @@
       The only valid return values are the kubernetes service (i.e., service/kubernetes) and nothing at all.
 
       If a return value is returned from the 'kubectl get all' command and it is not the kubernetes service (i.e., service/kubernetes), this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       export KUBECONFIG=/var/lib/kubectl/kubeconfig;
       kubectl get all \
       --all-namespaces \
       --no-headers \
-      --field-selector metadata.name!=kubernetes,metadata.namespace=kube-public,metadata.namespace=default,metadata.namespace=kube-node-lease \
-      | if [ $(wc -l) -gt 0 ]; then exit 1; fi
+      --field-selector metadata.name!=kubernetes,metadata.namespace=kube-public,metadata.namespace=default,metadata.namespace=kube-node-lease | if [ $(wc -l) -gt 0 ]; then exit 1; fi
     stig_fixtext: |
       Move any user-managed resources from the default, kube-public and kube-node-lease namespaces, to user namespaces.
   tags:
@@ -704,7 +704,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl['vol'] }}"
-    vol_mnt_path: "{{ kubectl['path'] }}"
+    vol_mnt_path: "{{ kubectl['mnt'] }}"
     stig_id: CNTR-K8-000430
     stig_title: Kubernetes Kubectl cp command must give expected access and results.
     stig_description: |
@@ -717,7 +717,8 @@
       kubectl version --client
 
       If the Master or any Work nodes are not using kubectl version 1.12.9 or newer, this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
       TEST=$({{ kubectl['mnt'] }}/kubectl version --client -o json)
       VERSION=$(echo "$TEST" | jq -r '.clientVersion.gitVersion' | cut -d "v" -f2)
@@ -1114,7 +1115,8 @@
       Each kubelet configuration file must have permissions of '644' or more restrictive.
 
       If any kubelet configuration file is less restrictive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ k8s_dir }}{{ kubelet_manifest }})
       if [ "$FILES" ]
       then
@@ -1162,7 +1164,8 @@
       Each manifest file must have permissions '644' or more restrictive.
 
       If any manifest file is less restrictive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ k8s_dir }}/*)
       for FILE in $FILES
       do
@@ -1254,13 +1257,14 @@
       https://cyber.mil/ppsm/cal/
 
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
       echo "--- Manual Verification Required - CNTR-K8-000920 ---"
       grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
       grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
       grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
+      "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1308,7 +1312,8 @@
       https://cyber.mil/ppsm/cal/
 
       Verify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       echo "--- Manual Verification Required - CNTR-K8-000930 ---"
       echo ""
       echo "grep insecure-port"
@@ -1317,7 +1322,7 @@
       grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }}
       echo "grep all services"
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
+      "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
   tags:
@@ -1365,7 +1370,8 @@
       https://cyber.mil/ppsm/cal/
 
       Verify Controller network boundary with the PPS associated with the Controller for Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       echo "--- Manual Verification Required - CNTR-K8-000940 ---"
       echo ""
       echo "grep insecure-port"
@@ -1374,7 +1380,7 @@
       grep -i secure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }}
       echo "grep all services"
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
+      "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Controller manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1421,7 +1427,8 @@
       https://cyber.mil/ppsm/cal/
 
       Verify etcd network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       echo "--- Manual Verification Required - CNTR-K8-000950 ---"
       echo ""
       echo "grep insecure-port"
@@ -1430,7 +1437,7 @@
       grep -i secure-port {{ k8s_dir }}/{{ etcd_main_manifest }}
       echo "grep all services"
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      {{ kubectl['mnt'] }}/kubectl describe services --all-namespaces
+      "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes etcd manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1468,13 +1475,13 @@
       Review the ports that are returned for the pod.
 
       If any host-privileged ports are returned for any of the pods, this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      {{ kubectl['mnt'] }}/kubectl get pods \
+      "{{ kubectl['mnt'] }}/kubectl" get pods \
       --all-namespaces \
       --field-selector metadata.namespace!=kube-system,metadata.namespace!=kube-public,metadata.namespace!=kube-node-lease \
-      -o json \
-      | jq -e --arg hp 1024 -r '[.items[] | .spec.containers[].ports[]?.hostPort // empty] | select( all( . < $hp)) | length > 0' && exit 1 || exit 0
+      -o json | jq -e --arg hp 1024 -r '[.items[] | .spec.containers[].ports[]?.hostPort // empty] | select( all( . < $hp)) | length > 0' && exit 1 || exit 0
     stig_fixtext: |
       For any of the pods that are using host-privileged ports, reconfigure the pod to use a service to map a host non-privileged port to the pod port or reconfigure the image to use non-privileged ports.
   tags:
@@ -2435,10 +2442,11 @@
       Review the images used for pods running within Kubernetes.
 
       If there are multiple versions of the same image, this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       echo "MANUAL CHECK REQUIRED"
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      {{ kubectl['mnt'] }}/kubectl get pods \
+      "{{ kubectl['mnt'] }}/kubectl" get pods \
       --all-namespaces \
       tr -s '[[:space:]]' '\n' | \
       sort | \
@@ -2482,9 +2490,10 @@
       If kubectl version has a setting not supporting Kubernetes skew policy, this is a finding.
 
       Note: Kubernetes Skew Policy can be found at: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       export KUBECONFIG=/var/lib/kubectl/kubeconfig
-      {{ kubectl['mnt'] }}/kubectl version --short
+      "{{ kubectl['mnt'] }}/kubectl" version --short
     stig_fixtext: |
       Upgrade Kubernetes to the supported version. Institute and adhere to the policies and procedures to ensure that patches are consistently applied within the time allowed.
   tags:
@@ -2610,7 +2619,8 @@
       stat -c %a <location from --kubeconfig>
 
       If the file has permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ k8s_dir }}/{{ kube_proxy_manifest }})
       if [ "$FILES" ]
       then
@@ -2683,7 +2693,8 @@
       Note certificate location
 
       If the ca-file argument location file has permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }})
       if [ "$FILES" ]
       then
@@ -2784,7 +2795,8 @@
       stat -c %a  /etc/kubernetes/kubelet.conf
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ base_dir }}/kubelet.conf)
       if [ "$FILES" ]
       then
@@ -2882,7 +2894,8 @@
       stat -c %a /usr/bin/kubeadm
 
       If any of the files have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' /usr/bin/kubeadm)
       if [ "$FILES" ]
       then
@@ -2920,7 +2933,8 @@
       stat -c %a /var/lib/kubelet/config.yaml
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' /var/lib/kubelet/config.yaml)
       if [ "$FILES" ]
       then
@@ -2988,7 +3002,8 @@
       stat -c %a  {{ k8s_dir }}/*
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ k8s_dir }}/*)
       if [ "$FILES" ]
       then
@@ -3026,7 +3041,8 @@
       stat -c %a  /var/lib/etcd/*
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' /var/lib/etcd/*)
       if [ "$FILES" ]
       then
@@ -3066,7 +3082,8 @@
       stat -c %a /etc/kubernetes/controller-manager.conf
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ base_dir }}/admin.conf {{ base_dir }}/scheduler.conf {{ base_dir }}/controller-manager.conf)
       if [ "$FILES" ]
       then
@@ -3134,7 +3151,8 @@
       grep -i audit-log-maxsize * 
 
       If the setting 'audit-log-maxsize' is not set in the Kubernetes API Server manifest file or it is set to less than '100', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       TEST=$(grep -i audit-log-maxsize {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
       if [ "$TEST" ]
         if [ "$TEST" -lt "100" ]; then exit 1; else exit 0; fi
@@ -3167,7 +3185,8 @@
       grep -i audit-log-maxbackup * 
 
       If the setting 'audit-log-maxbackup' is not set in the Kubernetes API Server manifest file or it is set less than '10', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       TEST=$(grep -i audit-log-maxbackup {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
       if [ "$TEST" ]
         if [ "$TEST" -lt "10" ]; then exit 1; else exit 0; fi
@@ -3262,7 +3281,8 @@
       find /etc/kubernetes/pki -name '*.crt' | xargs stat -c '%n %a'
 
       If any of the files are have permissions more permissive than '644', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.crt )
       if [ "$FILES" ]
       then
@@ -3300,7 +3320,8 @@
       find /etc/kubernetes/pki -name '*.key' | xargs stat -c '%n %a'
 
       If any of the files are have permissions more permissive than '600', this is a finding.
-    stig_check_commands: |
+    stig_check_commands:
+      -|
       FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.key )
       if [ "$FILES" ]
       then
