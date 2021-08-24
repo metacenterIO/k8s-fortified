@@ -8,6 +8,7 @@ etcd_data_dir: "/var/lib/etcd"
 kubelet_dir: "/etc/sysconfig"
 pki_dir: "/etc/kubernetes/pki"
 kubectl_dir: "/var/lib"
+kubeadm_dir: "/usr/bin"
 
 # manifests
 kube_proxy_manifest: "kube-proxy.manifest"

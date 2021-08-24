@@ -1631,6 +1631,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-001420
     stig_title: Kubernetes Kubelet must have the SSL Certificate Authority set.
     stig_description: |
@@ -1665,6 +1666,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001430
     stig_title: Kubernetes Controller Manager must have the SSL Certificate Authority set.
     stig_description: |
@@ -1696,6 +1698,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001440
     stig_title: Kubernetes API Server must have a certificate for communication.
     stig_description: |
@@ -1729,6 +1732,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001450
     stig_title: Kubernetes etcd must enable client authentication to secure service.
     stig_description: |
@@ -1760,6 +1764,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-001460
     stig_title: Kubernetes Kubelet must enable tls-private-key-file for client authentication to secure service.
     stig_description: |
@@ -1793,6 +1798,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-001470
     stig_title: Kubernetes Kubelet must enable tls-cert-file for client authentication to secure service.
     stig_description: |
@@ -1826,6 +1832,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001480
     stig_title: Kubernetes etcd must enable client authentication to secure service.
     stig_description: |
@@ -1857,6 +1864,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001490
     stig_title: Kubernetes etcd must have a key file for secure communication.
     stig_description: |
@@ -1888,6 +1896,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001500
     stig_title: Kubernetes etcd must have a certificate for communication.
     stig_description: |
@@ -1919,6 +1928,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001510
     stig_title: Kubernetes etcd must have the SSL Certificate Authority set.
     stig_description: |
@@ -1950,6 +1960,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001520
     stig_title: Kubernetes etcd must have a certificate for communication.
     stig_description: |
@@ -1981,6 +1992,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001530
     stig_title: Kubernetes etcd must have a key file for secure communication.
     stig_description: |
@@ -2012,6 +2024,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001540
     stig_title: Kubernetes etcd must have peer-cert-file set for secure communication.
     stig_description: |
@@ -2043,6 +2056,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001550
     stig_title: Kubernetes etcd must have a peer-key-file set for secure communication.
     stig_description: |
@@ -2074,6 +2088,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-001620
     stig_title: Kubernetes Kubelet must enable kernel protection.
     stig_description: |
@@ -2105,6 +2120,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-001990
     stig_title: Kubernetes must prevent non-privileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures or the installation of patches and updates.
     stig_description: |
@@ -2147,6 +2163,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-002000
     stig_title: The Kubernetes API server must have the ValidatingAdmissionWebhook enabled.
     stig_description: |
@@ -2177,6 +2194,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002010
     stig_title: Kubernetes must have a pod security policy set.
     stig_description: |
@@ -2272,6 +2290,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-002600
     stig_title: Kubernetes API Server must configure timeouts to limit attack surface.
     stig_description: |
@@ -2301,6 +2320,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-002620
     stig_title: Kubernetes API Server must disable basic authentication to protect information in transit.
     stig_description: |
@@ -2328,6 +2348,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-002630
     stig_title: Kubernetes API Server must disable token authentication to protect information in transit.
     stig_description: |
@@ -2355,6 +2376,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-002640
     stig_title: Kubernetes endpoints must use approved organizational certificate and key pair to protect information in transit.
     stig_description: |
@@ -2389,6 +2411,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002700
     stig_title: Kubernetes must remove old components after updated versions have been installed.
     stig_description: |
@@ -2430,6 +2453,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002720
     stig_title: Kubernetes must contain the latest updates as authorized by IAVMs, CTOs, DTMs, and STIGs.
     stig_description: |
@@ -2468,6 +2492,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003110
     stig_title: The Kubernetes component manifests must be owned by root.
     stig_description: |
@@ -2497,6 +2522,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ etcd_data_dir }}"
     stig_id: CNTR-K8-003120
     stig_title: The Kubernetes component etcd must be owned by etcd.
     stig_description: |
@@ -2526,6 +2552,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-003130
     stig_title: The Kubernetes conf files must be owned by root.
     stig_description: |
@@ -2561,6 +2588,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003140
     stig_title: The Kubernetes Kube Proxy must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -2601,6 +2629,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003150
     stig_title: The Kubernetes Kube Proxy must be owned by root.
     stig_description: |
@@ -2633,6 +2662,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-003160
     stig_title: The Kubernetes Kubelet certificate authority file must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -2672,6 +2702,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-003170
     stig_title: The Kubernetes Kubelet certificate authority must be owned by root.
     stig_description: |
@@ -2704,6 +2735,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ pki_dir }}"
     stig_id: CNTR-K8-003180
     stig_title: The Kubernetes component PKI must be owned by root.
     stig_description: |
@@ -2733,6 +2765,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-003190
     stig_title: The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -2770,6 +2803,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-003200
     stig_title: The Kubernetes kubelet config must be owned by root.
     stig_description: |
@@ -2799,6 +2833,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubeadm_dir }}"
     stig_id: CNTR-K8-003210
     stig_title: The Kubernetes kubeadm must be owned by root.
     stig_description: |
@@ -2812,11 +2847,11 @@
 
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
-      - if [ $(find /usr/bin/kubeadm -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
+      - if [ $(find {{ kubeadm_dir }}/kubeadm -not -user root | wc -l) != "0" ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Change the ownership of the kubeadm to root: root by executing the command:
 
-      chown root:root /user/bin/kubeadm
+      chown root:root /usr/bin/kubeadm
   tags:
     - CNTR-K8-003210
 
@@ -2828,6 +2863,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubeadm_dir }}"
     stig_id: CNTR-K8-003220
     stig_title: The Kubernetes kubelet service must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -2865,6 +2901,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-003230
     stig_title: The Kubernetes kubelet config must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -2902,6 +2939,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-003240
     stig_title: The Kubernetes kubelet config must be owned by root.
     stig_description: |
@@ -2931,6 +2969,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003250
     stig_title: The Kubernetes API Server must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -2968,6 +3007,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ etcd_data_dir }}"
     stig_id: CNTR-K8-003260
     stig_title: The Kubernetes etcd must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -3005,6 +3045,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ base_dir }}"
     stig_id: CNTR-K8-003270
     stig_title: The Kubernetes admin.conf must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -3046,6 +3087,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003280
     stig_title: Kubernetes API Server audit logs must be enabled.
     stig_description: |
@@ -3073,6 +3115,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003290
     stig_title: The Kubernetes API Server must be set to audit log max size.
     stig_description: |
@@ -3105,6 +3148,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003300
     stig_title: The Kubernetes API Server must be set to audit log maximum backup.
     stig_description: |
@@ -3137,6 +3181,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003310
     stig_title: The Kubernetes API Server audit log retention must be set.
     stig_description: |
@@ -3169,6 +3214,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003320
     stig_title: The Kubernetes API Server audit log path must be set.
     stig_description: |
@@ -3197,6 +3243,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ pki_dir }}"
     stig_id: CNTR-K8-003330
     stig_title: The Kubernetes PKI CRT must have file permissions set to 644 or more restrictive.
     stig_description: |
@@ -3210,7 +3257,7 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands: |-
-      FILES=$(stat -c '%n:%a' {{ pki_manifests }}/* )
+      FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.crt )
       if [ "$FILES" ]
       then
         FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
@@ -3234,6 +3281,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ pki_dir }}"
     stig_id: CNTR-K8-003340
     stig_title: The Kubernetes PKI keys must have file permissions set to 600 or more restrictive.
     stig_description: |
@@ -3246,8 +3294,16 @@
       find /etc/kubernetes/pki -name '*.key' | xargs stat -c '%n %a'
 
       If any of the files are have permissions more permissive than '600', this is a finding.
-    stig_check_commands:
-      - 
+    stig_check_commands: |-
+      FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.key )
+      if [ "$FILES" ]
+      then
+        FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
+        echo "$FILE_PERM"
+        if [ "$FILE_PERM" -gt "600" ]; then exit 1; else exit 0; fi
+      else
+        exit 0
+      fi
     stig_fixtext: |
       Change the ownership of the cert files to '600' by executing the command:
 
@@ -3263,6 +3319,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
+    vol_path: "{{ k8s_dir }}"
     stig_id: CNTR-K8-003350
     stig_title: The Kubernetes API Server must prohibit communication using TLS version 1.0 and 1.1, and SSL 2.0 and 3.0.
     stig_description: |
