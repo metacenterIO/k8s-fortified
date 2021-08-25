@@ -21,9 +21,10 @@ data:
     echo "Check Command: {{ stig_check_command }}"
     {{ stig_check_command }}
     TEST_RESULT=$?
+    echo "---Test Result---"
     echo "$TEST_RESULT"
 
-    if [ $TEST_RESULT > 0 ]
+    if [ "$TEST_RESULT" -gt "0" ]
     then
       echo "Check Command: {{ stig_check_command }} - ${red}FAILED${reset}"
       OVERALL_RESULT=1
