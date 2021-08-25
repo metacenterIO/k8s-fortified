@@ -123,6 +123,7 @@
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--tls-min-version' to 'VersionTLS12' or higher.
   tags:
     - CNTR-K8-000170
+    - API
 
 - name: The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.
   community.kubernetes.k8s:
@@ -183,6 +184,7 @@
       Edit the Kubernetes etcd manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of 'peer-auto-tls' to 'false'.
   tags:
     - CNTR-K8-000190
+    - API
 
 - name: The Kubernetes Controller Manager must create unique service accounts for each work payload.
   community.kubernetes.k8s:
@@ -243,6 +245,7 @@
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--authorization-mode' to 'Node,RBAC'.
   tags:
     - CNTR-K8-000270
+    - API
 
 - name: User-managed resources must be created in dedicated namespaces.
   community.kubernetes.k8s:
@@ -381,6 +384,7 @@
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the argument --insecure-port to '0'.
   tags:
     - CNTR-K8-000320
+    - API
 
 - name: The Kubernetes Kubelet must have the read-only port flag disabled.
   community.kubernetes.k8s:
@@ -430,6 +434,7 @@
       '--read-only-port=0'.
   tags:
     - CNTR-K8-000330
+    - API
 
 - name: The Kubernetes API server must have the insecure bind address not set.
   community.kubernetes.k8s:
@@ -460,6 +465,7 @@
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Remove the value for the --insecure-bind-address setting.
   tags:
     - CNTR-K8-000340
+    - API
 
 - name: The Kubernetes API server must have the secure port set.
   community.kubernetes.k8s:
@@ -490,6 +496,7 @@
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the argument --secure-port to a value greater than '0'.
   tags:
     - CNTR-K8-000350
+    - API
 
 - name: The Kubernetes API server must have anonymous authentication disabled.
   community.kubernetes.k8s:
@@ -522,6 +529,7 @@
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the argument --anonymous-auth to 'false'.
   tags:
     - CNTR-K8-000360
+    - API
 
 - name: The Kubernetes Kubelet must have anonymous authentication disabled.
   community.kubernetes.k8s:
@@ -798,6 +806,7 @@
       Edit any manifest files or kubelet config files that contain the feature-gates setting with DynamicAuditing set to 'true'. Set the flag to 'false' or remove the 'DynamicAuditing' setting completely. Restart the kubelet service if the kubelet config file if the kubelet config file is changed.
   tags:
     - CNTR-K8-000450
+    - API
 
 - name: Kubernetes DynamicKubeletConfig must not be enabled.
   community.kubernetes.k8s:
@@ -869,6 +878,7 @@
       (AllAlpha- default=false)
   tags:
     - CNTR-K8-000470
+    - API
 
 - name: The Kubernetes API Server must have an audit policy set.
   community.kubernetes.k8s:
@@ -899,6 +909,7 @@
       Note: If the API server is running as a Pod, then the manifest will also need to be updated to mount the host system filesystem where the audit policy file resides.
   tags:
     - CNTR-K8-000600
+    - API
 
 - name: The Kubernetes API Server must have an audit log path set.
   community.kubernetes.k8s:
@@ -929,6 +940,7 @@
       Note: If the API server is running as a Pod, then the manifest will also need to be updated to mount the host system filesystem where the audit log file is to be written.
   tags:
     - CNTR-K8-000610
+    - API
 
 - name: Kubernetes API Server must generate audit records that identify what type of event has occurred, identify the source of the event, contain the event results, identify any users, and identify any containers associated with the event.
   community.kubernetes.k8s:
@@ -984,6 +996,7 @@
       - level: RequestResponse
   tags:
     - CNTR-K8-000700
+    - API
 
 - name: Kubernetes Kubelet must deny hostname override.
   community.kubernetes.k8s:
@@ -1269,6 +1282,7 @@
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
     - CNTR-K8-000920
+    - API
 
 - name: The Kubernetes Scheduler must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
   community.kubernetes.k8s:
@@ -3388,7 +3402,7 @@
 - name: Print the list of jobs
   vars:
     myquery: >-
-      resources[*].{ name: metadata.labels."job-name", status: status }
+      resources[*].{ name: metadata.labels."job-name", status: status.conditions[].type || status.active }
   ansible.builtin.debug:
     msg: "{{ jobs_list | community.general.json_query(myquery) }}"
   tags: result
