@@ -21,7 +21,7 @@ data:
     echo "Check Command: {{ stig_check_command }}"
     {{ stig_check_command }}
     TEST_RESULT=$?
-    echo ""
+    echo "$TEST_RESULT"
 
     if [ $TEST_RESULT > 0 ]
     then
