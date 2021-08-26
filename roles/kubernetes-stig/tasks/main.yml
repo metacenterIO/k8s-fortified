@@ -3402,7 +3402,7 @@
 - name: Print the list of jobs
   vars:
     myquery: >-
-      resources[*].{ name: metadata.labels."job-name", status: status.conditions[].type || status.active }
+      resources[*].{ name: metadata.labels."job-name", succeeded: status.succeeded, failed: status.failed, conditionals: status.conditions[].type, active: status.active }
   ansible.builtin.debug:
     msg: "{{ jobs_list | community.general.json_query(myquery) }}"
   tags: result
@@ -3410,3 +3410,4 @@
 
   # [?active == '1' || conditions] 
   # resources[*].status[?active != null || ?failed != null]
+  # .conditions[].type || status.active
