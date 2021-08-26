@@ -1,0 +1,21 @@
+---
+{% if msg is defined %}
+
+{% for item in msg.resources %}
+
+STIG name: {{ item.metadata.name }}
+Status: 
+{%- if item.status.conditions is defined %}
+  {%- for cond in item.status.conditions %}
+    {%+ if cond.type == 'Complete' -%}
+       Success
+    {% else -%}
+       Failed
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+
+{% endfor %}
+
+{% endif %}
