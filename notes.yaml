@@ -1,0 +1,71 @@
+- name: Jobs Report
+  vars:
+    myquery: >-
+      resources[*].{ name: metadata.labels."job-name", succeeded: status.succeeded, failed: status.failed, conditionals: status.conditions[].type, active: status.active }
+  ansible.builtin.template:
+    src: templates/report.j2
+    dest: ./report
+  register: result
+  tags: result
+
+
+
+
+
+
+  # [?active == '1' || conditions] 
+  # resources[*].status[?active != null || ?failed != null]
+  # .conditions[].type || status.active
+  #       resources[metadata.labels."job-name"]
+
+
+# - name: Print the report
+#   ansible.builtin.template:
+#     src: templates/report.j2
+#     dest: "tmp/{{ item.metadata.name }}"
+#   loop: "{{ jobs_list | community.general.json_query(myquery) }}"
+#   # ansible.builtin.debug:
+#   #   msg: "{{ item }}"
+#   vars:
+#     myquery: >-
+#       resources[?metadata.labels."job-name"]
+#   tags: result
+
+
+
+  # ok: [localhost] => {
+  #   "msg": {
+  #       "api_found": true,
+  #       "changed": false,
+  #       "failed": false,
+  #       "resources": [
+  #           {
+  #               "apiVersion": "batch/v1",
+  #               "kind": "Job",
+  #               "metadata": {
+  #                   "creationTimestamp": "2021-08-26T13:24:56Z",
+  #                   "labels": {
+  #                       "controller-uid": "31d3871f-9e2f-4587-a8c5-852aa313db81",
+  #                       "job-name": "cntr-k8-000150"
+  #                   },
+  #                   "managedFields": [
+  #                       {
+  #                           "apiVersion": "batch/v1",
+  #                           "fieldsType": "FieldsV1",
+  #                           "fieldsV1": {
+  #                               "f:spec": {
+  #                                   "f:backoffLimit": {},
+
+
+
+
+
+
+
+  Status: {% if item.status.conditions is defined and item.status.conditions[].type == 'Failed' %}
+            Failed
+          {% elif item.status.conditions is defined and item.status.conditions[].type == 'Complete' %}
+            Success
+          {% else %}
+            Not sure
+          {% endif %}
