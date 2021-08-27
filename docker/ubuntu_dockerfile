@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-
+# This Docker image works
 ARG KREW_RELEASE="v0.4.1"
 
 RUN apt update
