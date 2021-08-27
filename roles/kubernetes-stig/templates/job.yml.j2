@@ -11,7 +11,7 @@ spec:
         kubernetes.io/role: master
       containers:
       - name: bash
-        image: metacenterio/k8s-fortified
+        image: metacenterio/k8s-fortified:latest
         command: 
         - /bin/entrypoint.sh
         securityContext:
