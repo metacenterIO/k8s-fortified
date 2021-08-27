@@ -14,7 +14,9 @@ Status:
     {% endif %}
   {% endfor %}
 {% endif %}
-
+{%- if item.status.active is defined %}
+   Inprogress - Execute 'ansible-playbook check-kubernetes-stig-compliance.yml --tags "result"' to update report.
+{% endif %}
 
 {% endfor %}
 
