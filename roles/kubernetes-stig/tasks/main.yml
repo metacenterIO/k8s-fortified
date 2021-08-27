@@ -3405,7 +3405,6 @@
     dest: ./report
   vars:
     msg: "{{ jobs_list }}"
-  register: result
   tags: report
 
 

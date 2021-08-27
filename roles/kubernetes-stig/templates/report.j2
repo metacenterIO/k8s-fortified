@@ -10,7 +10,7 @@ Status:
     {%+ if cond.type == 'Complete' -%}
        Success
     {% else -%}
-       Failed
+       Failed - Reason: {{ cond.reason }}
     {% endif %}
   {% endfor %}
 {% endif %}
