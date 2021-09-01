@@ -3391,10 +3391,6 @@
   tags:
     - CNTR-K8-003350
 
-- name: Pause for 3 minutes
-  pause:
-    minutes: 3
-
 - name: Get a list of all jobs
   kubernetes.core.k8s_info:
     api_version: v1
@@ -3403,13 +3399,17 @@
   register: jobs_list
   tags: report
 
-- name: Print the list of jobs
-  ansible.builtin.template:
-    src: templates/report.j2
-    dest: ./report
-  vars:
-    msg: "{{ jobs_list }}"
-  tags: report
+- name: show templating results
+  debug:
+    msg: "{{ lookup('template', 'templates/report.j2') }}"
+
+# - name: Print the list of jobs
+#   ansible.builtin.template:
+#     src: templates/report.j2
+#     dest: ./report
+#   vars:
+#     msg: "{{ jobs_list }}"
+#   tags: report
 
 
 - name: Ensure compliance namespace is removed
