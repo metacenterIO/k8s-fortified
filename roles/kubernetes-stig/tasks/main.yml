@@ -3391,6 +3391,10 @@
   tags:
     - CNTR-K8-003350
 
+- name: Pause for 3 minutes
+  pause:
+    minutes: 3
+
 - name: Get a list of all jobs
   kubernetes.core.k8s_info:
     api_version: v1
