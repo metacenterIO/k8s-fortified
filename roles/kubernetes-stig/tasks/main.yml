@@ -3399,18 +3399,18 @@
   register: jobs_list
   tags: report
 
-- name: show templating results
+- name: Print the list of jobs
+  ansible.builtin.template:
+    src: templates/report.j2
+    dest: ./report
+  vars:
+    msg: "{{ jobs_list }}"
+  tags: report
+
+- name: show report results
   debug:
-    msg: "{{ lookup('template', 'templates/report.j2') }}"
-
-# - name: Print the list of jobs
-#   ansible.builtin.template:
-#     src: templates/report.j2
-#     dest: ./report
-#   vars:
-#     msg: "{{ jobs_list }}"
-#   tags: report
-
+    msg: "{{lookup('file', './report').split('\n') }}"
+  tags: report
 
 - name: Ensure compliance namespace is removed
   community.kubernetes.k8s:
