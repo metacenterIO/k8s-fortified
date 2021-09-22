@@ -213,7 +213,7 @@
 
       If the setting use-service-account-credential is not configured in the Kubernetes Controller Manager manifest file or it is set to 'false', this is a finding.
     stig_check_commands:
-      - grep -i use-service-account-credential=true {{ k8s_dir }}/{{ kube_controller_manager_manifest }}
+      - grep -i use-service-account-credentials=true {{ k8s_dir }}/{{ kube_controller_manager_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of 'use-service-account-credential' to 'true'.
   tags:
