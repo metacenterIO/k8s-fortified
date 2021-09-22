@@ -245,7 +245,7 @@
 
       If the setting 'authorization-mode' is not configured in the Kubernetes API Server manifest file or is not set to 'Node,RBAC', this is a finding.
     stig_check_commands:
-     - grep -i "use-service-account-credential=Node,RBAC" {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+     - grep -i "authorization-mode=Node,RBAC" {{ k8s_dir }}/{{ kube_apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--authorization-mode' to 'Node,RBAC'.
   tags:
