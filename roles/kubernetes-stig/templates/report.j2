@@ -10,12 +10,12 @@ Status:
     {%+ if cond.type == 'Complete' -%}
        Success
     {% else -%}
-       Failed - Reason: {{ cond.reason }}
+       Failed
     {% endif %}
   {% endfor %}
 {% endif %}
 {%- if item.status.active is defined %}
-   Inprogress - Execute 'ansible-playbook check-kubernetes-stig-compliance.yml --tags "result"' to update report.
+   Inprogress - Execute 'ansible-playbook check-kubernetes-stig-compliance.yml --tags "report"' to update report.
 {% endif %}
 
 {% endfor %}

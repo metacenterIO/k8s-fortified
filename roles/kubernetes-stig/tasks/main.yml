@@ -24,6 +24,11 @@
     - template
     - never
 
+- name: Delete content & directory
+  file:
+    state: absent
+    path: ./report
+
 - name: Ensure compliance namespace exists
   community.kubernetes.k8s:
     kubeconfig: "{{ kubeconfig }}"
