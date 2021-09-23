@@ -561,7 +561,7 @@
 
       If the setting 'anonymous-auth' is set to 'true' or the parameter not set in the Kubernetes Kubelet configuration file, this is a finding.
     stig_check_commands:
-     - grep -i anonymous-auth=false {{ kubelet_dir }}{{ kubelet_manifest }}
+     - grep -i anonymous-auth=false {{ kubelet_dir }}/{{ kubelet_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the{{ kubelet_dir }}/ directory on the Kubernetes Master Node. 
 
