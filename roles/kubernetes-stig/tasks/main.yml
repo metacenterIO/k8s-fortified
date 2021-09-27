@@ -1134,9 +1134,9 @@
 
       If any kubelet configuration file is less restrictive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }});
+      - export FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }});
         echo "$FILES";
-        if [ "$FILES" ]; then echo good; fi
+        if [[ -z "$FILES" ]]; then exit 1; fi
     stig_fixtext: |
       On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
 
