@@ -24,6 +24,10 @@ spec:
           subPath: entrypoint.sh
         - name: dirpath
           mountPath: "{% if vol_mnt_path is defined %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
+        {% if kubeconfig_path %}}
+        - name: kubeconfigpath
+          mountPath: "{% if vol_mnt_path is defined %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
+        {% endif %}
       volumes:
       - name: configmap-volume
         configMap:
@@ -32,6 +36,11 @@ spec:
       - name: dirpath
         hostPath:
           path: "{{ vol_path }}"
+      {% if kubeconfig_path %}}
+      - name: kubeconfigpath
+        hostPath:
+          path: "{{ kubeconfig_path }}"
+      {% endif %}
       tolerations:
       - key: node-role.kubernetes.io/master
       restartPolicy: Never

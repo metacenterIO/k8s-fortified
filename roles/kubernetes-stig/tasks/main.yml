@@ -687,6 +687,7 @@
   vars:
     vol_path: "{{ kubectl['vol'] }}"
     vol_mnt_path: "{{ kubectl['mnt'] }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000420
     stig_title: Kubernetes dashboard must not be enabled.
     stig_description: |
@@ -700,7 +701,7 @@
 
       If any resources are returned, this is a finding.
     stig_check_commands:
-     - export KUBECONFIG=/var/lib/kubectl/kubeconfig; 
+     - export KUBECONFIG=/var/lib/kubelet/kubeconfig; 
        kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
     stig_fixtext: |
       Delete the Kubernetes dashboard deployment with the following command:
