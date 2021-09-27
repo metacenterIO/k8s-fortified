@@ -685,7 +685,8 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ base_dir }}"
+    vol_path: "{{ kubectl['vol'] }}"
+    vol_mnt_path: "{{ kubectl['mnt'] }}"
     stig_id: CNTR-K8-000420
     stig_title: Kubernetes dashboard must not be enabled.
     stig_description: |
