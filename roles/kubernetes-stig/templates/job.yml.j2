@@ -11,6 +11,7 @@ spec:
         kubernetes.io/role: master
       containers:
       - name: bash
+        imagePullPolicy: Always
         image: metacenterio/k8s-fortified:latest
         command: 
         - /bin/entrypoint.sh
