@@ -1274,7 +1274,7 @@
         grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
         grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
         grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }};
-        kubectl describe services --all-namespaces;
+        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1332,7 +1332,7 @@
         grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }};
         echo "grep all services";
         export KUBECONFIG=/var/lib/kubectl/kubeconfig;
-        kubectl describe services --all-namespaces;
+        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
   tags:
