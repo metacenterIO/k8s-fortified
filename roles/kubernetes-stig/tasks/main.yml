@@ -1176,12 +1176,13 @@
 
       If any manifest file is less restrictive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ k8s_dir }}/*)
-        for FILE in $FILES
+      - export FILES=$(stat -c '%n:%a' {{ k8s_dir }}/*);
+        for FILE in ${FILES};
         do
-          FILE_PERM=`echo "$FILE" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; fi
+          export FILE_PERM=$(echo "${FILE}" | cut -d ":" -f2);
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; 
+          fi
         done
     stig_fixtext: |
       On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
