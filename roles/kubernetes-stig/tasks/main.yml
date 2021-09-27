@@ -1118,7 +1118,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ k8s_dir }}"
+    vol_path: "{{ kubelet_dir }}"
     stig_id: CNTR-K8-000890
     stig_title: The Kubernetes kubelet configuration file must be owned by root.
     stig_description: |
@@ -1134,15 +1134,9 @@
 
       If any kubelet configuration file is less restrictive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ k8s_dir }}{{ kubelet_manifest }});
-        if [ "$FILES" ]
-        then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
-        else
-          exit 0
-        fi
+      - FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }});
+        echo "$FILES";
+        if [ "$FILES" ]; then echo good; fi
     stig_fixtext: |
       On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
 
