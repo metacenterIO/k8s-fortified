@@ -1269,12 +1269,12 @@
 
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        echo "--- Manual Verification Required - CNTR-K8-000920 ---"
-        grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-        grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-        grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+        echo "--- Manual Verification Required - CNTR-K8-000920 ---";
+        grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+        grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+        grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+        kubectl describe services --all-namespaces;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1324,15 +1324,15 @@
 
       Verify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - echo "--- Manual Verification Required - CNTR-K8-000930 ---"
-        echo ""
-        echo "grep insecure-port"
-        grep -i insecure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }}
-        echo "grep secure-port"
-        grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }}
-        echo "grep all services"
-        export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
+      - echo "--- Manual Verification Required - CNTR-K8-000930 ---";
+        echo "";
+        echo "grep insecure-port";
+        grep -i insecure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }};
+        echo "grep secure-port";
+        grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }};
+        echo "grep all services";
+        export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+        kubectl describe services --all-namespaces;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
   tags:
