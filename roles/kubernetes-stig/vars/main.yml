@@ -20,5 +20,5 @@ etcd_main_manifest: "etcd-main.manifest"
 
 
 kubectl:
-  vol: "/usr/bin/kubectl"
-  mnt: "/tmp/bin/kubectl"
+  vol: "/usr/local/bin"
+  mnt: "/tmp/local/bin"
