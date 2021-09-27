@@ -700,7 +700,6 @@
       If any resources are returned, this is a finding.
     stig_check_commands:
      - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
-       {{ kubectl['mnt'] }}/kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1
     stig_fixtext: |
       Delete the Kubernetes dashboard deployment with the following command:
 
