@@ -685,7 +685,9 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ base_dir }}"
+    vol_path: "{{ kubectl['vol'] }}"
+    vol_mnt_path: "{{ kubectl['mnt'] }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000420
     stig_title: Kubernetes dashboard must not be enabled.
     stig_description: |
@@ -699,7 +701,8 @@
 
       If any resources are returned, this is a finding.
     stig_check_commands:
-     - export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard && exit 1 || exit 0
+     - export KUBECONFIG=/var/lib/kubelet/kubeconfig; 
+       "{{ kubectl['mnt'] }}"/kubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard
     stig_fixtext: |
       Delete the Kubernetes dashboard deployment with the following command:
 
@@ -1234,6 +1237,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ k8s_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000920
     stig_title: The Kubernetes API Server must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1269,12 +1273,12 @@
 
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        echo "--- Manual Verification Required - CNTR-K8-000920 ---"
-        grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-        grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-        grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+        echo "--- Manual Verification Required - CNTR-K8-000920 ---";
+        grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+        grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+        grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+        kubectl describe services --all-namespaces;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1290,6 +1294,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ k8s_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000930
     stig_title: The Kubernetes Scheduler must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1324,15 +1329,15 @@
 
       Verify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - echo "--- Manual Verification Required - CNTR-K8-000930 ---"
-        echo ""
-        echo "grep insecure-port"
-        grep -i insecure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }}
-        echo "grep secure-port"
-        grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }}
-        echo "grep all services"
-        export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
+      - echo "--- Manual Verification Required - CNTR-K8-000930 ---";
+        echo "";
+        echo "grep insecure-port";
+        grep -i insecure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }};
+        echo "grep secure-port";
+        grep -i secure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }};
+        echo "grep all services";
+        export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+        kubectl describe services --all-namespaces;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.
   tags:
@@ -1460,6 +1465,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000960
     stig_title: The Kubernetes cluster must use non-privileged host ports for user pods.
     stig_description: |
@@ -1484,8 +1490,8 @@
 
       If any host-privileged ports are returned for any of the pods, this is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        "{{ kubectl['mnt'] }}/kubectl" get pods \
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+        kubectl get pods \
         --all-namespaces \
         --field-selector metadata.namespace!=kube-system,metadata.namespace!=kube-public,metadata.namespace!=kube-node-lease \
         -o json | jq -e --arg hp 1024 -r '[.items[] | .spec.containers[].ports[]?.hostPort // empty] | select( all( . < $hp)) | length > 0' && exit 1 || exit 0
@@ -1561,6 +1567,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-001360
     stig_title: Kubernetes must separate user functionality.
     stig_description: |
@@ -1576,7 +1583,7 @@
 
       If any user pods are present in the Kubernetes system namespaces, this is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get pods --all-namespaces && exit 2
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; kubectl get pods --all-namespaces && exit 2
     stig_fixtext: |
       Move any user pods that are present in the Kubernetes system namespaces to user specific namespaces.
   tags:
@@ -2215,6 +2222,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002010
     stig_title: Kubernetes must have a pod security policy set.
     stig_description: |
@@ -2243,7 +2251,7 @@
 
       If the ranges within the fsGroup section has a min set to '0' or the min is missing, this is a finding.
     stig_check_commands:
-      - "export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get podsecuritypolicy -o json | jq -r '[.items[] | { runAsUser: .spec.runAsUser}, { supplementalGroups: .spec.supplementalGroups} ]' && exit 2"
+      - "export KUBECONFIG=/var/lib/kubectl/kubeconfig; kubectl get podsecuritypolicy -o json | jq -r '[.items[] | { runAsUser: .spec.runAsUser}, { supplementalGroups: .spec.supplementalGroups} ]' && exit 2"
     stig_fixtext: |
       From the Master node, save the following policy to a file called restricted.yml.
 
@@ -2432,6 +2440,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002700
     stig_title: Kubernetes must remove old components after updated versions have been installed.
     stig_description: |
@@ -2452,7 +2461,7 @@
     stig_check_commands:
       - echo "MANUAL CHECK REQUIRED"
         export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        "{{ kubectl['mnt'] }}/kubectl" get pods \
+        kubectl get pods \
         --all-namespaces \
         tr -s '[[:space:]]' '\n' | \
         sort | \
@@ -2474,6 +2483,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002720
     stig_title: Kubernetes must contain the latest updates as authorized by IAVMs, CTOs, DTMs, and STIGs.
     stig_description: |
@@ -2498,7 +2508,7 @@
       Note: Kubernetes Skew Policy can be found at: https://kubernetes.io/docs/setup/release/version-skew-policy/#supported-versions
     stig_check_commands:
       - export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        "{{ kubectl['mnt'] }}/kubectl" version --short
+        kubectl version --short
     stig_fixtext: |
       Upgrade Kubernetes to the supported version. Institute and adhere to the policies and procedures to ensure that patches are consistently applied within the time allowed.
   tags:
@@ -3390,12 +3400,12 @@
     msg: "{{lookup('file', './report').split('\n') }}"
   tags: report
 
-- name: Ensure compliance namespace is removed
-  community.kubernetes.k8s:
-    kubeconfig: "{{ kubeconfig }}"
-    state: absent
-    definition: |
-      kind: namespace
-      metadata:
-        name: compliance
-  tags: cleanup
+# - name: Ensure compliance namespace is removed
+#   community.kubernetes.k8s:
+#     kubeconfig: "{{ kubeconfig }}"
+#     state: absent
+#     definition: |
+#       kind: namespace
+#       metadata:
+#         name: compliance
+#   tags: cleanup
