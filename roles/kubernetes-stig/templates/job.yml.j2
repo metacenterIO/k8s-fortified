@@ -25,7 +25,7 @@ spec:
           subPath: entrypoint.sh
         - name: dirpath
           mountPath: "{% if vol_mnt_path is defined %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
-{% if kubeconfig_path %}
+{% if kubeconfig_path is defined %}
         - name: kubeconfigpath
           mountPath: "{{ kubeconfig_path }}"
 {% endif %}
@@ -37,7 +37,7 @@ spec:
       - name: dirpath
         hostPath:
           path: "{{ vol_path }}"
-{% if kubeconfig_path %}
+{% if kubeconfig_path is defined %}
       - name: kubeconfigpath
         hostPath:
           path: "{{ kubeconfig_path }}"
