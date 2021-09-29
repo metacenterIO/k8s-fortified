@@ -910,7 +910,7 @@
 
       If the audit-policy-file is not set, this is a finding.
     stig_check_commands:
-      - grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0 || exit 1
+      - grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest and set '--audit-policy-file' to the audit policy file.
 
