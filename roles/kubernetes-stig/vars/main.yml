@@ -17,7 +17,7 @@ kube_apiserver_manifest: "kube-apiserver.manifest"
 kube_controller_manager_manifest: "kube-controller-manager.manifest"
 kube_scheduler_manifest: "kube-scheduler.manifest"
 etcd_main_manifest: "etcd-main.manifest"
-
+client_ca_file: "/srv/kubernetes/ca.crt"
 
 kubectl:
   vol: "/usr/local/bin"
