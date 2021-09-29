@@ -1029,7 +1029,7 @@
 
       If any of the nodes have the setting 'hostname-override' present, this is a finding.
     stig_check_commands:
-      - grep -i hostname-override {{ kubelet_dir }}{{ kubelet_manifest }} && exit 1 || exit 0
+      - grep -i hostname-override {{ kubelet_dir }}/{{ kubelet_manifest }} && exit 1 || exit 0
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the {{ kubelet_dir }} directory on the Master and Worker nodes and remove the '--hostname-override' setting. Restart the service after the change is made by running:
 
