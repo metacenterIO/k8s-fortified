@@ -293,12 +293,8 @@
 
       If a return value is returned from the 'kubectl get all' command and it is not the kubernetes service (i.e., service/kubernetes), this is a finding.
     stig_check_commands:
-      -|
-      export KUBECONFIG=/var/lib/kubectl/kubeconfig;
-      kubectl get all \
-      --all-namespaces \
-      --no-headers \
-      --field-selector metadata.name!=kubernetes,metadata.namespace=kube-public,metadata.namespace=default,metadata.namespace=kube-node-lease | if [ $(wc -l) -gt 0 ]; then exit 1; else exit 0; fi
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
+        kubectl get all --all-namespaces --no-headers --field-selector metadata.name!=kubernetes,metadata.namespace=kube-public,metadata.namespace=default,metadata.namespace=kube-node-lease | if [ $(wc -l) -gt 0 ]; then exit 1; else exit 0; fi
     stig_fixtext: |
       Move any user-managed resources from the default, kube-public and kube-node-lease namespaces, to user namespaces.
   tags:
