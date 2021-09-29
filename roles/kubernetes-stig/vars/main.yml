@@ -19,6 +19,9 @@ kube_scheduler_manifest: "kube-scheduler.manifest"
 etcd_main_manifest: "etcd-main.manifest"
 
 
+tls_cert: "/srv/kubernetes/server.crt"
+tls_private_key: "/srv/kubernetes/server.key"
+
 kubectl:
   vol: "/usr/local/bin"
   mnt: "/tmp/local/bin"

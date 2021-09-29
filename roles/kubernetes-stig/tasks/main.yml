@@ -1744,8 +1744,8 @@
 
       If the setting tls-cert-file and private-key-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i tls-cert-file=/srv/kubernetes/server.crt {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-      - grep -i tls-private-key-file=/srv/kubernetes/server.key {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i tls-cert-file={{ tls_cert }} {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i tls-private-key-file={{ tls_private_key }} {{ k8s_dir }}/{{ kube_apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of tls-cert-file and tls-private-key-file to path containing Approved Organizational Certificate.
   tags:
