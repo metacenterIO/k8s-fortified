@@ -1465,7 +1465,6 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ kubectl_dir }}"
-    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000960
     stig_title: The Kubernetes cluster must use non-privileged host ports for user pods.
     stig_description: |
@@ -1491,10 +1490,9 @@
       If any host-privileged ports are returned for any of the pods, this is a finding.
     stig_check_commands:
       - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
-        kubectl get pods \
-        --all-namespaces \
-        --field-selector metadata.namespace!=kube-system,metadata.namespace!=kube-public,metadata.namespace!=kube-node-lease \
-        -o json | jq -e --arg hp 1024 -r '[.items[] | .spec.containers[].ports[]?.hostPort // empty] | select( all( . < $hp)) | length > 0' && exit 1 || exit 0
+        kubectl get pods --all-namespaces --field-selector metadata.namespace!=kube-system,metadata.namespace!=kube-public,metadata.namespace!=kube-node-lease -o json | jq -e --arg hp 1024 -r '[.items[] | .spec.containers[].ports[]?.hostPort // empty] | select( all( . < $hp)) | length > 0';
+        RESULT="$?";
+        if [ "$RESULT" = "1" ]; then exit 0; else exit 1; fi
     stig_fixtext: |
       For any of the pods that are using host-privileged ports, reconfigure the pod to use a service to map a host non-privileged port to the pod port or reconfigure the image to use non-privileged ports.
   tags:
