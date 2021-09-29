@@ -1352,6 +1352,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ k8s_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000940
     stig_title: The Kubernetes Controllers must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1389,9 +1390,9 @@
       - echo "--- Manual Verification Required - CNTR-K8-000940 ---"
         echo ""
       - echo "grep insecure-port"
-      - grep -i insecure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }} && exit 0
+      - grep -i insecure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }} | exit 0
       - echo "grep secure-port"
-      - grep -i secure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }} && exit 0
+      - grep -i secure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }} | exit 0
       - echo "grep all services"
       - export KUBECONFIG=/var/lib/kubectl/kubeconfig
         kubectl describe services --all-namespaces
