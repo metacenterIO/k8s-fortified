@@ -1524,7 +1524,10 @@
 
       If any of the values returned reference environment variables, this is a finding.
     stig_check_commands:
-      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; {{ kubectl['mnt'] }}/kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A && exit 1 || exit 0
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig; 
+        kubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {"\n"}{end}' -A;
+        RESULT="$?";
+        if [ -z "$RESULT" ]; then exit 0; else exit 1; fi
     stig_fixtext: |
       Any secrets stored as environment variables must be moved to the secret files with the proper protections and enforcements or placed within a password vault.
   tags:
