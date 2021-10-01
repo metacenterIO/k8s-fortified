@@ -1412,6 +1412,7 @@
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
     vol_path: "{{ k8s_dir }}"
+    kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-000950
     stig_title: The Kubernetes etcd must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).
     stig_description: |
@@ -1447,13 +1448,13 @@
     stig_check_commands:
       - echo "--- Manual Verification Required - CNTR-K8-000950 ---"
         echo ""
-        echo "grep insecure-port"
-        grep -i insecure-port {{ k8s_dir }}/{{ etcd_main_manifest }}
-        echo "grep secure-port"
-        grep -i secure-port {{ k8s_dir }}/{{ etcd_main_manifest }}
-        echo "grep all services"
-        export KUBECONFIG=/var/lib/kubectl/kubeconfig
-        "{{ kubectl['mnt'] }}/kubectl" describe services --all-namespaces
+      - echo "grep insecure-port"
+      - grep -i insecure-port {{ k8s_dir }}/{{ etcd_main_manifest }} | exit 0
+      - echo "grep secure-port"
+      - grep -i secure-port {{ k8s_dir }}/{{ etcd_main_manifest }} | exit 0
+      - echo "grep all services"
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig
+        kubectl describe services --all-namespaces
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes etcd manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
