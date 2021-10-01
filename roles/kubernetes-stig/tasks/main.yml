@@ -1135,8 +1135,13 @@
       If any kubelet configuration file is less restrictive than '644', this is a finding.
     stig_check_commands:
       - export FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }});
-        echo "$FILES";
-        if [[ -z "$FILES" ]]; then exit 1; fi
+        for FILE in ${FILES};
+        do
+          export FILE_PERM=$(echo "${FILE}" | cut -d ":" -f2);
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; 
+          fi
+        done
     stig_fixtext: |
       On the Master node, change to the /etc/kubernetes/manifest directory. Run the command:
 
@@ -1219,7 +1224,7 @@
 
       If the setting 'profiling' is not configured in the Kubernetes Controller Manager manifest file or it is set to 'True', this is a finding.
     stig_check_commands:
-      - grep -i profiling=false {{ k8s_dir }}/*
+      - grep -i profiling=false {{ k8s_dir }}/{{ kube_controller_manager_manifest }}
     stig_fixtext: |
       Edit the Kubernetes Controller Manager manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the argument '--profiling value' to 'false'.
   tags:
@@ -1271,11 +1276,11 @@
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
       - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
-        echo "--- Manual Verification Required - CNTR-K8-000920 ---";
-        grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
-        grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
-        grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }};
-        kubectl describe services --all-namespaces;
+        kubectl describe services --all-namespaces && exit 0;
+      - echo "--- Manual Verification Required - CNTR-K8-000920 ---";
+      - grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0;
+      - grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0;
+      - grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
