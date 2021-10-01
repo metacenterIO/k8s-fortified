@@ -184,7 +184,7 @@
 
       If the setting 'peer-auto-tls' is not configured in the Kubernetes etcd manifest file or it is set to 'true', this is a finding.
     stig_check_commands:
-     - grep -ri peer-auto-tls {{ k8s_dir }}/ | grep etcd | grep "peer-auto-tls=false"
+     - grep -i peer-auto-tls=false {{ k8s_dir }}/{{ etcd_main_manifest }}
     stig_fixtext: |
       Edit the Kubernetes etcd manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of 'peer-auto-tls' to 'false'.
   tags:
