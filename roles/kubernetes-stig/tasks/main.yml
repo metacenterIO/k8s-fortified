@@ -1555,7 +1555,10 @@
 
       If the setting streaming-connection-idle-timeout is set to '0' or the parameter is not configured in the Kubernetes Kubelet, this is a finding.
     stig_check_commands:
-      - grep -i streaming-connection-idle-timeout=0 {{ kubelet_dir }}/{{ kubelet_manifest }} && exit 1 || exit 0
+      - grep -i streaming-connection-idle-timeout=0 {{ kubelet_dir }}/{{ kubelet_manifest }};
+        RESULT="$?";
+        echo "RESULT - $RESULT";
+        if [ "$RESULT" = "1" ]; then exit 0; else exit 1; fi
     stig_fixtext: |
       Edit the Kubernetes Kubelet file in the {{ kubelet_dir }} directory on the Kubernetes Master Node. Set the argument '--streaming-connection-idle-timeout' to a value other than '0'. Reset Kubelet service using the following command:
 
