@@ -1652,7 +1652,7 @@
 
       If the setting feature client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i client-ca-file=/srv/kubernetes/ca.crt {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0 || exit 1
+      - grep -i client-ca-file={{ client_ca_file }} {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of client-ca-file to path containing Approved Organizational Certificate.
   tags:
