@@ -845,7 +845,7 @@
 
       If the feature-gates setting does not exist or feature-gates does not contain the DynamicKubeletConfig flag or the DynamicKubletConfig flag is set to 'true', this is a finding.
     stig_check_commands:
-      - grep -i feature-gates {{ kubelet_dir }}/{{ kubelet_manifest }} | grep DynamicAuditing=true && exit 1 || exit 0
+      - grep -i feature-gates {{ kubelet_dir }}/{{ kubelet_manifest }} | grep DynamicKubeletConfig=true && exit 1 || exit 0
     stig_fixtext: |
       Edit any manifest file or kubelet config file that does not contain a feature-gates setting or has DynamicKubeletConfig set to 'true'.
 
