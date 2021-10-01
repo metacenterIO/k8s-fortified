@@ -989,8 +989,8 @@
 
       If the audit policy file does not look like above, this is a finding.
     stig_check_commands:
-      - grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0 || exit 1
-      - grep -i RequestResponse $(grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2) && exit 0 || exit 1
+      - grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i RequestResponse $(grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
     stig_fixtext: |
       Edit the Kubernetes API Server audit policy and set it to look like the following:
 
