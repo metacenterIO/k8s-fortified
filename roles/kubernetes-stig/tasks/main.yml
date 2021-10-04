@@ -2433,7 +2433,7 @@
 
       If the setting '--kubelet-client-key' is not configured in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i kubelet-client-certificate {{ k8s_dir }}/*
+      - grep -i kubelet-client-certificate={{ kubelet_client_cert }} {{ k8s_dir }}/*
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--kubelet-client-certificate' and '--kubelet-client-key' to an Approved Organizational Certificate and key pair.
   tags:
