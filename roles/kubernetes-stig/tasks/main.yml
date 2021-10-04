@@ -2045,7 +2045,7 @@
 
       If the setting 'etcd-keyfile' is not configured in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-keyfile {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i etcd-keyfile {{ k8s_dir }}/{{ etcd_main_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the certificate to be used for communication with etcd.
   tags:
@@ -2342,7 +2342,7 @@
 
       If the setting request-timeout is set to '0' in the Kubernetes API Server manifest file, or is not configured this is a finding.
     stig_check_commands:
-      - grep -i request-timeout=3m0s {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i request-timeout={{ request_timeout }} {{ k8s_dir }}/{{ kube_apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of request-timeout greater than '0'.
   tags:
