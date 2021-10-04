@@ -3339,14 +3339,14 @@
 
       If any of the files are have permissions more permissive than '600', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.key )
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.key );
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "600" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "600" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the ownership of the cert files to '600' by executing the command:
