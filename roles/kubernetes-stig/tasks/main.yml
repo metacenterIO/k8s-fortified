@@ -2045,7 +2045,7 @@
 
       If the setting 'etcd-keyfile' is not configured in the Kubernetes API Server manifest file, this is a finding.
     stig_check_commands:
-      - grep -i etcd-keyfile {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i etcd-keyfile {{ k8s_dir }}/{{ etcd_main_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--etcd-keyfile' to the certificate to be used for communication with etcd.
   tags:
@@ -2342,7 +2342,7 @@
 
       If the setting request-timeout is set to '0' in the Kubernetes API Server manifest file, or is not configured this is a finding.
     stig_check_commands:
-      - grep -i request-timeout=3m0s {{ k8s_dir }}/{{ kube_apiserver_manifest }}
+      - grep -i request-timeout={{ request_timeout }} {{ k8s_dir }}/{{ kube_apiserver_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of request-timeout greater than '0'.
   tags:
@@ -2433,7 +2433,7 @@
 
       If the setting '--kubelet-client-key' is not configured in the Kubernetes API server manifest file or contains no value, this is a finding.
     stig_check_commands:
-      - grep -i kubelet-client-certificate {{ k8s_dir }}/*
+      - grep -i kubelet-client-certificate={{ kubelet_client_cert }} {{ k8s_dir }}/*
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--kubelet-client-certificate' and '--kubelet-client-key' to an Approved Organizational Certificate and key pair.
   tags:
@@ -2470,7 +2470,7 @@
       - echo "MANUAL CHECK REQUIRED"
         export KUBECONFIG=/var/lib/kubectl/kubeconfig
         kubectl get pods \
-        --all-namespaces \
+        --all-namespaces |\
         tr -s '[[:space:]]' '\n' | \
         sort | \
         uniq -c
@@ -2643,14 +2643,14 @@
 
       If the file has permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ k8s_dir }}/{{ kube_proxy_manifest }})
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ k8s_dir }}/{{ kube_proxy_manifest }});
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the Kube Proxy to '644' by executing the command:
@@ -2716,14 +2716,14 @@
 
       If the ca-file argument location file has permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }})
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ kubelet_dir }}/{{ kubelet_manifest }});
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the --client-ca-file to '644' by executing the command:
@@ -2817,14 +2817,14 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ base_dir }}/kubelet.conf)
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ base_dir }}/kubelet.conf);
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the Kubelet to '644' by executing the command:
@@ -2915,14 +2915,14 @@
 
       If any of the files have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' /usr/bin/kubeadm)
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' /usr/bin/kubeadm);
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of Kubeadm to '644' by executing the command:
@@ -2953,14 +2953,14 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' /var/lib/kubelet/config.yaml)
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' /var/lib/kubelet/config.yaml);
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the config.yaml to '644' by executing the command:
@@ -2992,11 +2992,12 @@
       If the command returns any non root:root file permissions, this is a finding.
     stig_check_commands:
       - TEST=$(find /var/lib/kubelet/config.yaml -not -user root | wc -l)
-        if [ "$TEST" ]; then
-          if [ "$TEST" != "0" ]; then exit 1; else exit 0; fi
+        if [ "$TEST" ]; 
+        then
+          if [ "$TEST" != "0" ]; then exit 1; else exit 0; fi;
         else
-          echo "config.yaml does not exist at /var/lib/kubelet/"
-          exit 0
+          echo "config.yaml does not exist at /var/lib/kubelet/";
+          exit 0;
         fi
     stig_fixtext: |
       Change the ownership of the kubelet config to 'root: root' by executing the command:
@@ -3027,14 +3028,14 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ k8s_dir }}/*)
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ k8s_dir }}/*);
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the manifest files to 'root: root' by executing the command:
@@ -3065,14 +3066,14 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' /var/lib/etcd/*)
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' /var/lib/etcd/*);
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the manifest files to '644' by executing the command:
@@ -3105,14 +3106,14 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ base_dir }}/admin.conf {{ base_dir }}/scheduler.conf {{ base_dir }}/controller-manager.conf)
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ base_dir }}/admin.conf {{ base_dir }}/scheduler.conf {{ base_dir }}/controller-manager.conf);
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the permissions of the conf files to '644' by executing the command:
@@ -3173,11 +3174,12 @@
 
       If the setting 'audit-log-maxsize' is not set in the Kubernetes API Server manifest file or it is set to less than '100', this is a finding.
     stig_check_commands:
-      - TEST=$(grep -i audit-log-maxsize {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
-        if [ "$TEST" ]
+      - TEST=$(grep -i audit-log-maxsize {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
+        if [ "$TEST" ];
+        then
           if [ "$TEST" -lt "100" ]; then exit 1; else exit 0; fi
         else
-          exit 1
+          exit 1;
         fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of –'--audit-log-maxsize' to a minimum of '100'.
@@ -3206,11 +3208,12 @@
 
       If the setting 'audit-log-maxbackup' is not set in the Kubernetes API Server manifest file or it is set less than '10', this is a finding.
     stig_check_commands:
-      - TEST=$(grep -i audit-log-maxbackup {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
-        if [ "$TEST" ]
+      - TEST=$(grep -i audit-log-maxbackup {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
+        if [ "$TEST" ];
+        then
           if [ "$TEST" -lt "10" ]; then exit 1; else exit 0; fi
         else
-          exit 1
+          exit 1;
         fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--audit-log-maxbackup' to a minimum of '10'.
@@ -3239,11 +3242,12 @@
 
       If the setting 'audit-log-path' is not set in the Kubernetes API Server manifest file or it is set less than '30', this is a finding.
     stig_check_commands:
-      TEST=$(grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
-      if [ "$TEST" ]
-        if [ "$TEST" -lt "30" ]; then exit 1; else exit 0; fi
+      TEST=$(grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
+      if [ "$TEST" ];
+      then
+        if [ "$TEST" -lt "30" ]; then exit 1; else exit 0; fi;
       else
-        exit 1
+        exit 1;
       fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--audit-log-maxage' to a minimum of '30'.
@@ -3272,7 +3276,7 @@
 
       If the setting audit-log-path is not set in the Kubernetes API Server manifest file or it is set to a valid path, this is a finding.
     stig_check_commands:
-      TEST=$(grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
+      TEST=$(grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
       if [ "$TEST" ]; then exit 0; else exit 1; fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--audit-log-path' to valid location.
@@ -3301,14 +3305,14 @@
 
       If any of the files are have permissions more permissive than '644', this is a finding.
     stig_check_commands:
-      - FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.crt )
-        if [ "$FILES" ]
+      - FILES=$(stat -c '%n:%a' {{ pki_dir }}/*.crt );
+        if [ "$FILES" ];
         then
-          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`
-          echo "$FILE_PERM"
-          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi
+          FILE_PERM=`echo "$FILES" | cut -d ":" -f2`;
+          echo "$FILE_PERM";
+          if [ "$FILE_PERM" -gt "644" ]; then exit 1; else exit 0; fi;
         else
-          exit 0
+          exit 0;
         fi
     stig_fixtext: |
       Change the ownership of the cert files to '644' by executing the command:

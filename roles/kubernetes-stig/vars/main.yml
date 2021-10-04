@@ -22,7 +22,14 @@ client_ca_file: "/srv/kubernetes/ca.crt"
 tls_cert: "/srv/kubernetes/server.crt"
 tls_private_key: "/srv/kubernetes/server.key"
 
+
 etcd_cert: "/etc/kubernetes/etcd.crt"
+
+kubelet_client_cert: "/srv/kubernetes/kubelet-api.crt"
+
+
+request_timeout: "3m0s"
+
 
 kubectl:
   vol: "/usr/local/bin"
