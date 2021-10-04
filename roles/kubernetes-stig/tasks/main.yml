@@ -3272,7 +3272,7 @@
 
       If the setting audit-log-path is not set in the Kubernetes API Server manifest file or it is set to a valid path, this is a finding.
     stig_check_commands:
-      TEST=$(grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
+      TEST=$(grep -i audit-log-path {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
       if [ "$TEST" ]; then exit 0; else exit 1; fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--audit-log-path' to valid location.
