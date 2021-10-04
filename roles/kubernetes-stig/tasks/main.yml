@@ -2470,7 +2470,7 @@
       - echo "MANUAL CHECK REQUIRED"
         export KUBECONFIG=/var/lib/kubectl/kubeconfig
         kubectl get pods \
-        --all-namespaces \
+        --all-namespaces |\
         tr -s '[[:space:]]' '\n' | \
         sort | \
         uniq -c
