@@ -1785,7 +1785,7 @@
 
       If the setting client-cert-auth is not configured in the Kubernetes etcd manifest file or set to 'false', this is a finding.
     stig_check_commands:
-      - grep -i client-cert-auth=/etc/kubernetes/etcd.crt {{ k8s_dir }}/{{ etcd_main_manifest }}
+      - grep -i client-cert-auth={{ etcd_cert }} {{ k8s_dir }}/{{ etcd_main_manifest }}
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--client-cert-auth' to 'true' for the etcd.
   tags:
