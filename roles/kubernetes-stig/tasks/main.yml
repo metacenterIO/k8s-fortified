@@ -3207,11 +3207,12 @@
 
       If the setting 'audit-log-maxbackup' is not set in the Kubernetes API Server manifest file or it is set less than '10', this is a finding.
     stig_check_commands:
-      - TEST=$(grep -i audit-log-maxbackup {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
-        if [ "$TEST" ]
+      - TEST=$(grep -i audit-log-maxbackup {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
+        if [ "$TEST" ];
+        then
           if [ "$TEST" -lt "10" ]; then exit 1; else exit 0; fi
         else
-          exit 1
+          exit 1;
         fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of '--audit-log-maxbackup' to a minimum of '10'.
