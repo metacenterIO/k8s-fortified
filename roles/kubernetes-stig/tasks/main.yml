@@ -3173,11 +3173,11 @@
 
       If the setting 'audit-log-maxsize' is not set in the Kubernetes API Server manifest file or it is set to less than '100', this is a finding.
     stig_check_commands:
-      - TEST=$(grep -i audit-log-maxsize {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
-        if [ "$TEST" ]
+      - TEST=$(grep -i audit-log-maxsize {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
+        if [ "$TEST" ];
           if [ "$TEST" -lt "100" ]; then exit 1; else exit 0; fi
         else
-          exit 1
+          exit 1;
         fi
     stig_fixtext: |
       Edit the Kubernetes API Server manifest file in the {{ k8s_dir }} directory on the Kubernetes Master Node. Set the value of –'--audit-log-maxsize' to a minimum of '100'.
