@@ -3175,6 +3175,7 @@
     stig_check_commands:
       - TEST=$(grep -i audit-log-maxsize {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2);
         if [ "$TEST" ];
+        then
           if [ "$TEST" -lt "100" ]; then exit 1; else exit 0; fi
         else
           exit 1;
