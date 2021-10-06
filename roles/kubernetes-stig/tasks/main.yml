@@ -1574,7 +1574,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ kubectl_dir }}"
+    vol_path: "{{ k8s_dir }}"
     kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-001360
     stig_title: Kubernetes must separate user functionality.
