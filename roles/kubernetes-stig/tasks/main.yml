@@ -2229,7 +2229,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ kubectl_dir }}"
+    vol_path: "{{ k8s_dir }}"
     kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002010
     stig_title: Kubernetes must have a pod security policy set.
@@ -2447,7 +2447,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ kubectl_dir }}"
+    vol_path: "{{ k8s_dir }}"
     kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002700
     stig_title: Kubernetes must remove old components after updated versions have been installed.
@@ -2490,7 +2490,7 @@
       - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
       - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
   vars:
-    vol_path: "{{ kubectl_dir }}"
+    vol_path: "{{ k8s_dir }}"
     kubeconfig_path: "{{ kubectl_dir }}"
     stig_id: CNTR-K8-002720
     stig_title: Kubernetes must contain the latest updates as authorized by IAVMs, CTOs, DTMs, and STIGs.
