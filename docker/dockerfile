@@ -1,0 +1,17 @@
+FROM alpine:3.14.1
+# NOT WORKING - In dev
+ARG KREW_RELEASE="v0.4.1"
+
+RUN apk add curl unzip jq git
+RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN chmod +x ./kubectl; mv ./kubectl /usr/local/bin/kubectl; kubectl version --client
+RUN set -x; cd "$(mktemp -d)" \
+  && OS="$(uname | tr '[:upper:]' '[:lower:]')" \
+  && ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" \
+  && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/download/$KREW_RELEASE/krew.tar.gz" \
+  && tar zxvf krew.tar.gz \
+  && KREW=./krew-"${OS}_${ARCH}" \
+  && "$KREW" install krew
+RUN cp /root/.krew/store/krew/"$KREW_RELEASE"/krew /usr/local/bin/
+RUN export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+RUN krew install skew

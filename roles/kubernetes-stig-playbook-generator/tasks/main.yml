@@ -1,0 +1,12 @@
+- name: Read DISA Kubernetes STIG JSON document (Obtained from https://cyber.trackr.live/stig/Kubernetes_STIG/1/0)
+  set_fact:
+    kubernetes_stig_json: "{{ lookup('file', 'files/kubernetes-stig.json') | from_json }}"
+
+- name: Generate playbook tasks from Kubernetes STIG json document
+  template: 
+    src: templates/stig-rule-tasks.yml.j2
+    # dest: ../kubernetes-stig/tasks/main.yml
+    dest: /tmp/rules.yml
+  vars:
+    rules: "{{ kubernetes_stig_json.Group }}"
+

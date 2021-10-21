@@ -1,0 +1,36 @@
+kubeconfig: "{{ lookup('env', 'KUBECONFIG')  }}"
+
+# paths
+base_dir: "/etc/kubernetes"
+k8s_dir: "/etc/kubernetes/manifests"
+etcd_dir: "/etc/kubernetes/manifests"
+etcd_data_dir: "/var/lib/etcd"
+kubelet_dir: "/etc/sysconfig"
+pki_dir: "/etc/kubernetes/pki"
+kubectl_dir: "/var/lib"
+kubeadm_dir: "/usr/bin"
+
+# manifests
+kube_proxy_manifest: "kube-proxy.manifest"
+kubelet_manifest: "kubelet"
+kube_apiserver_manifest: "kube-apiserver.manifest"
+kube_controller_manager_manifest: "kube-controller-manager.manifest"
+kube_scheduler_manifest: "kube-scheduler.manifest"
+etcd_main_manifest: "etcd-main.manifest"
+client_ca_file: "/srv/kubernetes/ca.crt"
+
+tls_cert: "/srv/kubernetes/server.crt"
+tls_private_key: "/srv/kubernetes/server.key"
+
+
+etcd_cert: "/etc/kubernetes/etcd.crt"
+
+kubelet_client_cert: "/srv/kubernetes/kubelet-api.crt"
+
+
+request_timeout: "3m0s"
+
+
+kubectl:
+  vol: "/usr/local/bin"
+  mnt: "/tmp/local/bin"

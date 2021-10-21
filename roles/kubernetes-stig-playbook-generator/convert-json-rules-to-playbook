@@ -1,0 +1,26 @@
+#!/bin/bash
+set +x
+echo "" > main.yml
+for test in `ls tests/`;
+do export command=$(cat tests/$test/cm.yaml |grep TEST);
+export jq_filter="'.Group[] | select(.Rule.version==\"$test\") | .Rule.title'"
+export jq_command="jq -r $jq_filter kubernetes-stig.json"
+export stig_title=`sh -c "$jq_command"`;
+echo $stig_title;
+echo -n "- name: $stig_title" >> main.yml
+echo -n '
+  community.kubernetes.k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      - "{{ lookup('template', 'templates/cm.yml.j2') | from_yaml }}"
+      - "{{ lookup('template', 'templates/job.yml.j2') | from_yaml }}"
+  vars:' >> main.yml;
+echo "
+    stig_id: $test
+    stig_test_command: $command
+  tags:
+    - $test
+    - TLS
+" >> main.yml;
+done

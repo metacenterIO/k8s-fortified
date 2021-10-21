@@ -1,0 +1,48 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ stig_id | lower }}"
+  namespace: compliance
+spec:
+  template:
+    spec:
+      hostNetwork: true
+      nodeSelector:
+        kubernetes.io/role: master
+      containers:
+      - name: bash
+        imagePullPolicy: Always
+        image: metacenterio/k8s-fortified:latest
+        command: 
+        - /bin/entrypoint.sh
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: configmap-volume
+          mountPath: /bin/entrypoint.sh
+          readOnly: true
+          subPath: entrypoint.sh
+        - name: dirpath
+          mountPath: "{% if vol_mnt_path is defined %}{{ vol_mnt_path }}{% else %}{{ vol_path }}{% endif %}"
+{% if kubeconfig_path is defined %}
+        - name: kubeconfigpath
+          mountPath: "{{ kubeconfig_path }}"
+{% endif %}
+      volumes:
+      - name: configmap-volume
+        configMap:
+          defaultMode: 0700
+          name: "{{ stig_id | lower }}"
+      - name: dirpath
+        hostPath:
+          path: "{{ vol_path }}"
+{% if kubeconfig_path is defined %}
+      - name: kubeconfigpath
+        hostPath:
+          path: "{{ kubeconfig_path }}"
+{% endif %}
+      tolerations:
+      - key: node-role.kubernetes.io/master
+      restartPolicy: Never
+  backoffLimit: 0
