@@ -3,7 +3,7 @@
 
 {% for item in msg.resources %}
 
-STIG name: {{ item.metadata.name }}
+STIG name: {{ item.metadata.labels.reportname }}
 Status: 
 {%- if item.status.conditions is defined -%}
   {%- for stat in item.status.containerStatuses -%}

@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   name: {{ stig_id | lower }}
   namespace: compliance
+  labels:
+    name: {{ stig_id }}
 data:
   entrypoint.sh: |
 {% if stig_check_commands != '' %}

@@ -3399,12 +3399,12 @@
   register: pod_list
   tags: report
 
-# - name: Get logs for failed pods
-#   ansible.builtin.user:
-#     name: "{{ pod_list }}"
-#   loop: "{{ pod_list.resources | subelements('status.containerStatuses[0].state.terminated', 'skip_missing=True') }}"
-#   when: exitCode == "0"
-#   tags: report
+- name: Get logs for failed pods
+  ansible.builtin.user:
+    name: "{{ pod_list }}"
+  loop: "{{ pod_list.resources | subelements('status.containerStatuses[0].state.terminated', 'skip_missing=True') }}"
+  register: pods_logs
+  tags: report
 
 
 - name: Print the list of jobs
