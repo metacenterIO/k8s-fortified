@@ -3400,8 +3400,10 @@
   tags: report
 
 # - name: Get logs for failed pods
-#   loop: "{{ pod_list.resources | subelements('status.containerStatuses', 'skip_missing=True') }}"
-#   when: item.1.state.terminated.exitCode == "0"
+#   ansible.builtin.user:
+#     name: "{{ pod_list }}"
+#   loop: "{{ pod_list.resources | subelements('status.containerStatuses[0].state.terminated', 'skip_missing=True') }}"
+#   when: exitCode == "0"
 #   tags: report
 
 
@@ -3413,10 +3415,10 @@
     msg: "{{ pod_list }}"
   tags: report
 
-- name: show report results
-  debug:
-    msg: "{{ pod_list }}"
-  tags: report
+# - name: show report results
+#   debug:
+#     msg: "{{ pod_list }}"
+#   tags: report
 
 # - name: show report results
 #   debug:

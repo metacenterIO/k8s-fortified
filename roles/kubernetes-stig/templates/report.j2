@@ -5,9 +5,9 @@
 
 STIG name: {{ item.metadata.name }}
 Status: 
-{%- if item.status.conditions is defined %}
-  {%- for cond in item.status.conditions %}
-    {%+ if cond.type == 'Complete' -%}
+{%- if item.status.conditions is defined -%}
+  {%- for stat in item.status.containerStatuses -%}
+    {%- if stat.state.terminated.exitCode == 0 -%}
        Success
     {% else -%}
        Failed
