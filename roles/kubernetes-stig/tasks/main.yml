@@ -3399,25 +3399,37 @@
   register: pod_list
   tags: report
 
+- name: Search for all Failed pods
+  kubernetes.core.k8s_info:
+    kind: Pod
+    field_selectors:
+      - status.phase=Failed
+  register: failedpods
+  tags: report
+
 - name: Get logs for failed pods
-  ansible.builtin.user:
-    name: "{{ pod_list }}"
-  loop: "{{ pod_list.resources | subelements('status.containerStatuses[0].state.terminated', 'skip_missing=True') }}"
-  register: pods_logs
+  kubernetes.core.k8s_log:
+    name: "{{ item.metadata.name }}"
+    kind: Job
+    namespace: compliance
+  loop: "{{ failedpods.resources }}"
+  register: podlogs
   tags: report
 
-
-- name: Print the list of jobs
-  ansible.builtin.template:
-    src: templates/report.j2
-    dest: ./report
-  vars:
-    msg: "{{ pod_list }}"
-  tags: report
-
-# - name: show report results
-#   debug:
+# - name: Print the list of jobs
+#   ansible.builtin.template:
+#     src: templates/report.j2
+#     dest: ./report
+#   vars:
 #     msg: "{{ pod_list }}"
+#     podlogs: "{{ podlogs }}"
+#   tags: report
+
+
+  
+# - name: show logs results
+#   debug:
+#     msg: "{{ failedpods.resources }}"
 #   tags: report
 
 # - name: show report results
@@ -3434,3 +3446,12 @@
 #       metadata:
 #         name: compliance
 #   tags: cleanup
+
+
+# - name: Get logs for failed pods
+#   ansible.builtin.user:
+#     name: "{{ pod_list }}"
+#   loop: "{{ pod_list.resources | subelements('status.containerStatuses[0].state.terminated', 'skip_missing=True') }}"
+#   when: item[1].exitCode == "0"
+#   register: pods_logs
+#   tags: report

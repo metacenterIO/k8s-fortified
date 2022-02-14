@@ -15,7 +15,6 @@ data:
     echo "### Output ###"
     echo "Title: {{ stig_title }}"
     echo "Severity: {{ stig_severity }}"
-    echo "Description: {{ stig_description | replace('\n', '\\n') }}"
     echo "Ident: {{ stig_ident }}"
     echo "Check: {{ stig_check_content | replace('\n', '\\n') }}"
 
