@@ -6,6 +6,9 @@ metadata:
   namespace: compliance
 spec:
   template:
+    metadata:
+      labels:
+        reportname: {{ stig_id }}
     spec:
       hostNetwork: true
       nodeSelector:

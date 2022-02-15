@@ -1249,7 +1249,7 @@
     stig_check_content: |
       Change to the {{ k8s_dir }}/ directory on the Kubernetes Master Node. Run the command:
       grep {{ kube_apiserver_manifest }} -I-insecure-port
-                    grep {{ kube_apiserver_manifest }} -I -secure-port
+      grep {{ kube_apiserver_manifest }} -I -secure-port
       grep {{ kube_apiserver_manifest }} -I -etcd-servers *
       -edit manifest file:
       VIM <Manifest Name>
@@ -1263,7 +1263,7 @@
              hostPort:
       Run Command:
       kubectl describe services –all-namespace
-      Search labels for any apiserver names spaces.
+      Search labels for any apiserver namespaces.
       Port:
 
       Any manifest and namespace PPS or services configuration not in compliance with PPSM CAL is a finding.
@@ -3399,36 +3399,35 @@
   register: pod_list
   tags: report
 
-# - name: Get logs for failed pods
-#   loop: "{{ pod_list.resources | subelements('status.containerStatuses', 'skip_missing=True') }}"
-#   when: item.1.state.terminated.exitCode == "0"
-#   tags: report
+- name: Search for all Failed pods
+  kubernetes.core.k8s_info:
+    kind: Pod
+    field_selectors:
+      - status.phase=Failed
+  register: failedpods
+  tags: report
 
+- name: Get logs for failed pods
+  kubernetes.core.k8s_log:
+    name: "{{ item.metadata.name }}"
+    kind: Pod
+    namespace: compliance
+  no_log: true
+  loop: "{{ failedpods.resources }}"
+  register: podlogs
+  tags: report
 
-- name: Print the list of jobs
+- name: Get Cluster Info
+  kubernetes.core.k8s_cluster_info:
+  register: c_info
+  tags: report
+
+- name: Print report
   ansible.builtin.template:
     src: templates/report.j2
-    dest: ./report
+    dest: ./report.md
   vars:
     msg: "{{ pod_list }}"
+    podlogs: "{{ podlogs }}"
+    cinfo: "{{ c_info }}"
   tags: report
-
-- name: show report results
-  debug:
-    msg: "{{ pod_list }}"
-  tags: report
-
-# - name: show report results
-#   debug:
-#     msg: "{{lookup('file', './report').split('\n') }}"
-#   tags: report
-
-# - name: Ensure compliance namespace is removed
-#   community.kubernetes.k8s:
-#     kubeconfig: "{{ kubeconfig }}"
-#     state: absent
-#     definition: |
-#       kind: namespace
-#       metadata:
-#         name: compliance
-#   tags: cleanup
