@@ -1,27 +1,52 @@
----
+## k8s-fortified DISA/STIG report of Kubernetes cluster
+
+
+**Host:** {{ cinfo.connection.host }} &nbsp;
+
+**Client Version:** {{ cinfo.version.client }} &nbsp;
+
+**Server Version:** {{ cinfo.version.server.kubernetes.gitVersion }} &nbsp;
+
+
+
 {% if msg is defined %}
 
 {% for item in msg.resources %}
 
-STIG name: {{ item.metadata.labels.reportname }}
-Status: 
+### STIG name: {{ item.metadata.labels.reportname }}
+#### Status: 
 {%- if item.status.conditions is defined -%}
   {%- for stat in item.status.containerStatuses -%}
     {%- if stat.state.terminated.exitCode == 0 -%}
-       Success
+        Success
     {% else -%}
-       Failed
+        Failed
+      {%- if podlogs is defined -%}
+         {%- for pod in podlogs.results -%}
+            {% if pod.item.metadata.labels.reportname == item.metadata.labels.reportname %}
+<br>
+{{ pod.log_lines[3] }}
+<br>
+{{ pod.log_lines[4] }}
+<br>
+{{ pod.log_lines[5] }}
+<br>
+{{ pod.log_lines[6] | replace("\\n", "<br>") }}
+<br>
+{{ pod.log_lines[7] | replace("\\n", "<br>") }}
+            {% endif %}
+         {% endfor %}
+      {% endif %}
+
     {% endif %}
   {% endfor %}
+
 {% endif %}
 {%- if item.status.active is defined %}
    Inprogress - Execute 'ansible-playbook check-kubernetes-stig-compliance.yml --tags "report"' to update report.
 {% endif %}
 
+
 {% endfor %}
 
-{% endif %}
-
-{% if podlogs is defined %}
-{{ podlogs }}
 {% endif %}
