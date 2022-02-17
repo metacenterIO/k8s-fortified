@@ -9,6 +9,9 @@ Core Contributors: [Andrew Bond](https://github.com/aabond) and [Michael Ward](h
 A full list of STIGs for Kubernetes can be found at [Cyber Tracker Live](https://cyber.trackr.live/stig/Kubernetes_STIG/1/0).
 Their work has been a boon to this project.
 
+Currently built and tested on Ubuntu.\
+Many STIGs are path and manifest name specific to the host.
+
 **Requirements:**
   - Ansible v2.9+
   - export KUBECONFIG=<path_to_kubeconfig>
