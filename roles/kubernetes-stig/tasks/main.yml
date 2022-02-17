@@ -990,7 +990,7 @@
       If the audit policy file does not look like above, this is a finding.
     stig_check_commands:
       - grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }}
-      - grep -i RequestResponse $(grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2)
+      - grep -i RequestResponse $(grep -i audit-policy-file {{ k8s_dir }}/{{ kube_apiserver_manifest }} | cut -d "=" -f2) && exit 0 || exit 1
     stig_fixtext: |
       Edit the Kubernetes API Server audit policy and set it to look like the following:
 
@@ -1246,6 +1246,7 @@
       Kubernetes API Server PPSs must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
     stig_severity: medium
     stig_ident: CCI-000382
+    manual_verification: "true"
     stig_check_content: |
       Change to the {{ k8s_dir }}/ directory on the Kubernetes Master Node. Run the command:
       grep {{ kube_apiserver_manifest }} -I-insecure-port
@@ -1276,11 +1277,11 @@
       Verify API Server network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
       - export KUBECONFIG=/var/lib/kubectl/kubeconfig;
-        kubectl describe services --all-namespaces && exit 0;
-      - echo "--- Manual Verification Required - CNTR-K8-000920 ---";
-      - grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0;
-      - grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0;
-      - grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }} && exit 0;
+        kubectl describe services --all-namespaces;
+      - grep -i insecure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+      - grep -i secure-port {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+      - grep -i etcd-servers {{ k8s_dir }}/{{ kube_apiserver_manifest }};
+      - exit 2;
     stig_fixtext: |
       Amend any system documentation requiring revision. Update Kubernetes API Server manifest and namespace PPS configuration to comply with PPSM CAL.
   tags:
@@ -1303,6 +1304,7 @@
       Kubernetes Scheduler PPS must be controlled and conform to the PPSM CAL. Those ports, protocols, and services that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
     stig_severity: medium
     stig_ident: CCI-000382
+    manual_verification: "true"
     stig_check_content: |
       Change to the {{ k8s_dir }}/ directory on the Kubernetes Master Node. Run the command:
       grep {{ kube_scheduler_manifest }} -I -insecure-port
@@ -1331,8 +1333,6 @@
 
       Verify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - echo "--- Manual Verification Required - CNTR-K8-000930 ---";
-      - echo "";
       - echo "grep insecure-port";
       - grep -i insecure-port {{ k8s_dir }}/{{ kube_scheduler_manifest }};
       - echo "grep secure-port";
@@ -1361,6 +1361,7 @@
       Kubernetes Controller ports, protocols, and services must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
     stig_severity: medium
     stig_ident: CCI-000382
+    manual_verification: "true"
     stig_check_content: |
       Change to the {{ k8s_dir }}/ directory on the Kubernetes Master Node. Run the command:
       grep {{ kube_scheduler_manifest }} -I -insecure-port
@@ -1389,8 +1390,6 @@
 
       Verify Controller network boundary with the PPS associated with the Controller for Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - echo "--- Manual Verification Required - CNTR-K8-000940 ---"
-        echo ""
       - echo "grep insecure-port"
       - grep -i insecure-port {{ k8s_dir }}/{{ kube_controller_manager_manifest }} | exit 0
       - echo "grep secure-port"
@@ -1419,6 +1418,7 @@
       Kubernetes etcd PPS must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.
     stig_severity: medium
     stig_ident: CCI-000382
+    manual_verification: "true"
     stig_check_content: |
       Change to the {{ k8s_dir }}/ directory on the Kubernetes Master Node. Run the command:
       grep {{ kube_apiserver_manifest }} -I -etcd-servers *
@@ -1446,8 +1446,6 @@
 
       Verify etcd network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.
     stig_check_commands:
-      - echo "--- Manual Verification Required - CNTR-K8-000950 ---"
-        echo ""
       - echo "grep insecure-port"
       - grep -i insecure-port {{ k8s_dir }}/{{ etcd_main_manifest }} | exit 0
       - echo "grep secure-port"
@@ -1582,6 +1580,7 @@
       Separating user functionality from management functionality is a requirement for all the components within the Kubernetes Control Plane. Without the separation, users may have access to management functions that can degrade the Kubernetes architecture and the services being offered, and can offer a method to bypass testing and validation of functions before introduced into a production environment.
     stig_severity: medium
     stig_ident: CCI-001082
+    manual_verification: "true"
     stig_check_content: |
       On the Master node, run the command:
 
@@ -1612,6 +1611,7 @@
       The Kubernetes API server communicates to the kubelet service on the nodes to deploy, update, and delete resources. If an attacker were able to get between this communication and modify the request, the Kubernetes cluster could be compromised. Using approved cypher suites for the communication ensures the protection of the transmitted information, confidentiality, and integrity so that the attacker cannot read or alter this communication.
     stig_severity: medium
     stig_ident: CCI-001184
+    manual_verification: "true"
     stig_check_content: |
       Change to the {{ k8s_dir }}/ directory on the Kubernetes Master Node. Run the command:
 
@@ -2237,6 +2237,7 @@
       Enabling the admissions webhook allows for Kubernetes to apply policies against objects that are to be created, read, updated, or deleted. By applying a pod security policy, control can be given to not allow images to be instantiated that run as the root user. If pods run as the root user, the pod then has root privileges to the host system and all the resources it has. An attacker can use this to attack the Kubernetes cluster. By implementing a policy that does not allow root or privileged pods, the pod users are limited in what the pod can do and access.
     stig_severity: high
     stig_ident: CCI-002233
+    manual_verification: "true"
     stig_check_content: |
       On the Master Node, run the command:
 
@@ -2455,6 +2456,7 @@
       Previous versions of Kubernetes components that are not removed after updates have been installed may be exploited by adversaries by allowing the vulnerabilities to still exist within the cluster. It is important for Kubernetes to remove old pods when newer pods are created using new images to always be at the desired security state.
     stig_severity: medium
     stig_ident: CCI-002617
+    manual_verification: "true"
     stig_check_content: |
       To view all pods and the images used to create the pods, from the Master node, run the following command:
 
@@ -2467,8 +2469,7 @@
 
       If there are multiple versions of the same image, this is a finding.
     stig_check_commands:
-      - echo "MANUAL CHECK REQUIRED"
-        export KUBECONFIG=/var/lib/kubectl/kubeconfig
+      - export KUBECONFIG=/var/lib/kubectl/kubeconfig
         kubectl get pods \
         --all-namespaces |\
         tr -s '[[:space:]]' '\n' | \
@@ -2506,6 +2507,7 @@
       The container platform components will be configured to check for and install security-relevant software updates within an identified time period from the availability of the update. The container platform registry will ensure the images are current. The specific time period will be defined by an authoritative source (e.g., IAVM, CTOs, DTMs, and STIGs).
     stig_severity: medium
     stig_ident: CCI-002605
+    manual_verification: "true"
     stig_check_content: |
       Authenticate on the Kubernetes Master Node. Run the command:
 
@@ -3407,6 +3409,19 @@
   register: failedpods
   tags: report
 
+- name: Search for all manual verification pods
+  kubernetes.core.k8s_info:
+    kind: Pod
+    label_selectors:
+      - "manual_verification"
+  register: manpods
+  tags: report
+
+- name: Cluster Info for Report
+  kubernetes.core.k8s_cluster_info:
+  register: c_info
+  tags: report
+
 - name: Get logs for failed pods
   kubernetes.core.k8s_log:
     name: "{{ item.metadata.name }}"
@@ -3417,17 +3432,28 @@
   register: podlogs
   tags: report
 
-- name: Get Cluster Info
+- name: Get logs for manual verification pods
+  kubernetes.core.k8s_log:
+    name: "{{ item.metadata.name }}"
+    kind: Pod
+    namespace: compliance
+  no_log: true
+  loop: "{{ manpods.resources }}"
+  register: manpodlogs
+  tags: report
+
+- name: Cluster Info for Report
   kubernetes.core.k8s_cluster_info:
   register: c_info
   tags: report
 
 - name: Print report
   ansible.builtin.template:
-    src: templates/report.j2
-    dest: ./report.md
+    src: templates/report_html.j2
+    dest: ./report.html
   vars:
     msg: "{{ pod_list }}"
     podlogs: "{{ podlogs }}"
     cinfo: "{{ c_info }}"
+    manpodlogs: "{{ manpodlogs }}"
   tags: report

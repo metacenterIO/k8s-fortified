@@ -9,6 +9,9 @@ spec:
     metadata:
       labels:
         reportname: {{ stig_id }}
+{% if manual_verification is defined %}
+        manual_verification: "true"
+{% endif %}
     spec:
       hostNetwork: true
       nodeSelector:

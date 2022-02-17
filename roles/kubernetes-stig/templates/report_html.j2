@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>K8s-fortified DISA/STIG report of Kubernetes cluster</title>
+</head>
+<body>
+   <h1>K8s-fortified DISA/STIG report of Kubernetes cluster</h1>
+   <div id="content">
+   <div><p><b>Host: </b>{{ cinfo.connection.host }}</p></div>
+   <div><p><b>Client Version: </b>{{ cinfo.version.client }}</p></div>
+   <div><p><b>Server Version: </b>{{ cinfo.version.server.kubernetes.gitVersion }}</p></div>
+   <br/>
+   <br/>
+{% if msg is defined %}
+
+   {% for item in msg.resources %}
+      <div>
+         <br/>
+         <p><b>STIG name: </b> {{ item.metadata.labels.reportname }}</p>
+         <p><b>Status: </b> 
+      
+{%- if item.status.conditions is defined -%}
+{%- for stat in item.status.containerStatuses -%}
+   {%- if stat.state.terminated.exitCode == 0 -%}
+      <b style="color:green;"> Success</b>
+   {% elif stat.state.terminated.exitCode == 1 -%}
+      <b style="color:tomato;"> Failed</b>
+   {% else %}
+      <b style="color:yellow;"> Manual Verification Required</b>
+   {% endif %}
+   </p>
+
+   <div style="font-family:courier; padding-left: 40px;">
+
+      {# Get log output if STIG Failed #}
+      {%- if podlogs is defined -%}
+         {%- for pod in podlogs.results -%}
+            {%- if pod.item.metadata.labels.reportname == item.metadata.labels.reportname -%}
+               {%- for list_item in pod.log_lines[3:] -%}
+            <br/>
+            {{ list_item | replace("\\n", "<br>") }}
+               {% endfor %}
+            {% endif %}
+
+         {% endfor %}
+      {% endif %}
+
+      {# Get log output if STIG requires manual verification. #}
+      {%- if manpodlogs is defined -%}
+         {%- for pod in manpodlogs.results -%}
+            {%- if pod.item.metadata.labels.reportname == item.metadata.labels.reportname -%}
+               {%- for list_item in pod.log_lines[3:] -%}
+                  <br/>
+                  {{ list_item | replace("\\n", "<br>") }}
+               {% endfor %}
+            {% endif %}
+         {% endfor %}
+      {% endif %}
+
+   </div>
+
+{% endfor %}
+
+{% endif %}
+{%- if item.status.active is defined %}
+   Inprogress - Execute 'ansible-playbook check-kubernetes-stig-compliance.yml --tags "report"' to update report.
+{% endif %}
+
+      </div>
+
+
+   {% endfor %}
+
+{% endif %}
+
+
+</body>
+</html>
