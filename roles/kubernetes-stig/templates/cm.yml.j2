@@ -19,25 +19,31 @@ data:
     echo "Check: {{ stig_check_content | replace('\n', '\\n') }}"
 
 {% for stig_check_command in stig_check_commands %}
-    echo "Check Command: {{ stig_check_command }}"
     {{ stig_check_command }}
     TEST_RESULT=$?
-    echo "---Test Result---"
-    echo "$TEST_RESULT"
+    echo "TEST_RESULT = $TEST_RESULT"
 
-    if [ "$TEST_RESULT" -gt "0" ]
+    echo "If any of the follwing check commands fail, the STIG will fail."
+    if [ "$TEST_RESULT" = "1" ]
     then
       echo "Check Command: {{ stig_check_command }} - ${red}FAILED${reset}"
-      OVERALL_RESULT=1
+      OVERALL_RESULT="1"
+    elif [ "$TEST_RESULT" = "2" ]
+    then
+      OVERALL_RESULT="2"
     else
       echo "Check Command: {{ stig_check_command }} - ${green}PASSED${reset}"
     fi
 {% endfor %}
-    if [ $OVERALL_RESULT > 0 ]
+    if [ $OVERALL_RESULT == "1" ]
     then
-      echo "${red}{{ stig_id }} FAILED ${reset}"
+      echo "${red} STIG: {{ stig_id }} FAILED ${reset}"
+      echo ""
       echo "Fix: {{ stig_fixtext | replace('\n', '\\n') }}"
       exit 1
+    elif [ $OVERALL_RESULT == "2" ]
+    then
+      exit 2
     else
       echo "${green}{{ stig_id }} PASSED${reset}"
       exit 0

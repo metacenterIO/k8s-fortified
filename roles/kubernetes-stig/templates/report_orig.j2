@@ -1,4 +1,4 @@
-## k8s-fortified DISA/STIG report of Kubernetes cluster
+# k8s-fortified DISA/STIG report of Kubernetes cluster
 
 
 **Host:** {{ cinfo.connection.host }} &nbsp;
@@ -17,28 +17,21 @@
 #### Status: 
 {%- if item.status.conditions is defined -%}
   {%- for stat in item.status.containerStatuses -%}
-    {%- if stat.state.terminated.exitCode == 0 -%}
-        Success
-    {% else -%}
-        Failed
-      {%- if podlogs is defined -%}
-         {%- for pod in podlogs.results -%}
-            {% if pod.item.metadata.labels.reportname == item.metadata.labels.reportname %}
-<br>
-{{ pod.log_lines[3] }}
-<br>
-{{ pod.log_lines[4] }}
-<br>
-{{ pod.log_lines[5] }}
-<br>
-{{ pod.log_lines[6] | replace("\\n", "<br>") }}
-<br>
-{{ pod.log_lines[7] | replace("\\n", "<br>") }}
-            {% endif %}
+   {%- if stat.state.terminated.exitCode == 0 -%}
+      Success
+   {% else -%}
+      Failed
+   {% endif %}
+
+{%- if podlogs is defined -%}
+   {%- for pod in podlogs.results -%}
+      {%- if pod.item.metadata.labels.reportname == item.metadata.labels.reportname -%}
+         {%- for item in pod.log_lines[3:] -%}
+{{ item | replace("\\n", "<br>") }}
          {% endfor %}
       {% endif %}
-
-    {% endif %}
+   {% endfor %}
+   {% endif %}
   {% endfor %}
 
 {% endif %}
