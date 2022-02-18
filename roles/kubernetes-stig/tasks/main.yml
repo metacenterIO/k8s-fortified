@@ -3457,3 +3457,23 @@
     cinfo: "{{ c_info }}"
     manpodlogs: "{{ manpodlogs }}"
   tags: report
+
+
+
+
+
+
+
+  # work on fetching node info
+# - name: Fetch NodeInfo
+#   set_fact:
+#     nodes: "{{ query('kubernetes.core.k8s', kind='Node') }}"
+
+# - name: Get OSlist
+#   set_fact:
+#     oslist: "{{ nodes | map(attribute='status.nodeInfo.osImage') | list | unique }}"
+#   register: oslist
+
+# - name: nodeextract
+#   debug:
+#     msg: "{{ oslist }}"
