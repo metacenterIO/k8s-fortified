@@ -18,16 +18,23 @@
          <br/>
          <p><b>STIG name: </b> {{ item.metadata.labels.reportname }}</p>
          <p><b>Status: </b> 
-      
+
+
 {%- if item.status.conditions is defined -%}
-{%- for stat in item.status.containerStatuses -%}
-   {%- if stat.state.terminated.exitCode == 0 -%}
-      <b style="color:green;"> Success</b>
-   {% elif stat.state.terminated.exitCode == 1 -%}
-      <b style="color:tomato;"> Failed</b>
-   {% else %}
+
+   {% if item.metadata.labels.manual_verification is defined %}
       <b style="color:yellow;"> Manual Verification Required</b>
+   {% else %}
+      {%- for stat in item.status.containerStatuses -%}
+         {%- if stat.state.terminated.exitCode == 0 -%}
+            <b style="color:green;"> Success</b>
+         {% else -%}
+            <b style="color:tomato;"> Failed</b>
+         {% endif %}
+      {% endfor %}
    {% endif %}
+
+
    </p>
 
    <div style="font-family:courier; padding-left: 40px;">
@@ -59,7 +66,6 @@
 
    </div>
 
-{% endfor %}
 
 {% endif %}
 {%- if item.status.active is defined %}
