@@ -27,7 +27,7 @@
 - name: Delete content & directory
   file:
     state: absent
-    path: ./report
+    path: ./report.html
 
 - name: Ensure compliance namespace exists
   community.kubernetes.k8s:
