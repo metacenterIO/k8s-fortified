@@ -36,3 +36,13 @@ ansible-playbook check-kubernetes-stig-compliance.yml --tags "CNTR-K8-000150"
 ### Future:
   - Configure vars by OS for easy selection.
   - Automate test generation: the bulk of tests were written manually. We would like to automate this to reduce maintenance.
+
+
+## Troubleshooting:
+
+Error:
+```
+o/x nodes are available, x node(s) didn't match node selector.
+```
+All jobs run on a Kubernetes control plane nodes.
+Older versions of Kubernetes have node labels of 'kubernetes.io/role: master' or 'node-role.kubernetes.io/master:NoSchedule'. In `job.yml.j2`, subsitute the `nodeSelector` for one of the above labels.
